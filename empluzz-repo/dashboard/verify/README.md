@@ -25,6 +25,9 @@ and tells you to go and look at them. Do look at them.
 npm i playwright --no-audit --no-fund
 ```
 
+`package.json` pins the version that was last known to work here. `node_modules`,
+`__pycache__` and `.pyc` files are ignored and never belong in a commit.
+
 **On a Claude Code cloud session, do NOT run `npx playwright install`.** Chromium is already
 at `/opt/pw-browsers` and the environment points Playwright at it. The catch, hit on
 2026-08-22: the preinstalled build can be older than the one the freshly installed
