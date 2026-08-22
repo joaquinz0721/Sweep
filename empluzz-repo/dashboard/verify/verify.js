@@ -1,6 +1,6 @@
 /* verify.js -- core suite for the application command center.
  *
- * 25 assertions. Run with:  node verify.js
+ * 33 assertions. Run with:  node verify.js
  * Fixtures are built by shell.py / mkbase2.py / mklive3.py; run.sh does both.
  *
  * The one caveat that must stay attached to every green run: this is evidence
@@ -141,6 +141,31 @@ const PHANTOM = "int-marotta-controls-me-intern";        // bug 15: never existe
       const r = await branch("rate_limited");
       R.ok("F4 rate_limited keeps the tick local and backs off rather than hammering",
         /not yet saved|saving ticks/.test(r.chip) && r.pubs2 <= r.pubs + 2, `${r.chip} pubs ${r.pubs}->${r.pubs2}`);
+    }
+
+    /* ---- I. the Build letter prompt. It is an orchestration prompt now, so the
+       thing worth asserting is that it still tells Opus to delegate and still
+       carries everything a cold subagent needs. ---- */
+    {
+      const { ctx, page } = await H.openPage(browser, url, "absent");
+      const pInt = await page.evaluate(() => window.cvPrompt("int", 0));
+      const pSch = await page.evaluate(() => window.cvPrompt("sch", 0));
+      const row = await page.evaluate(() => [INT[0][1], INT[0][2], INT[0][7]]);
+      R.ok("I1 the internship prompt tells Opus to delegate to a Sonnet subagent",
+        /Do not write this one yourself/.test(pInt) && /model set to Sonnet/.test(pInt), pInt.slice(0, 80));
+      R.ok("I2 it carries the row facts a cold subagent cannot look up",
+        row.every(v => pInt.includes(v)), row.join(" | "));
+      R.ok("I3 it names the skill and the Packets folder id",
+        pInt.includes("application-packet-builder") && pInt.includes("1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP"));
+      R.ok("I4 it keeps the never-submit and never-claim rules inside the brief",
+        /never submit or transmit anything/.test(pInt) && /FEA, CFD, NX, Teamcenter, ANSYS, AutoCAD/.test(pInt));
+      R.ok("I5 it keeps the voice pass with Opus rather than the subagent",
+        /read it for voice/.test(pInt) && /Rewrite it in place/.test(pInt));
+      R.ok("I6 no em dash reaches the clipboard, on either kind",
+        !pInt.includes("\u2014") && !pSch.includes("\u2014"));
+      R.ok("I7 the scholarship prompt asks for the essay bank, not for housing",
+        /essay bank/.test(pSch) && !/housing/.test(pSch), pSch.slice(0, 80));
+      await ctx.close();
     }
   } finally {
     await browser.close();

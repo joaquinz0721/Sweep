@@ -53,6 +53,7 @@ Then make it strong:
 
 - **Sweeps** find and score opportunities. Under the current arrangement they cannot publish the tracker and their refusal to publish is correct behavior that must stay. They never build packets.
 - **Packets** are built on request: "build a packet for Kairos Power." The skill handles the rest and saves to the Packets folder. No spreadsheet writes, no status columns.
+- **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to spawn a Sonnet subagent, pass it a self-contained brief, and then do the voice pass on what comes back. Drafting and filing run on Sonnet; the voice pass stays on Opus. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice.
 - **Dashboard changes** ship as one publish for the whole change set, never per row, through route 0. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
 
 ## Cost discipline, learned the hard way
@@ -60,3 +61,5 @@ Then make it strong:
 Driving a browser to edit data cost roughly thirty round trips per sweep. Writing the dashboard costs one publish. Never go back to per-cell editing.
 
 Start a fresh session for packet work rather than continuing a long thread, since every message re-reads the whole history. Sonnet is fine for assembly work. Use Opus when a cover letter or essay is the deliverable, because voice is where it earns its cost.
+
+As of 2026-08-22 those two split inside one session rather than across two: Opus holds the thread and the voice pass, a Sonnet subagent does the skill run, the Drive write, and the screenshot check. The long tool transcript stays in the subagent context, so the Opus thread only ever sees the brief and the finished letter.
