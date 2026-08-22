@@ -210,3 +210,31 @@ Worth stating plainly, since you asked for it. Under the current arrangement the
 **What this does NOT fix: the sweeps, still.** This is an interactive session doing the work. A scheduled routine is a different surface and nobody has tested whether the Artifact tool behaves the same way there. That test is now the highest-value plumbing item, and it is cheap: one routine that reads the artifact and reports the byte count.
 
 **Note for whoever connects GitHub:** the documentation states a cloud session can reach any repository the connected GitHub account can see, not only the ones ticked during install. "Only select repositories" limits webhook delivery, not session read access. Decide that knowingly.
+
+## RESULT, 2026-08-22, later the same day: routines can publish
+
+**A SCHEDULED ROUTINE, firing a fresh unattended cloud session, reads and publishes artifacts.** This was the highest-value open plumbing item at the top of this file. It is now answered, and the answer is yes.
+
+**How it was tested, and why not against the tracker.** Joaquin was away from his desk, so an unattended publish to the page holding his 14 ticks was not a risk worth taking to answer a plumbing question. Instead a disposable probe page was published from an interactive cloud session, declaring `capabilities: {artifact: {}}`, the same capability the tracker declares. That is the whole point of the substitute: the `artifact` capability is what makes the server demand a baseVersion, and the missing baseVersion is what has blocked every failed route recorded above. Clearing that guard on the probe is clearing the same guard.
+
+Probe page: `https://claude.ai/code/artifact/246c3ac3-8229-4697-934e-aa0b6c58da43`
+
+**The routine.** One-shot, `create_new_session_on_fire`, environment `Sweep` (`env_01WH8sUQuEos7n7pWtz8Z6iz`), created from inside a cloud session with the meta MCP `create_trigger` tool, fired 2026-08-22 22:47:14Z.
+
+**Results, taken from what the routine itself wrote into the probe page:**
+
+- **Probe read: OK, 16,942 bytes.** The Artifact tool's `read` action works from a routine.
+- **Tracker read: OK, 123,859 bytes.** A routine can read the live Application Command Center. Read only, nothing was written to it.
+- **Publish to the probe: OK.** Version `1787438884-c13f`, published 22:48:04Z, roughly 50 seconds after the routine fired. The routine's own log entry and its flip of the status pill from `Awaiting routine` to `Routine published` are both on the live page.
+- **Readback: entry present.**
+
+**One false alarm, recorded so nobody chases it.** The routine reported 0 occurrences of `slug:` in the tracker. That is correct and means nothing: the rows are positional arrays with the slug at index 13, not keyed objects, so the string `slug:` does not appear. The 123,859-byte length is consistent with the 117.5KB read logged earlier in this file plus the day's edits, so the read was complete.
+
+**Leading indicator that turned out to be wrong, also recorded.** At creation time the trigger's stored `session_context.allowed_tools` enumerated `preset:default` plus Task, Bash, Glob, Grep, Read, Edit, MultiEdit, Write, NotebookEdit, WebFetch, TodoWrite, WebSearch, BashOutput, KillBash, Skill, Tmux, Monitor, SendUserFile and REPL, with **no Artifact tool named.** It looked like the routine would have no Artifact tool at all. It did. `preset:default` evidently carries it. Do not read that list as an inventory.
+
+**Two caveats before anyone points a routine at the tracker.**
+
+1. **The reconstruction dance still applies and is untested from a routine.** The read returns the shell's transformed copy, so a routine publishing to the tracker has to cut on the ACC-HEAD and ACC-BODY marker pairs and re-wrap, exactly as route 0a does, with `dashboard/verify/mkbase2.py`. The probe was small enough to edit as a plain string, so this run proves the transport, not the reconstruction.
+2. **Connectors do not come along.** `create_trigger` from inside a session refused the parameter outright: *the connectors parameter is not available for this organization*. A routine created that way fires sessions with no `mcp__*` tools at all, so no Gmail, no Drive, no Indeed. A routine that needs them must be created from the routines page on claude.ai, where connectors are picked per routine.
+
+**What this unlocks.** The sweeps can write the dashboard unattended. The refusal-to-publish guard in the sweep prompts was correct for the surface they ran on and is no longer forced by the plumbing. Whether to lift it is a separate decision, and the paste-design in MEMORY section 1 is now optional rather than the only path.
