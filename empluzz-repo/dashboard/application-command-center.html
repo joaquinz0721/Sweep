@@ -189,8 +189,8 @@ background:var(--clbg);color:var(--dead)}
     <span id="sync" class="sync"></span>
   </div>
   <div class="runs">
-    <button class="primary" onclick="runTask('internship-sweep---summer-27',this)">Run Internship Sweep</button>
-    <button class="primary" onclick="runTask('scholarship-sweeper---26-27',this)">Run Scholarship Sweep</button>
+    <button class="primary" onclick="runTask('int',this)">Run Internship Sweep</button>
+    <button class="primary" onclick="runTask('sch',this)">Run Scholarship Sweep</button>
     <button onclick="exportApplied()">Export Applied</button>
     <span id="runmsg"></span>
   </div>
@@ -428,7 +428,7 @@ const SEED={
    This IS the shared record: it travels with the document, so any browser that
    opens the artifact sees it. applied:null means nothing has been published yet
    and the SEED above is the floor. Do not hand edit; the markers are parsed. */
-/*ACC-STATE*/const PUB={"v":4,"updated":"2026-08-21","count":14,"applied":{"int-medtronic-engineering-intern":"2026-08-17","int-wdc-hardware-intern":"2026-08-17","int-anduril-mech-intern":"2026-08-17","int-spacex-eng-intern":"2026-08-17","int-kairos-mech-mfg-intern":"2026-08-18","int-ge-mfg-intern":"2026-08-18","int-ge-systems-intern":"2026-08-18","int-greatplains-design-intern":"2026-08-18","int-boeing-facilities-intern":"2026-08-18","int-anduril-mfg-intern":"2026-08-18","int-vertiv-liquid-cooling-intern":"2026-08-18","int-bae-operations-coop":"2026-08-18","int-elliott-design-intern":"2026-08-18","int-marotta-space-systems-intern":"2026-08-20"}};/*/ACC-STATE*/
+/*ACC-STATE*/const PUB={"v":4,"updated":"2026-08-21","count":13,"applied":{"int-medtronic-engineering-intern":"2026-08-17","int-wdc-hardware-intern":"2026-08-17","int-anduril-mech-intern":"2026-08-17","int-spacex-eng-intern":"2026-08-17","int-kairos-mech-mfg-intern":"2026-08-18","int-ge-mfg-intern":"2026-08-18","int-ge-systems-intern":"2026-08-18","int-greatplains-design-intern":"2026-08-18","int-boeing-facilities-intern":"2026-08-18","int-anduril-mfg-intern":"2026-08-18","int-vertiv-liquid-cooling-intern":"2026-08-18","int-bae-operations-coop":"2026-08-18","int-elliott-design-intern":"2026-08-18"}};/*/ACC-STATE*/
 
 let applied={},tab="int",q="",sort={k:"pri",d:-1};
 let ART=null;            /* artifact namespace once resolved, else null */
@@ -911,22 +911,43 @@ function cvBtn(kind,i,btn){
     flash(btn,"Copied",'Packet prompt for '+r[1]+' copied. Paste it into a new chat and the letter gets written and filed in Packets.'));
 }
 
-async function runTask(taskId,btn){
-  const m=document.getElementById("runmsg");
-  const old=btn.textContent;
-  if(window.cowork&&window.cowork.runScheduledTask){
-    btn.disabled=true;btn.textContent="Starting...";m.textContent="";
-    try{
-      await window.cowork.runScheduledTask(taskId);
-      m.textContent="Sweep started. Results arrive in chat.";
-    }catch(e){
-      m.textContent="Could not start: "+(e&&e.message?e.message:e);
-    }
-    btn.disabled=false;btn.textContent=old;
-    return;
-  }
-  copyText("Fire the scheduled task "+taskId+" now, then update the command center with the results.")
-    .then(()=>flash(btn,"Copied","Sweep command copied. Paste it into a chat to run it from here."));
+/* This is a copy-a-prompt button and always was. The old code first tried
+   window.cowork.runScheduledTask, which was tested on 2026-08-21 and does not
+   exist in this frame, so the copy path is the only one that ever ran. That
+   branch is gone now, and good riddance: it fired a Cowork scheduled task, and
+   a Cowork session cannot publish this page, so every press that took it ended
+   in a failed publish and an apologetic chat message.
+
+   What it copies now drives the pipeline in docs/sweep-pipeline.md: a Sonnet
+   agent finds and scores and emits JSON, ingest.py validates and merges it, the
+   harness checks it, and the orchestrating session publishes. Press, paste,
+   wait. Keep this text in step with that document. */
+function sweepPrompt(kind){
+  const what=kind==="int"
+    ? "Summer 2027 internship sweep"
+    : "2026-27 scholarship sweep";
+  const agent=kind==="int" ? "internship-sweep" : "scholarship-sweep";
+  return [
+    "Run the "+what+" for the empluzz project, in the Sweep repo.",
+    "",
+    "Follow docs/sweep-pipeline.md. The short version:",
+    "1. Spawn the "+agent+" agent on Sonnet. It searches, scores, and writes a",
+    "   JSON payload. It never publishes and never edits the dashboard.",
+    "2. Preview:  python3 dashboard/ingest.py <payload>",
+    "3. Apply:    python3 dashboard/ingest.py <payload> --apply",
+    "4. Verify:   dashboard/verify/run.sh     (all 41 assertions must pass)",
+    "5. Publish dashboard/application-command-center.html to the tracker,",
+    "   passing its URL and the favicon. Never force, never a capabilities object.",
+    "6. Commit the same file so the repo and the live page do not drift.",
+    "",
+    "Never touch my applied ticks, and refuse to publish if the tick count moved.",
+    "Show me the ingest preview before you apply it."
+  ].join("\n");
+}
+function runTask(kind,btn){
+  copyText(sweepPrompt(kind)).then(()=>flash(btn,"Copied",
+    "Sweep prompt copied. Paste it into a Claude Code session on the Sweep repo. "+
+    "It runs the sweep and updates this page; reload when it says it published."));
 }
 /* Two save paths. On claude.ai the viewer frame blocks a plain download link, so the
    file goes through the downloads capability and the reader confirms it. Everywhere
