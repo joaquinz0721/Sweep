@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!--ACC-HEAD-->
+<title>Application Command Center</title>
+<!-- Without this a phone lays the page out at a 980px virtual viewport and then
+     scales it down, which is the real reason the body scrolled sideways: the
+     max-width media queries below never fired on a 390px screen at all. -->
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{color-scheme:dark;
+--bg:#0e1015;--card:#161922;--card2:#1b1f2a;--ink:#e7e9f0;--muted:#949cb0;--line:#272c39;
+--must:#ff6f61;--strong:#4ade80;--stretch:#fbbf24;--watch:#949cb0;--dead:#6b7385;
+--accent:#7aa2ff;--urgent:rgba(255,111,97,.13);--soon:rgba(251,191,36,.10);
+--okbg:rgba(74,222,128,.14);--nybg:rgba(122,162,255,.14);--clbg:rgba(148,156,176,.13);
+--unbg:rgba(251,191,36,.15);--blbg:rgba(255,111,97,.15);}
+*{box-sizing:border-box}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:14px 20px}
+.htop{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+h1{font-size:17px;margin:0;font-weight:650}
+.stamp{color:var(--muted);font-size:12px}
+.runs{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button{font:inherit;border:1px solid var(--line);background:var(--card2);color:var(--ink);
+padding:6px 12px;border-radius:7px;cursor:pointer}
+button:hover{border-color:var(--accent);color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#0e1015;font-weight:600}
+button.primary:hover{opacity:.88;color:#0e1015}
+#runmsg{font-size:12px;color:var(--muted)}
+nav{display:flex;gap:2px;padding:0 20px;background:var(--card);border-bottom:1px solid var(--line);
+overflow-x:auto}
+nav button{border:0;background:none;border-bottom:2px solid transparent;border-radius:0;
+padding:9px 12px;color:var(--muted);white-space:nowrap}
+nav button:hover{color:var(--ink)}
+nav button.on{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+nav .count{font-size:11px;color:var(--muted);margin-left:4px}
+main{padding:16px 20px 40px}
+.bar{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.pill{background:var(--card);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12px}
+.pill b{font-size:15px}
+input[type=search]{font:inherit;padding:6px 10px;border:1px solid var(--line);border-radius:7px;
+min-width:210px;background:var(--card2);color:var(--ink)}
+input[type=search]::placeholder{color:var(--muted)}
+table{width:100%;border-collapse:collapse;background:var(--card);
+border:1px solid var(--line);border-radius:9px;overflow:hidden}
+th{background:var(--card2);text-align:left;font-size:11px;text-transform:uppercase;
+letter-spacing:.04em;color:var(--muted);padding:8px 9px;white-space:nowrap;cursor:pointer;
+border-bottom:1px solid var(--line)}
+th:hover{color:var(--accent)}
+th.noSort{cursor:default}th.noSort:hover{color:var(--muted)}
+td{padding:9px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+tr:hover td{background:#1a1e28}
+tr.urgent td{background:var(--urgent)}
+tr.soon td{background:var(--soon)}
+.cv{font-weight:700;font-size:11px;letter-spacing:.03em;white-space:nowrap}
+.cv.MUSTAPPLY{color:var(--must)}.cv.STRONG{color:var(--strong)}
+.cv.STRETCH{color:var(--stretch)}.cv.WATCH{color:var(--watch)}
+.cv.CLOSED,.cv.BLOCKED{color:var(--dead)}
+.st{display:inline-block;font-weight:700;font-size:10.5px;letter-spacing:.04em;
+padding:2px 7px;border-radius:5px;white-space:nowrap}
+.st.OPEN{background:var(--okbg);color:var(--strong)}
+.st.NOTYET{background:var(--nybg);color:var(--accent)}
+.st.CLOSED{background:var(--clbg);color:var(--dead)}
+.st.UNCONFIRMED{background:var(--unbg);color:var(--stretch)}
+.st.BLOCKED{background:var(--blbg);color:var(--must)}
+.sthint{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.nm{font-weight:600}
+.sub{color:var(--muted);font-size:12.5px}
+.note{color:var(--muted);font-size:12px;max-width:430px}
+.note .txt{white-space:pre-wrap}
+.note.tog{position:relative;padding-right:24px;cursor:pointer}
+.note.tog:hover{color:var(--ink)}
+.note.tog:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.note.clip .txt{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+.chev{position:absolute;top:8px;right:7px;color:var(--accent);font-size:11px;line-height:1;
+transition:transform .12s ease}
+@media(prefers-reduced-motion:reduce){.chev{transition:none}}
+.note.open .chev{transform:rotate(90deg)}
+.notetog{font-size:11px;color:var(--accent);cursor:pointer;user-select:none;
+display:inline-block;border:0;background:none;padding:0;font-weight:400;letter-spacing:0;
+text-transform:none}
+.notetog:hover{text-decoration:underline;color:var(--accent)}
+.notetog:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.act{display:inline-block;font-weight:700;font-size:10.5px;letter-spacing:.04em;
+padding:2px 7px;border-radius:5px;white-space:nowrap}
+.act.SUBMIT{background:var(--okbg);color:var(--strong)}
+.act.VERIFY{background:var(--unbg);color:var(--stretch)}
+.act.WRITENOW{background:var(--blbg);color:var(--must)}
+.act.WRITE{background:var(--nybg);color:var(--accent)}
+.act.LATER,.act.WAIT{background:var(--clbg);color:var(--dead)}
+.act.BLOCKED{background:var(--blbg);color:var(--must)}
+.act.DEAD{background:transparent;color:var(--dead);padding-left:0}
+.act.APPLIED{background:var(--okbg);color:var(--strong)}
+.actsub{display:block;color:var(--dead);font-size:10.5px;margin-top:3px}
+.pk{display:block;font-size:11px;color:var(--muted);margin-bottom:4px;white-space:nowrap}
+.pk.Ready{color:var(--stretch)}
+.pk.Done{color:var(--strong)}
+.pk.Blocked{color:var(--must)}
+button.mini{padding:3px 8px;font-size:11px;border-radius:6px;white-space:nowrap}
+button.mini:disabled{opacity:.5;cursor:default;border-color:var(--line);color:var(--muted)}
+.dl{white-space:nowrap;font-variant-numeric:tabular-nums}
+.days{font-weight:700;font-variant-numeric:tabular-nums}
+.days.red{color:var(--must)}.days.amber{color:var(--stretch)}
+
+.wg{font-weight:700;font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums;
+padding:2px 7px;border-radius:6px;display:inline-block}
+.wg.up{color:var(--strong);background:var(--okbg)}
+.wg.even{color:var(--stretch);background:var(--unbg)}
+.wg.down{color:var(--must);background:var(--blbg)}
+.wg.none{color:var(--dead);background:transparent;font-weight:500;padding-left:0}
+.wgest{display:block;color:var(--dead);font-size:10.5px;letter-spacing:.04em;margin-top:2px}
+a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
+input[type=checkbox]{width:17px;height:17px;cursor:pointer;accent-color:var(--strong)}
+.empty{padding:30px;text-align:center;color:var(--muted);background:var(--card);
+border:1px solid var(--line);border-radius:9px}
+.kv{display:grid;grid-template-columns:210px 1fr;gap:0;background:var(--card);
+border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.kv>div{padding:7px 10px;border-bottom:1px solid var(--line)}
+.kv>div:nth-child(odd){background:var(--card2);font-weight:600;color:var(--muted);font-size:12.5px}
+.sec{grid-column:1/-1!important;background:#212736!important;font-weight:700!important;
+font-size:11px!important;text-transform:uppercase;letter-spacing:.05em;color:var(--ink)!important}
+.hint{color:var(--muted);font-size:12px;margin:10px 0 0}
+.stale{color:var(--stretch)}
+h3{font-size:13px;margin:6px 0;color:var(--muted);font-weight:600}
+
+/* ---- table scroller -------------------------------------------------
+   The page body must never scroll sideways. Every table now sits in its
+   own horizontal scroller, so a wide table scrolls inside its own box
+   and the page around it stays where he put it. Measured before this
+   change: 1140px of content in a 390px viewport. */
+.tw{overflow-x:auto;-webkit-overflow-scrolling:touch;
+background:var(--card);border:1px solid var(--line);border-radius:9px}
+.tw table{border:0;border-radius:0;min-width:840px}
+.sync{font-size:11px;padding:2px 7px;border-radius:5px;white-space:nowrap;
+background:var(--clbg);color:var(--dead)}
+.sync.ok{background:var(--okbg);color:var(--strong)}
+.sync.warn{background:var(--unbg);color:var(--stretch)}
+
+/* ---- phone: stacked cards -------------------------------------------
+   Under 700px a twelve column table is unreadable however you scroll it,
+   so each row becomes a card and the column headers become inline labels
+   on each field. Same markup, same dark palette, no second render path. */
+@media(max-width:700px){
+  header{padding:12px 14px}
+  nav{padding:0 14px}
+  main{padding:14px 14px 40px}
+  h1{font-size:16px}
+  .runs button{flex:1 1 auto}
+  input[type=search]{min-width:0;width:100%}
+  .tw{overflow-x:visible;background:none;border:0;border-radius:0}
+  .tw table{display:block;min-width:0;width:100%;background:none;border:0}
+  .tw thead{display:none}
+  .tw tbody{display:block}
+  .tw tr{display:block;background:var(--card);border:1px solid var(--line);
+    border-radius:10px;margin:0 0 10px;padding:4px 0}
+  .tw tr.urgent{border-color:var(--must)}
+  .tw tr.soon{border-color:var(--stretch)}
+  .tw tr:hover td,.tw tr.urgent td,.tw tr.soon td{background:transparent}
+  /* The label sits in a left gutter rather than as a flex sibling. A cell with
+     more than one child (role plus location, packet status plus its button)
+     then still stacks the way it does on desktop instead of being laid out
+     side by side, which is what a flex row did to it. */
+  .tw td{display:block;position:relative;width:auto;border-bottom:0;
+    padding:6px 12px 6px 104px;min-height:26px}
+  .tw td::before{content:attr(data-label);position:absolute;left:12px;top:9px;
+    width:84px;color:var(--muted);font-size:10.5px;line-height:1.4;
+    text-transform:uppercase;letter-spacing:.04em}
+  .tw td.note{max-width:none}
+  .tw td.note.tog{padding-right:30px}
+  .tw td.note .chev{top:9px;right:10px}
+  .note{max-width:none}
+  .kv{grid-template-columns:1fr}
+  .kv>div:nth-child(odd){border-bottom:0;padding:8px 10px 0}
+  .kv>div:nth-child(even){padding-top:2px}
+}
+</style>
+<!--/ACC-HEAD-->
+</head>
+<body>
+<!--ACC-BODY-->
+<header>
+  <div class="htop">
+    <h1>Application Command Center</h1>
+    <span class="stamp">Today <span id="asof"></span> · last swept <span id="swept"></span> · Summer 2027 cycle</span>
+    <span id="sync" class="sync"></span>
+  </div>
+  <div class="runs">
+    <button class="primary" onclick="runTask('int',this)">Run Internship Sweep</button>
+    <button class="primary" onclick="runTask('sch',this)">Run Scholarship Sweep</button>
+    <button onclick="exportApplied()">Export Applied</button>
+    <span id="runmsg"></span>
+  </div>
+</header>
+<nav id="nav"></nav>
+<main id="main"></main>
+
+<script>
+/* Belt and braces. This page is served two ways: as a standalone file, where the
+   head above is ours, and as a hosted artifact, where the shell supplies the head.
+   If whatever served it did not put a viewport meta in, add one. Without it a
+   phone lays the page out at a 980px virtual viewport and every max-width rule
+   in the stylesheet silently never fires, which is what made it scroll sideways. */
+(function(){if(!document.querySelector('meta[name=viewport]')){
+  var m=document.createElement("meta");m.name="viewport";
+  m.content="width=device-width,initial-scale=1";
+  (document.head||document.documentElement).appendChild(m);}})();
+
+/* ASOF is computed from the local clock on every load, so Days Left is never stale.
+   Do not hardcode it. SWEPT is derived from the CAL data further down, see below. */
+const ASOF=(function(){var d=new Date();return d.getFullYear()+"-"+
+  String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");})();
+/* ACT MODEL, replaced the old Priority integer on 2026-08-21.
+   The old score was conviction*1000 minus days left, so the tiers never crossed and the
+   number only ever restated Conviction with Deadline as a tiebreak. Both were already
+   columns. This one blends signals that are NOT otherwise visible in a single glance:
+   how close the deadline is, whether a packet already exists, whether pay clears the
+   $26 Kelvin floor, and whether the row carries an unresolved fact. */
+const CONV={"MUST APPLY":100,STRONG:70,STRETCH:40,WATCH:15};
+/* Kelvin Thermal Technologies paid $26.00/hr (May-Aug 2026). That is the floor to beat. */
+const BASE_WAGE=26;
+
+/* [conviction, company, role, location, term, deadline, source, url, packetStatus, notes, status, hint, wage, SLUG]
+   SLUG (index 13) is the stable row identity. All applied state is keyed on it.
+   A sweep MUST assign a slug to every new row and MUST NEVER change an existing one.
+   Before slugs, state was keyed on kind|company|role, so a sweep rewording a role
+   title by one character silently orphaned the tick and the row came back unapplied. */
+const INT=[
+["MUST APPLY","Medtronic","Engineering Intern - Summer 2027","Boulder, CO (+11 US sites)","Summer 2027","2026-09-02","Handshake","https://app.joinhandshake.com/job-search/11268442","Ready","LOCAL - no relocation question. Real posted deadline (confirmed via direct Handshake posting view, 2026-08-17). Best-positioned lead on the board. Pay confirmed on the Handshake posting 2026-08-18; also lists relocation and commuter assistance.","OPEN","","$26.50-45.25/hr","int-medtronic-engineering-intern"],
+["MUST APPLY", "Kairos Power", "Mechanical and Manufacturing Engineering Intern", "Albuquerque, NM / Alameda, CA", "Summer 2027 (May 24-Aug 20)", "2026-09-04", "Handshake", "https://app.joinhandshake.com/job-search/11252619", "Not started", "Handshake flagged full qualification match. Deadline confirmed 2026-08-17. Pay confirmed on the Handshake posting 2026-08-18. Housing and relocation: a web search on 2026-08-22 found that Kairos Power states it will provide a relocation stipend to interns and co ops based on eligibility, gated by the IRS rule that the intern's college and residence must be more than 50 miles from the work site, which you would clear for both Albuquerque and Alameda. This is from Kairos Power's general internship program page rather than the specific requisition itself, so it is a real positive signal rather than a silent one, but confirm the amount and mechanics on the actual application before counting on it.", "OPEN", "", "$30-32/hr", "int-kairos-mech-mfg-intern"],
+["MUST APPLY","Western Digital","Summer 2027 Intern - Hardware Engineering","Longmont, CO (+4 US sites)","Summer 2027","2026-09-09","Handshake","https://app.joinhandshake.com/job-search/11292156","Done","LOCAL - no relocation question. Handshake: match all qualifications. Role centers on PCB/hardware/magnetic-recording design, more electronics-leaning than your thermal/mfg core. Pay confirmed 2026-08-18.","OPEN","","$30-47/hr","int-wdc-hardware-intern"],
+["STRONG","Anduril Industries","2027 Mechanical Engineer Intern","Atlanta / Boston / Costa Mesa / Irvine / Reston / Seattle","Summer 2027","","Greenhouse","https://job-boards.greenhouse.io/andurilindustries/jobs/5153187007","Done","Rolling review from Aug 2026. FEA/CFD and NX preferred only, do not claim them. No CO site; housing not stated. Pay range confirmed on the posting 2026-08-18.","OPEN","rolling review","$30-45/hr","int-anduril-mech-intern"],
+["STRONG","SpaceX","Summer 2027 Engineering Internship/Co-op","Flexible - 12 US sites, none in CO","Summer 2027","","Greenhouse","https://job-boards.greenhouse.io/spacex/jobs/8621740002","Done","Preferred GPA 3.5+, you are exactly on the line. Relocation stipend mentioned; confirm it covers housing. Posting tiers pay: $28/hr freshman-sophomore, $30/hr junior-senior. You are a rising senior in Summer 2027, so $30/hr applies.","OPEN","rolling","$30/hr","int-spacex-eng-intern"],
+["STRONG","GE Aerospace","Manufacturing Engineering Intern - US - Summer 2027","Evendale, OH (+22 other US sites)","Summer 2027","","Company site","https://careers.geaerospace.com/global/en/job/R5029659/Manufacturing-Engineering-Intern-US-Summer-2027","Done","LINK REPLACED 2026-08-18. The old req R5030079 (Returning Students) was pulled on 2026-07-04 and now 410s. This is the live replacement, req R5029659, reposted 2026-08-16 and verified open. Housing now CONFIRMED: the posting states relocation support and housing assistance for those who relocate, which clears the relocation rule. Mechanical Engineering is an accepted major, 3.0 GPA minimum, US Person required. Lean/Six Sigma and shop-floor process work maps directly to Kelvin.","OPEN","rolling","$20-26/hr","int-ge-mfg-intern"],
+["STRETCH","Boeing","Summer 2027 Internship Program - Facilities Engineering","Everett, WA (+ other US sites)","Summer 2027","2026-10-23","Indeed","https://to.indeed.com/aarx9sjd7f4l","Not started","US Person/export-control required, fits ITAR eligibility. Plant/Facilities Engineering (HVAC, building systems), a step off your thermal/mfg core. Relocation only for some positions. Wage is an Indeed annualized estimate ($45K-90K/yr), not a posted hourly rate.","OPEN","","$21.60-43.30/hr est.","int-boeing-facilities-intern"],
+["STRETCH","GE Aerospace","Systems Engineering Intern - Mech/Aero (Electric Power)","Dayton, OH / Bohemia, NY","Summer 2027","","Company site","https://careers.geaerospace.com/global/en/job/R5030140/Systems-Engineering-Intern-Mechanical-Aerospace-Engineering-Electric-Power-US-Summer-2027","Done","LINK REPLACED 2026-08-18. The old req R5030177 was pulled and now 410s. This is the live replacement, req R5030140, reposted 2026-08-16 and verified open. Housing and relocation assistance CONFIRMED on the posting. US Citizenship required, 3.0 GPA minimum, ME accepted. Still STRETCH on fit, not on relocation: systems/avionics focus is a step off your thermal/mfg core and it asks for proficiency in a programming language.","OPEN","rolling","$20-26/hr","int-ge-systems-intern"],
+["STRETCH","Anduril Industries","2027 Manufacturing Engineer Intern","Atlanta / Boston / Costa Mesa / Irvine / Seattle","Summer 2027","","Greenhouse","https://job-boards.greenhouse.io/andurilindustries/jobs/5153218007","Done","Carbon-fiber composite aerostructures, 12-wk paid. US Person/ITAR req. No CO site; housing not stated. Review starts Aug 2026, apply early. Cover letter drafted 2026-08-18 and saved to the Packets folder.","OPEN","rolling review","$30-40/hr","int-anduril-mfg-intern"],
+["STRETCH","Vertiv","Mechanical Engineering Intern - Liquid Cooling","Westerville, OH","Summer 2027","","Indeed","https://to.indeed.com/aadtzzf7pyvh","Done","Strong thermal/fluid-systems match to Kelvin (liquid cooling, CAD, prototype builds). Role covers Secondary Fluid Networks, Coolant Distribution Units, CAD layouts, drawings, BOMs, and prototype builds, which is the closest posting on this board to what he actually did. No CO site; housing not stated, so STRETCH stands on relocation alone. Wage is an Indeed annualized estimate ($48.1K-75.8K/yr), not a posted hourly rate. Cover letter drafted 2026-08-18 and saved to the Packets folder.","OPEN","rolling","$23-36/hr est.","int-vertiv-liquid-cooling-intern"],
+["STRETCH","Marotta Controls","Mechanical Engineering Intern, Space Systems","Montville / Parsippany, NJ","Summer 2027","","Indeed","https://to.indeed.com/aan8fs74b6dr","Not started","Must be US Citizen, meets. Aerospace controls maps to CAD/GD&T. Posting explicitly states relocation assistance will NOT be provided. Posted hourly range tops out below your Kelvin baseline.","OPEN","rolling","$18-24/hr","int-marotta-space-systems-intern"],
+["STRETCH","BAE Systems USA","Operations Engineering Co-op, Spring/Summer, 2027","Cedar Rapids, IA","Summer 2027","","Indeed","https://to.indeed.com/aah4cg6w4x88","Done","Part of the nationwide LEAP internship program. Posting asks for root cause analysis on production and test defects, Lean studies on cost and lead time, tooling and assembly fixture design, and 2D CAD layouts, which maps closely to the Kelvin process work. Prefers sophomore year completed; he will have finished junior year. No CO site and housing is not mentioned. STILL AMBIGUOUS: the title says Spring/Summer 2027 while the responsibilities are headed Summer/Fall Intern, so confirm the exact term and that no spring commitment is required before applying. Wage is an Indeed annualized estimate ($42.7K-57.6K/yr). Cover letter drafted 2026-08-18 and saved to the Packets folder.","OPEN","until filled","$20.50-27.70/hr est.","int-bae-operations-coop"],
+["STRETCH","Jacobs","Mechanical Engineering Intern - Summer 2027","Orlando, FL","Summer 2027","","Indeed","https://to.indeed.com/aaql6ntbvmsx","Not started","General ME intern role, hybrid. 3.0 GPA ideal, rising Junior+, meets. No CO site; relocation not mentioned. Wage is an Indeed annualized floor (from $40K/yr) and sits well under your Kelvin baseline.","OPEN","rolling","$19.20/hr est. floor","int-jacobs-mech-intern"],
+["STRONG","Great Plains Manufacturing","Summer 2027 Internship Program - Design Engineer track","Salina / Lucas / Abilene / Assaria / Tipton, KS","Summer 2027 (mid-May - early Aug)","","Indeed","https://to.indeed.com/aa8m69ljdggk","Not started","Kubota subsidiary. HOUSING CONFIRMED on the posting for interns living outside the Salina area, satisfies the relocation rule. Design/manufacturing track fits Kelvin mfg-process background. This is the general program application; individual role postings (incl. Manufacturing Engineer Intern) go live Sept 2026 and interviews run Fall 2026-Spring 2027, so apply to the general posting now and watch for the specific track to post. No wage posted and no Indeed estimate available; ask in the first recruiter contact.","OPEN","general app; roles post Sep 2026","","int-greatplains-design-intern"],
+["STRONG", "Elliott Machine Works (Stellar Industries)", "Design Engineering Intern", "Galion, OH", "Summer 2027", "", "Indeed", "https://to.indeed.com/aad8rjyvpp8r", "Done", "Small manufacturer, part of Stellar Industries following its acquisition of Elliott Machine Works. SolidWorks/AutoCAD plus hands on machining work maps well to your core skills. Major (ME/IE/Aero) is listed as preferred, not required, so no hard gate issue there. No CO site. UPGRADED to STRONG on relocation: a web search on 2026-08-22 of Stellar Industries own internship program page states the company offers employer paid housing for interns relocating for the summer, plus relocation assistance as a program wide benefit, which resolves the open relocation question. This is stated at the Stellar Industries program level rather than read directly on the Elliott requisition itself, so confirm it still applies to this specific posting before counting on it. Pay found via the same search: rates begin at 20 dollars an hour and increase for each undergraduate year completed, also read at the Stellar program level rather than the Elliott req directly.", "OPEN", "rolling", "$20/hr+", "int-elliott-design-intern"],
+["STRONG","Kiewit","Equipment Engineer Intern - Kiewit Equipment Services (Summer 2027)","Lone Tree / Denver, CO","Summer 2027 (starts May/June)","2027-01-01","LinkedIn alert","https://www.linkedin.com/jobs/view/4454940051/","Not started","LOCAL, about 45 minutes from Boulder, so the relocation question does not arise. Posting read 2026-08-21. Both Lone Tree and Denver are named on the req. Deadline 2027-01-01. Start is May/June 2027. Housing SILENT, and it does not matter at this distance. Posted $18-25/hr, under your $26 Kelvin rate, which is the one real mark against it. Equipment maintenance and reliability work lines up with your 6 build iterations and 2 SOPs.","OPEN","","$18-25/hr","int-kiewit-equipment-eng-intern"],
+["STRONG","Boom Supersonic","Summer 2027 Engineering and Tech Internship","Centennial, CO","Summer 2027","","LinkedIn alert","https://www.linkedin.com/jobs/view/4452239813/","Not started","LOCAL. Posting read 2026-08-21. Site is Centennial, CO, not Englewood as the alert had it. US PERSON REQUIRED under ITAR and EAR. Housing allowance of $2,000 stated. Posted $35/hr, clear of your $26 Kelvin rate. Supersonic airframe and propulsion work is the strongest aerospace name in this batch. 6 CU alumni at the company.","OPEN","rolling","$35/hr","int-boom-eng-tech-intern"],
+["STRETCH","AMD","2027 Undergrad Product Development Engineering Intern/Co-op","Longmont, CO / Fort Collins, CO","Summer 2027 (May 24-Aug 13)","","LinkedIn alert","https://www.linkedin.com/jobs/view/4454157484/","Not started","LOCAL, 25 minutes from Boulder, same corridor as the Western Digital application. Req 90790, posting read 2026-08-21. DOWNGRADED to STRETCH: ME is not a listed major and the skills list is CS and EE. The posting names Computer Science, Computer Engineering, Electrical Engineering or a related field, and every technical skill listed is software, digital logic, or circuit theory. Same situation as the H3X Power Electronics req. Term is Summer 2027, May 24 to Aug 13 2027 for semester students, with Spring/Summer and Summer/Fall co-op options also listed. No deadline stated. Locations include Longmont, CO and Fort Collins, CO. Applying registers general interest across all AMD intern reqs, not this one alone. No visa sponsorship. Housing SILENT. Wage is converted from a posted annual range of $59,072 to $88,608 at 40 hours a week, it is not a rate the employer posted hourly.","OPEN","rolling","$28-43/hr est.","int-amd-undergrad-product-dev-intern"],
+["STRONG","IMEG","Mechanical Engineering Intern - Greenwood Village, CO","Greenwood Village, CO","Summer 2027 (10-12 wks, full time in office)","2026-09-19","LinkedIn alert","https://www.linkedin.com/jobs/view/4456039594/","Not started","LOCAL. Req R-16570, posting read 2026-08-21. Workday files the location under Denver Metro, CO. Term CONFIRMED Summer 2027, 10 to 12 weeks, full time in office. DEADLINE 2026-09-19 and it is recorded as firm; the posting adds that it may be extended if the role is unfilled, so treat any extension as upside and not as the date. Nearest deadline on the active board. Requires at least 2 years completed toward a BS in Mechanical Engineering. Sponsorship not available. Requires AutoCAD and/or BIM. Work is HVAC and building mechanical systems, geothermal, chilled beams, central plants, energy recovery, which is the closest content on this board to your Kelvin work. Housing SILENT and it does not matter, the site is local. Posted $22-24/hr, under your $26 Kelvin rate. 18 CU alumni, the strongest school pipeline signal in this batch.","OPEN","","$22-24/hr","int-imeg-me-intern"],
+["STRONG", "Oxy (Occidental Petroleum)", "Engineering Intern - Oil and Gas Business", "Platteville, CO", "Summer 2027 (May-Aug, 12 wks)", "", "LinkedIn alert", "https://www.linkedin.com/jobs/view/4451750944/", "Not started", "LOCAL, about an hour out. Req JR110204, posting read 2026-08-21. UPGRADED to STRONG on housing: relocation assistance and/or fully furnished corporate housing provided, if applicable, which is stated and positive rather than silent. Term is Summer 2027, May to August, 12 weeks. Pursuing a degree in Engineering, GPA 2.85 minimum. Graduation window is December 2027 to May 2029 and you graduate May 2028, so you qualify. Workday lists 6 locations, Midland TX, Carlsbad NM, Denver City TX, Houston TX, The Woodlands TX and one more, and Platteville CO is not among them. A web search on 2026-08-22 for the same job title, Engineering Intern, Oil and Gas Business, independently turned up Platteville CO as a real Oxy site for that title with a pay range of 18.75 to 24.25 dollars an hour, which supports the Colorado placement, but this came from a search summary rather than a direct read of req JR110204 itself, so treat the Colorado site as likely rather than certain until the Workday posting is opened directly. Must apply at oxy.com/students to be considered, a LinkedIn apply alone may not count. Wage now has a plausible figure from that same search, 18.75 to 24.25 dollars an hour, but it is not confirmed as read directly off JR110204.", "OPEN", "rolling", "$18.75-24.25/hr", "int-oxy-engineering-intern"],
+["WATCH","Explico","Internships (general posting)","Denver, CO","Term not stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4457058321/","Not started","LOCAL. Program page read 2026-08-21. Accident reconstruction and biomechanics consultancy, no mechanical design track, $18-25/hr under preference. Kept on the board as a last resort rather than dropped.","UNCONFIRMED","last resort","$18-25/hr","int-explico-internships"],
+["STRONG","H3X Technologies","Mechanical Design Engineer Intern (Spring)","Louisville, CO","Spring req, Summer 2027 availability stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4455940136/","Not started","LOCAL, 15 minutes from Boulder, and the best technical fit in this batch: H3X builds high power density electric aircraft motors, which is thermal plus manufacturing, exactly your ground. BS or graduate student in Mechanical Engineering or similar, GPA 3.0 or above. The Spring collision is resolved: the posting states full time Spring Intern, but also have availability for Summer 2027 and extended Co-Op positions. Relocation package stated. Citizenship SILENT. In office. No deadline stated. Posting read 2026-08-21.","OPEN","Summer 2027 availability stated","$23-37/hr","int-h3x-mech-design-intern-spring"],
+["STRONG","H3X Technologies","Advanced Manufacturing Engineering Intern (Spring)","Louisville, CO","Spring req, Summer 2027 availability stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4455928415/","Not started","LOCAL. Manufacturing process work is the closest of the H3X reqs to your Kelvin R and D background, where you moved yield from 20% to 85%. BS or graduate student in Mechanical Engineering or similar, GPA 3.0 or above. The Spring collision is resolved: the posting states full time Spring Intern, but also have availability for Summer 2027 and extended Co-Op positions. Relocation package stated. Citizenship SILENT. In office. No deadline stated. Posting read 2026-08-21.","OPEN","Summer 2027 availability stated","$23-37/hr","int-h3x-adv-mfg-intern-spring"],
+["STRONG","H3X Technologies","Test Engineering Intern (Spring)","Louisville, CO","Spring req, Summer 2027 availability stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4455998323/","Not started","LOCAL. Test and validation work maps onto your build-iteration and tolerance experience at plus or minus 0.1 mm. Mechanical Engineering or similar, GPA 3.0 or above. The Spring collision is resolved: the posting states full time Spring Intern, but also have availability for Summer 2027 and extended Co-Op positions. Relocation package stated. Citizenship SILENT. In office. No deadline stated. Posting read 2026-08-21.","OPEN","Summer 2027 availability stated","$23-37/hr","int-h3x-test-eng-intern-spring"],
+["WATCH","H3X Technologies","Power Electronics Engineering Intern (Spring)","Louisville, CO","Spring req, Summer 2027 availability stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4456107201/","Not started","EE and Computer Engineering only, ME not listed, confirmed on posting 2026-08-21. This is the gate that was suspected all along and it is now read rather than guessed. Relocation package stated and citizenship SILENT, but neither matters while the major gate stands.","CLOSED","ME not accepted","$23-37/hr","int-h3x-power-electronics-intern-spring"],
+["STRONG","H3X Technologies","Electromagnetics Engineering Intern (Spring)","Louisville, CO","Spring req, Summer 2027 availability stated","","Built In Colorado","https://www.builtincolorado.com/job/electromagnetics-engineering-intern-spring/10750089","Not started","LOCAL. Posting names Mechanical Engineering explicitly, which is what separates this req from the Power Electronics one. Electromagnetic machine design on high power density electric aircraft motors. Relocation package stated. Citizenship SILENT. In office. No deadline stated. Posting read 2026-08-21.","OPEN","Summer 2027 availability stated","$23-37/hr","int-h3x-electromagnetics-intern"],
+["STRONG","Zipline","Mechanical Engineer Intern (Summer 2027)","South San Francisco, CA","Summer 2027 (May/June-Aug/Sept)","","LinkedIn alert","https://www.linkedin.com/jobs/view/4455785303/","Not started","Posting read 2026-08-21. Term is Summer 2027, May/June to Aug/Sept. Requires second year of undergrad completed, which you clear. Housing SILENT, it is not refused. Autonomous delivery aircraft, heavy mechanical design content. OUT OF STATE. STILL CONFIRM wage, it was not readable on the posting, which is the only reason this row still carries a chip.","OPEN","rolling","","int-zipline-me-intern"],
+["STRONG","Freeform","Mechanical Engineering Intern (Summer 2027)","Los Angeles, CA","Summer 2027 confirmed","","LinkedIn alert","https://www.linkedin.com/jobs/view/4454778975/","Not started","Posting read 2026-08-21. Term CONFIRMED Summer 2027. ITAR US PERSON REQUIRED. Relocation assistance provided, which settles the housing question. Major is Mechanical Engineering or aerospace, ABET accredited. Posted $30/hr, clear of your $26 Kelvin rate. Freeform does AI-controlled metal 3D printing, arguably the single closest technical match in this batch to your additive and build-iteration work. OUT OF STATE.","OPEN","rolling","$30/hr","int-freeform-me-intern"],
+["STRETCH","Skydio","Product Design Engineer Intern","San Mateo, CA","Term not stated","","LinkedIn alert","https://www.linkedin.com/jobs/view/4446352757/","Not started","Posting read 2026-08-21. Posted $41/hr, well clear of your $26 Kelvin rate and the best rate on the board. Citizenship is E-Verify only, no ITAR clause. Housing SILENT, it is not refused. Autonomous drones, solid mechanical product design content. OUT OF STATE. STILL CONFIRM term: the posting does not state one, and if this is a 2026 role it is dead, so everything else about it is moot until that is settled.","UNCONFIRMED","term unstated","$41/hr","int-skydio-product-design-intern"],
+["WATCH", "MatX", "Laboratory Operations Intern", "Mountain View, CA", "Term not stated", "", "LinkedIn alert", "https://www.linkedin.com/jobs/view/4455335660/", "Not started", "OUT OF STATE. Not listed on MatX own job board as of 2026-08-21, only 8 full time engineering roles there and no internships. Lab operations rather than mechanical design. Housing SILENT, it is not refused. A second check on 2026-08-22 of MatX's own Greenhouse board again did not surface a Laboratory Operations Intern listing, only an ML Research Intern, which further supports the earlier suspicion that this req is not on MatX's own board and may not be live, though a search index gap cannot be fully ruled out. Term is STILL unconfirmed and could not be resolved this sweep.", "UNCONFIRMED", "weak fit", "", "int-matx-lab-ops-intern"],
+["STRONG", "Northrop Grumman", "2027 Operations Manufacturing Engineering Intern", "Palmdale, CA", "Summer 2027, full time, at least 10 weeks", "", "Company site", "https://jobs.northropgrumman.com/careers/apply?pid=1340073519574&domain=ngc.com", "Not started", "OUT OF STATE. Found via web search 2026-08-22, summary sourced from Built In and Northrop Grumman careers listings, not opened directly. Aeronautics Systems Intern Program, Production Engineering and Operations organization. Work is manufacturing process design, production layouts, equipment installation, machining, and material handling, which maps closely to your Kelvin process and SOP work. Requires majoring in Manufacturing, Mechanical, or Aerospace Engineering, graduating after August 2027, which you clear at May 2028. GPA 3.25 minimum stated in the summary, confirm his current GPA clears this before applying. Requires ability to obtain and maintain a US government security clearance, US citizenship is a prerequisite, another ITAR adjacent gate on top of the already unconfirmed ITAR status. Relocation assistance is described in the summary as may be available rather than guaranteed, so read this as a soft positive, not a confirmed benefit and not silence either. Pay for undergrads is quoted as 21.50 to 39 dollars per hour depending on class standing. No deadline surfaced; postings reportedly stay live only about 20 days once filled, so do not wait.", "UNCONFIRMED", "clearance and GPA 3.25 gate", "$21.50-39/hr", "int-northropgrumman-mfg-eng-intern"],
+["WATCH", "Solid Power", "Cell Slurry Engineering Intern", "Louisville, CO", "Term unclear, listing says this summer without naming a year", "", "ZipRecruiter", "https://www.ziprecruiter.com/job-redirect?match_token=Co8BChZhYlB6ZFljekFjdTd0YWVEc05odjV3EiQwMWEwMjdlYS0xYmE3LTcyMWItODBlNi1hM2RhM2NiMzdjYmMaS0FBRzF0TVpXekhGZEdzRlFhenVKVzBUSWJNRHpzZ2MwdUxIUk1jR1F6djRhTHg0X2pZOVhidXZiM2g2REhQcTAtZW4yNl9Kd1pTayDJrQUQARjJrQU%3D&tsid=100000502", "Not started", "LOCAL, about 15 minutes from Boulder, so relocation does not arise. Found via ZipRecruiter search 2026-08-22, listing showed as posted one day earlier. Solid Power builds all solid state rechargeable batteries. The work is battery cell manufacturing process, weighing powders and solvents, making and casting slurries, building and testing cells, hands on process work in the same family as your Kelvin build iterations. The preferred background leans chemistry and materials science, rheology, SEM and EDS, DSC and TGA, particle size analysis, galvanostatic cycling, rather than mechanical design; engineering or chemistry majors are both accepted, so ME is not excluded but is not the target profile either, a real gap against his core. A related Solid Power internship listing states availability up to 29 hours a week, which reads as part time rather than a standard full time summer internship, and this listing only says this summer rather than naming a year, so there is a real risk this is a Summer 2026 posting still showing as fresh rather than a genuine Summer 2027 one. STILL CONFIRM the term and whether it is full time or part time before applying. No wage found for this specific requisition. The link is a ZipRecruiter redirect carrying a match token, so it may expire; if it fails, search Solid Power careers for the role directly.", "UNCONFIRMED", "chem heavy fit, term and hours unclear", "", "int-solidpower-cell-slurry-intern"],
+["STRONG", "TSMC", "[Summer 2027] TSMC AZ Internship Opportunities - Engineering Roles", "Phoenix, AZ", "Summer 2027, 10 weeks, fixed start windows May 24, Jun 7 or Jun 14 2027", "", "Indeed", "https://to.indeed.com/aaqzdclfb92t", "Not started", "OUT OF STATE. Posting re-verified on Indeed 2026-08-22, full description read. Umbrella req covering many engineering intern tracks at the Phoenix fab; Mechanical Engineering is explicitly listed as an eligible major. The tracks that fit your background are Intelligent Manufacturing Engineer, Process Engineer, Equipment Engineer and CST Tool Install Engineer, all of which are production floor process and equipment work close to your Kelvin SOP and yield experience. The posting states plainly: Relocation assistance available, so this is CONFIRMED support, not silence. All positions may require access to export controlled technical data and US Person status covers citizens, permanent residents, refugees and asylees; ITAR status still unconfirmed. No GPA floor stated anywhere. No wage stated anywhere on the posting. No application deadline, rolling.", "OPEN", "rolling", "", "int-tsmc-az-eng-intern"],
+["STRONG", "Steel Dynamics", "Mechanical Engineering Internship", "Butler, IN", "Summer 2027", "", "Indeed", "https://to.indeed.com/aadnwhm9ggz6", "Not started", "OUT OF STATE. Posting re-verified on Indeed 2026-08-22, full description read, posted 2026-08-19. HOUSING CONFIRMED in the posting's own benefits list: Furnished Housing Free of Cost, provided for interns living more than 50 miles from the work site, including essential furnishings. That is explicit support, not silence. Enrolled in a Mechanical Engineering degree program is the stated requirement, so you are the named major rather than an also-eligible one. GPA 2.7 or higher preferred, well clear of 3.5. The listed past intern projects are an unusually close match: thermal expansion calculations on walkways, pump and piping and filtration efficiency testing with CAD upgrades, predictive maintenance from vibration and temperature data, tooling and fixture design to cut changeover time, and process optimization to clear bottlenecks. Wage is an Indeed annualized estimate ($50,195 to $73,378 per year), not a posted hourly rate. No deadline, rolling.", "OPEN", "rolling", "$24.13-35.28/hr est.", "int-steeldynamics-me-intern"],
+["STRONG", "WEC Energy Group (Peoples Gas)", "Intern - Gas Storage Engineering", "Fisher, IL", "Summer 2027", "2026-11-15", "Indeed", "https://to.indeed.com/aa2c724mz8jr", "Not started", "OUT OF STATE, listing is SILENT on housing and relocation, it neither offers nor refuses. Re-verified on Indeed 2026-08-22, posted 2026-08-14. Mechanical Engineering is an explicitly eligible major. Underground gas storage process work across compressors, heat exchangers, thermal oxidizers and LNG liquefaction and vaporization, which draws straight from your Heat Transfer, Thermodynamics and Fluids coursework and the Kelvin thermal background. GPA 2.8 minimum, you clear it. US work authorization required, no sponsorship. Wage is a posted hourly rate, not an estimate, and its top end sits just above your $26 Kelvin baseline. Re-scored from STRETCH to STRONG on 2026-08-22: the original score was set 2026-08-20 under the old rule that capped out of state rows, which was replaced on 2026-08-21.", "OPEN", "", "$23.10-27.55/hr", "int-wec-gas-storage-intern"],
+["STRONG", "Avery Dennison", "Operations Intern - Summer 2027", "Multiple US sites (CA/GA/IL/IN/OH/WI), assigned late April 2027", "Summer 2027", "", "Indeed", "https://to.indeed.com/aabprd94gplt", "Not started", "OUT OF STATE, listing is SILENT on company provided housing or relocation. It requires that you be interested and able to relocate now and in the future, which is a demand on you, not an offer of support, and those are not the same thing. Re-verified on Indeed 2026-08-22, full description read, posted 2026-07-30. Mechanical is explicitly named among eligible engineering majors. The assignment is process improvement work with plant leadership in manufacturing facilities, a direct match to your Kelvin process and yield background. Posting also names ASME and SHPE involvement as a plus, both of which apply to you. Candidate sites are Perris CA, Peachtree City GA, Mount Prospect IL, Greenfield IN, Lowell IN, Mentor/Painesville/Fairport Harbor OH, Miamisburg OH, Oak Harbor OH, Neenah WI; none in Colorado, and your exact site is not set until late April 2027. Wage is a posted hourly rate scaled by academic year, not an estimate, and it brackets your $26 Kelvin baseline. No sponsorship. Re-scored from STRETCH to STRONG on 2026-08-22: the original score was set 2026-08-20 under the old rule that capped out of state rows, which was replaced on 2026-08-21.", "OPEN", "rolling; site assigned Apr 2027", "$25.50-29.00/hr", "int-avery-operations-intern"],
+["STRETCH", "Boeing", "Summer 2027 Internship Program - Quality Engineering Intern", "Seattle, WA (+ other US sites)", "Summer 2027, 10 to 12 weeks", "2026-10-23", "Indeed", "https://to.indeed.com/aa28ymjvp2sl", "Not started", "OUT OF STATE. Distinct requisition from the Facilities Engineering intern row already on this board; same company, different function, and it keeps its own row. Re-verified on Indeed 2026-08-22, posted 2026-08-03. Work is quality conformance, DFMEA, statistical process control and supplier quality rather than core mechanical design, a step off your thermal and manufacturing core, which is what holds this at STRETCH; the Lean and root cause side does overlap your Kelvin process work. Relocation is offered based on eligibility, so partial and conditional rather than confirmed or refused. US Person and export control required, ITAR status still unconfirmed. GPA 3.0 or above preferred, you clear it. Wage is an Indeed annualized estimate ($45,000 to $90,000 per year), not a posted hourly rate. Applications accepted until 2026-10-23.", "OPEN", "", "$21.60-43.30/hr est.", "int-boeing-quality-intern"],
+["STRETCH", "Boeing", "Summer 2027 Internship Program - Methods Process Analyst", "Greater Seattle, WA", "Summer 2027, 10 to 12 weeks", "2026-10-23", "Indeed", "https://to.indeed.com/aavlx4plq6fc", "Not started", "OUT OF STATE. NEW find 2026-08-22, not previously on this board; surfaced alongside the Quality Engineering req and kept as its own row. Full description read. The work itself is a good match: production flow and positioning plans, cutting non value added work, quality defect trend analysis, ergonomics and safety fixes on the factory floor or flightline, which is close to your Kelvin process improvement and SOP work. THE GATE: this sits under the Industrial Engineering job family and the preferred majors are Business Administration, Supply Chain Management, Data Analytics, Operations, Project Management, Industrial Engineering, Statistics, Computer Science and IT. Mechanical Engineering is NOT among them, and preferred skills include SQL and programming. The basic qualifications are only full time availability and an expected graduation on or after August 2027, which you clear at May 2028, so the major is a preference and not a hard gate, but you would be applying against the grain. Relocation offered based on eligibility. US Person and export control required, ITAR status unconfirmed. Wage is an Indeed annualized estimate ($40,000 to $80,000 per year), not a posted hourly rate. Applications accepted until 2026-10-23.", "OPEN", "ME not a preferred major", "$19.23-38.46/hr est.", "int-boeing-methods-process-analyst"],
+["STRETCH", "Dexter Axle", "Quality Intern - Summer 2027", "Elkhart, IN", "Summer 2027", "", "Indeed", "https://to.indeed.com/aamhvy8zhscw", "Not started", "OUT OF STATE, listing is SILENT on housing and relocation. NEW find 2026-08-22, full description read, posted 2026-08-20. This is NOT the same requisition as the Dexter Engineering Intern row; different title, different scope, single site rather than three, so it keeps its own row and slug. Work is quality and continuous improvement in a manufacturing plant: Lean, Six Sigma and Toyota Production System methods, daily quality data checks, trend analysis, and writing documentation, drawings and training materials, which lines up with your two Kelvin SOPs and your yield work. Eligibility is enrollment in Engineering, Quality Management, Business or a related field, so no major gate. Requires Excel proficiency; no CAD, FEA or CFD requirement anywhere, so none of your tool gaps apply. US work authorization required, no sponsorship. Offer contingent on background check and drug screen. No wage posted. No deadline, rolling.", "OPEN", "rolling", "", "int-dexter-quality-intern"],
+["STRETCH", "Dexter Axle", "Engineering Intern - Summer 2027", "Fremont / Elkhart / Albion, IN", "Summer 2027", "", "Indeed", "https://www.indeed.com/jobs?q=Dexter+Axle+engineering+intern&l=Indiana", "Not started", "OUT OF STATE, listing was SILENT on housing and relocation. The link on this row is an Indeed SEARCH, not the requisition itself, because the original URL was not preserved. RECOVERED ROW, originally found 2026-08-20 and lost when the dashboard version carrying it was superseded. WARNING: this requisition did NOT resurface on an Indeed search on 2026-08-22; only the separate Dexter Quality Intern req came back. That is not proof it is dead, since Indeed surfaces a limited result set, but it is unverified as of 2026-08-22 and the original URL was not preserved. Confirm it is still live before spending effort on a packet. Original read: manufacturing operations internship covering continuous improvement, automation, time studies and plant layout, which maps well to your Kelvin process background. Industrial, Mechanical or Safety Engineering listed as preferred rather than required, so no hard major gate. US work authorization required, no sponsorship. No wage posted.", "UNCONFIRMED", "did not resurface 08-22", "", "int-dexter-eng-intern"],
+["STRETCH", "Vertiv", "Mechanical/Thermal Engineering Intern - HVAC Design", "Lorain or Delaware, OH [UNVERIFIED site]", "Summer 2027", "", "Indeed", "https://www.indeed.com/jobs?q=Vertiv+mechanical+thermal+engineering+intern+HVAC", "Not started", "OUT OF STATE, listing was SILENT on housing and relocation. The link on this row is an Indeed SEARCH, not the requisition itself, because the original URL was not preserved. RECOVERED ROW, originally found 2026-08-20 and lost when the dashboard version carrying it was superseded. Distinct requisition from the Vertiv Liquid Cooling intern row already on this board, so it keeps its own row. WARNING: this requisition did NOT resurface on an Indeed search on 2026-08-22; only the Liquid Cooling req came back. Unverified as of 2026-08-22, and the original URL was not preserved. The site was already flagged as unverified when the row was first written, because Indeed listed it as Pelzer, SC while the posting text said Lorain or Delaware, OH. Confirm the req is live and confirm the real site before spending effort. Original read: data center HVAC and ventilation design covering thermal transfer calculations, simple CFD, and mechanical system layouts, a solid thermal and fluids fit for the Kelvin background. All qualifications were listed as Desired rather than required, so no hard gate, but simple CFD is a known gap and must never be claimed. No wage posted.", "UNCONFIRMED", "did not resurface 08-22", "", "int-vertiv-hvac-intern"]
+];
+
+/* [conviction, name, sponsor, award, opensRaw, deadline, gate, url, packetStatus, notes, status, hint, SLUG]
+   SLUG is index 12 here, index 13 on INT. Use SLUG_AT[kind], never a literal. */
+const SCH=[
+["STRONG","ACEC Colorado Scholarship & Education Foundation","ACEC Colorado","Varies (~$3,000-4,000)","2026-10-01","2027-01-16","Full-time junior, senior, or fifth-year in an ABET engineering program in Colorado.","https://acec-co.org/foundation/","Not started","Colorado firm-funded award with local recruiting value. Deadline confirmed via web search.","NOTYET","opens Oct 1","sch-acec-colorado"],
+["STRONG","SME Education Foundation (60+ awards)","SME Education Foundation","$2,500-$20,000","2026-11-01","2027-02-01","US/Canada citizen or PR, engineering/manufacturing path, 2.0+ GPA.","https://scholarships.smeef.org/applications/","Not started","RENEWAL of your Clinton J. Helton award. Must reapply annually from Nov 1. Do not let this lapse.","NOTYET","opens Nov 1","sch-sme-education-foundation"],
+["STRONG","Hispanic Scholarship Fund (HSF) Scholar Program","Hispanic Scholarship Fund","$500-$5,000","2027-01-05","2027-02-15","US Citizen/PR/DACA. 2.5+ GPA. Hispanic heritage. FAFSA required.","https://www.hsf.net/scholarship","Not started","Merit-selected, award size need-influenced. Dates pattern-based from the 2026 cycle [UNVERIFIED].","NOTYET","opens ~Jan 5","sch-hsf-scholar"],
+["STRONG","SAE Engineering Scholarships","SAE Foundation","$1,000-$15,000","2027-01-01","2027-02-28","ABET engineering program. Varies by award.","https://www.sae.org/participate/scholarships","Not started","Target Prechter Automotive Excellence and Hancock ME Excellence. SKIP the SAE International Undergraduate award, EFC-gated.","NOTYET","opens ~Jan 1","sch-sae-engineering"],
+["STRONG","CU Boulder General + CEAS Scholarship App","CU Boulder","Varies","2026-12-01","2027-03-15","Enrolled CU Boulder student. One app feeds many awards.","https://www.colorado.edu/scholarships/cuboulder-scholarship-app","Not started","Already a CU Esteemed Scholar (Hale). Peer Leader and Chem-E-Car read strongly. Submit by Mar 15.","NOTYET","opens Dec 1","sch-cu-general-ceas"],
+["STRONG","CU BOLD Center Scholarships","CU Boulder Campos/BOLD","Varies","2026-12-01","2027-03-15","Requires CU General Scholarship App submitted first.","https://www.colorado.edu/engineering/campos-student-center/bold-scholarships","Not started","Reviewed from Mar 15 then ROLLING until funds run out. Early submission matters more than usual.","NOTYET","opens Dec 1","sch-cu-bold"],
+["STRONG","ScholarSHPE Common Application","SHPE","$2,000-$10,000","2027-02-02","2027-04-30","Must be an ACTIVE SHPE member. 2.5+ GPA, STEM major.","https://shpe.org/engage/programs/scholarshpe/","Blocked","BLOCKER: not currently a SHPE member. Join before February or this whole row is dead.","BLOCKED","join SHPE first","sch-scholarshpe"],
+["STRONG","NFPA Fluid Power Scholarship","National Fluid Power Assoc.","$2,500","Fall 2026","","Studying a fluid-power-related field (hydraulics/pneumatics).","https://www.nfpa.com/grantsandscholarships","Not started","Your compressed-air wobbler engine IS a pneumatics project. 2026-27 cycle closed, reopens Fall 2026.","NOTYET","reopens Fall 2026","sch-nfpa-fluid-power"],
+["STRONG","ASME Scholarships (universal application)","ASME Foundation","Varies","2026-12-01","","Active ASME student member; ABET ME program; full-time.","https://www.asme.org/asme-programs/students-and-faculty/scholarships/4-year-baccalaureate-graduate-students","Not started","Already a member, sitting exactly at the 3.5 GPA line. 2026-27 cycle closed; 2027-28 not yet posted.","NOTYET","opens Dec/Jan","sch-asme-universal"],
+["STRONG","GMiS / HENAAC Scholars Program","Great Minds in STEM","$500-$10,000","2027-02-01","","3.0+ GPA, STEM major, Hispanic origin or service to Hispanic community.","https://greatmindsinstem.org/gmis-scholarship-application/gmis-scholarships/","Not started","100+ merit-based awards, winners get conference travel. May open ~March rather than February [UNVERIFIED].","NOTYET","opens ~Feb/Mar","sch-gmis-henaac"],
+["WATCH","AIAA Foundation Scholarships","AIAA","Varies","Rolling","","Undergraduate, aerospace-leaning.","https://www.aiaa.org/get-involved/students-educators/Scholarships","Not started","Weak fit unless your coursework shifts aero. Low priority.","OPEN","rolling","sch-aiaa-foundation"],
+["CLOSED","Apple Hardware Technical Challenge","Apple","$5,000","Closed","2026-08-09","US college student, rising soph/jr/sr. No membership needed.","https://appletechnical.applyists.net/","Deadline passed","DEADLINE PASSED Aug 9, 2026. Confirm whether you submitted, then archive.","CLOSED","passed Aug 9","sch-apple-hardware-challenge"]
+];
+
+const CAL=[
+["Internship", "RTX (Raytheon)", "A", "TBD", "2026-09-15", "PENDING", "2026-08-22", "MOVED OFF THE INTERNSHIPS TAB 2026-08-18 after a real browser session found zero results for the exact phrase Mechanical Engineering Intern on careers.rtx.com. RECHECKED 2026-08-22 by web search: several Mechanical Engineering Intern Summer 2027 listings appear on aggregator mirrors (BeBee, Jobright, TealHQ) naming Tewksbury MA, Fullerton CA, McKinney TX and Marlborough MA, but none could be confirmed on careers.rtx.com itself, and the quoted pay is an annualised estimate with a 2.2x spread rather than a posted rate. Deliberately NOT added to the board on that evidence. The mid-September recheck stands and is now the tiebreak: open careers.rtx.com directly and search the exact phrase. If the reqs are real, they are worth four separate rows, one per site, never one consolidated row."],
+["Internship","Lockheed Martin","A","Aug-Oct 2026","2026-08-01","PENDING","2026-08-17","Careers site (lockheedmartinjobs.com) is showing a maintenance page as of 2026-08-17, could not search. Sources agree Summer 2027 postings open Aug-Oct 2026."],
+["Internship","Tesla","A","Sep-Nov 2026","2026-09-01","PENDING","2026-08-17","No Summer 2027 ME/mfg intern posting found as of 2026-08-17 (only a Fall 2026 Optimus CAE intern, wrong term). tesla.com/careers search is JS-rendered and would not return listings via fetch. Peak hiring window still projected Nov 2026-Feb 2027."],
+["Internship","Sierra Space","A","Fall 2026","2026-09-01","PENDING","2026-08-17","Louisville, CO. Only a Fall 2026 Mechanical Engineering Intern req found (R26120); no Summer 2027 posting yet. Workday search page is JS-rendered, could not query directly."],
+["Internship","Ball Aerospace / BAE Systems","A","TBD","2026-08-01","PENDING","2026-08-17","Boulder, CO. Confirmed via direct search on jobs.baesystems.com: zero results for mechanical engineering intern Summer 2027 in Boulder as of 2026-08-17."],
+["Internship","Blue Canyon Technologies","A","TBD","2026-08-01","PENDING","2026-08-17","Boulder, CO. Full careers page checked directly (bluecanyontech.com/careers) - zero internship postings currently listed, all open roles are senior/staff level."],
+["Internship","Advanced Energy Industries","A","TBD","2026-08-01","PENDING","2026-08-17","Fort Collins, CO. No Summer 2027 posting found via search; advancedenergy.com careers page is JS-rendered and would not return content via fetch."],
+["Internship","H3X Technologies","B (CO)","TBD","2026-08-01","PENDING","2026-08-17","Louisville, CO. Confirmed via direct check of jobs.ashbyhq.com/h3x-technologies: 8 open roles, all full-time senior/staff positions, zero internships as of 2026-08-17."],
+["Internship","Emerson","B (CO)","TBD","2026-08-01","PENDING","2026-08-17","Boulder, CO. No Summer 2027 posting found via search; emerson.com careers page is JS-rendered and would not return content via fetch."],
+["Scholarship","SME Education Foundation","A","Opens Nov 1","2026-11-01","PENDING","","RENEWAL of the Helton award. Highest-stakes date on the calendar."],
+["Scholarship","CU Boulder General + CEAS","A","Opens Dec 1","2026-12-01","PENDING","","Gateway app. CU BOLD requires this submitted first."],
+["Scholarship","ASME Universal Application","A","Opens Dec/Jan","2026-12-01","PENDING","2026-08-13","Already a member. Verify exact deadline when live."],
+["Scholarship","SAE Foundation","B","Opens ~Jan","2027-01-01","PENDING","","Target merit awards only."],
+["Scholarship","ScholarSHPE","A","Opens Feb 2","2027-01-05","BLOCKED","","Join SHPE before February or this cycle is lost."],
+["Scholarship","GMiS / HENAAC","B","Opens ~Feb","2027-02-01","PENDING","2026-08-13","May actually open ~March based on the last posted cycle."],
+["Scholarship","NFPA Fluid Power (reopen check)","A","Reopens Fall 2026","2026-09-15","PENDING","2026-08-13","Recheck for exact reopen date and the 2027-28 deadline."],
+["Scholarship","ACEC Colorado","B","Opens Oct 2026","2026-10-01","PENDING","2026-08-13","Already on the Scholarships tab with a confirmed deadline."],
+["Scholarship","Hispanic Scholarship Fund (HSF)","A","Opens ~Jan 5","2027-01-05","PENDING","2026-08-13","Confirm exact dates when the 2027 cycle posts."],
+["Internship", "LinkedIn job alerts (4 saved searches)", "A", "Continuous", "2026-08-28", "PENDING", "2026-08-22", "Four alerts created 2026-08-21: Mechanical Engineering Intern Summer 2027 (Denver), Manufacturing Engineering Intern (Denver), mechanical Engineering Intern (Denver), and design Engineer Intern (United States). All four confirmation mails were read on 2026-08-21 and their first match batches are now on the Internships tab. Sender is jobalerts-noreply@linkedin.com. The recurring digest has not arrived yet, so its subject format is still unknown and the sweep query must stay broad enough to catch both. Two alert names carry a stray leading tab from pasting, cosmetic only. The design alert is scoped to the whole United States, which is why California roles appear; rescope it to Denver if that becomes noise. CONFIRMED"]
+];
+
+/* SWEPT is the freshness stamp in the header. It used to be a hardcoded literal
+   that nothing on earth updated, so it went amber after ten days and then simply
+   lied. It is now the newest Last Checked date present in CAL, which the sweeps
+   already write. A sweep bumps the stamp by doing its job; it cannot bump it by
+   forgetting. Empty CAL dates are ignored, and if none of them parse the header
+   says "never" rather than showing a date nobody stands behind. */
+const SWEPT=(function(){let m="";CAL.forEach(function(r){var d=r[6]||"";
+  if(/^\d{4}-\d{2}-\d{2}$/.test(d)&&d>m)m=d;});return m;})();
+
+const OUT=[
+["Internship","Kodak Alaris","Automation Engineering Intern (Windsor, CO)","2026-08-05","Wrong term, part-time academic-year role."],
+["Internship","Beyond Photonics","Optical Engineering Intern (Boulder, CO)","2026-08-10","Requires optical sciences/physics degree, not ME."],
+["Internship","Balanced Engineering LLC","Engineering Technician (Arvada, CO)","2026-08-10","Construction materials testing. No engineering degree required."],
+["Internship","Kairos Power","Electrical Engineering Internship Summer 2027","2026-08-13","Requires EE degree, fails ME required-qual gate."],
+["Internship","Engle Martin","Junior Estimator","2026-08-13","Not an engineering role."],
+["Internship","Master Magnetics","Mechanical Engineering Intern (Castle Rock, CO)","2026-08-17","Wrong term, academic-year role Sept 2026-Jun 2027."],
+["Internship","Kairos Power","Chemical and Materials Engineering Intern","2026-08-17","Wrong major, ChemE/Materials."],
+["Internship","Vertiv","Thermal Engineering Intern (Summer 2027)","2026-08-17","Thermal-controls firmware testing, no firmware skills claimed."],
+["Internship","Hubbell","2027 Summer Intern: Engineering (Aiken, SC)","2026-08-17","Posting explicitly states relocation is NOT offered and there is no CO site, fails the hard relocation/housing rule. Role also centers on FEA mold analysis, a known gap."],
+["Scholarship","SAE International","Undergraduate Scholarship","2026-08-01","Need-gated, requires FAFSA EFC under $5,500."],
+["Scholarship","AIChE Foundation Scholarships","Undergraduate scholarship","2026-08-13","ChemE-major gated. AIChE membership does not confer eligibility."],
+["Scholarship","SWE Rocky Mountain Section","Collegiate scholarship ($500-$2,000)","2026-08-13","Restricted to women in engineering, not eligible."],
+["Internship","National Laboratory of the Rockies","Graduate Intern - Advanced Building Equipment Research Group (Golden, CO)","2026-08-21","Graduate Intern posting. You are an undergrad through May 2028, so this fails the eligibility gate. Surfaced by two LinkedIn alerts on 2026-08-21; recheck if they ever post an undergraduate equivalent, the Golden location and building-equipment thermal work would otherwise suit you well."],
+["int", "Lockheed Martin", "Mechanical Engineering Intern, Summer 2027", "2026-08-22", "Checked via web search. Only a Littleton CO high school program surfaced; no college level Summer 2027 Colorado requisition found. Company wide window reportedly opens roughly August to October 2026, so recheck in September."],
+["int", "Tesla", "Mechanical Engineering Intern, Summer 2027", "2026-08-22", "Checked via web search. Summer 2027 applications are reported as not yet open, expected September to November 2026. No Colorado specific mechanical engineering posting found."],
+["int", "Sierra Space", "Mechanical Engineer Intern, Summer 2027", "2026-08-22", "Checked via web search. Sierra Space is headquartered in Louisville CO with Centennial CO also a stated intern site, strong match on paper, but its own careers page states Summer 2027 postings open around September 2026 and none were live yet. Recheck after that window opens."],
+["int", "Ball Aerospace / BAE Systems Space and Mission Systems", "Technical Intern, Mechanical Engineering", "2026-08-22", "Checked via web search for the Boulder, Broomfield, Westminster CO sites. Only Summer 2026 Technical Intern requisitions surfaced (Mechanical Engineering, Industrial Engineering, Systems Engineering). No Summer 2027 requisition found live yet."],
+["int", "Blue Canyon Technologies", "Mechanical Engineer Intern", "2026-08-22", "Checked via web search for the Lafayette CO site. Most recently indexed Mechanical Engineer Intern listing dates to 2024. No current or Summer 2027 signal found."],
+["int", "Advanced Energy Industries", "Mechanical Design Engineering Intern", "2026-08-22", "Checked via web search for the Fort Collins CO site. Only Summer 2026 Mechanical Design Engineering Intern and Co Op postings surfaced across Colorado, Minnesota, Massachusetts, and California sites. No Summer 2027 requisition found live yet."],
+["int", "Emerson", "Mechanical Engineer Intern, Summer 2027", "2026-08-22", "Checked via web search. Emerson is reported to post internship requisitions starting Fall 2026 with deadlines running November 2026 through February 2027. Nothing live for Summer 2027 as of this sweep."],
+["int", "Woodward", "Engineering Intern", "2026-08-22", "Checked via web search for the Fort Collins and Loveland CO sites. General engineering internship program confirmed, mechanical, manufacturing, or industrial majors, sophomore standing or above, roughly 21 to 24 dollars an hour. No Summer 2027 specific requisition surfaced yet."],
+["int", "Danfoss", "Mechanical Engineering Intern", "2026-08-22", "Checked via web search for the Longmont CO site. Only a Facilities Intern requisition surfaced there, not a mechanical design role. No Summer 2027 mechanical engineering intern posting found."],
+["int", "Vestas", "Manufacturing / Mechanical Intern", "2026-08-22", "Checked via web search for the Windsor Blades and Brighton Nacelles CO plants. Manufacturing hiring at those plants is confirmed but no internship specific posting surfaced."],
+["int", "L3Harris", "Mechanical Engineering Intern, Summer 2027", "2026-08-22", "Checked via web search. Rolling Summer 2027 postings are expected on careers.l3harris.com; no specific live requisition surfaced in this sweep."],
+["int", "Honeywell Aerospace", "Mechanical Engineering Intern, Summer 2027", "2026-08-22", "Checked via web search. General Aerospace internship program confirmed (engines, avionics, connected aircraft), but no Colorado specific Summer 2027 mechanical engineering requisition surfaced."],
+["int", "RTX", "Mechanical Engineering Intern (Summer 2027), Tewksbury MA and parallel site reqs", "2026-08-22", "Surfaced on aggregator mirrors only (BeBee, Jobright, TealHQ) and never on careers.rtx.com. That is weaker evidence than the 2026-08-18 check, which searched careers.rtx.com in a real browser session and returned zero results for the exact phrase. The quoted 37,000 to 82,000 dollar annual range is a 2.2x spread, which reads as an aggregator salary estimate rather than a posted rate. Kept off the board pending the mid-September recheck already on the calendar."]
+];
+
+const PROF=[["sec","IDENTITY"],["Full name","Joaquin Zarazua"],["Email","joza3843@colorado.edu"],
+["Phone","720-435-0880"],["Home city/state","Centennial, CO"],["LinkedIn","linkedin.com/in/joaquinzarazua"],
+["sec","ACADEMIC"],["University","University of Colorado Boulder"],["Degree","BS Mechanical Engineering"],
+["Minor","Engineering Management"],["Expected graduation","May 2028"],
+["Class standing (Summer 2027)","Rising Senior"],["GPA","3.50 (exactly on the 3.5 line)"],
+["Coursework","Heat Transfer, Thermodynamics, Fluid Mechanics, Materials Science, Component Design, Computational Methods"],
+["sec","ELIGIBILITY"],["Work authorization","US Citizen"],["ITAR / export-control","Yes"],
+["Relocation rule","Outside Colorado only if housing or relocation is provided (HARD RULE)"],
+["Hispanic/Latino","Yes"],["SHPE member","NO - blocker, join before February 2027"],
+["FAFSA on file","Yes, submission summary available. Not a disqualifier."],
+["Need-based awards","LOW PRIORITY, household income relatively high. Cap at WATCH."],
+["sec","EXPERIENCE"],
+["Most recent role","R&D Thermal Engineering Intern, Kelvin Thermal Technologies (May-Aug 2026), Longmont CO"],
+["Wage baseline","$26.00/hr at Kelvin Thermal. Target equal or higher. Lower-paying roles are still worth applying to if the work is a clear step up."],
+["Core technical skills","SolidWorks (CSWA Certified), GD&T, LabVIEW, Python, MATLAB, machining, laser cutting, 3D printing, sheet metal, soldering"],
+["Known gaps - DO NOT CLAIM","FEA, CFD, NX, Teamcenter, ANSYS"],
+["Memberships","ASME, AIChE, ASEM, FSAE"],
+["Awards","CU Esteemed Scholars-Hale, Opportunity Next Colorado, Hispanic National Merit, Clinton J. Helton Manufacturing (SME)"],
+["sec","SOURCE FILES"],["Master resume","Resume - Joaquin Zarazua - Aug 2026 (Google Drive)"],
+["Essay bank","Scholarship Q's + Scholarship Responses (Google Drive)"],
+["Packets folder","Packets, inside Internship and Scholarship Tracker Project"]];
+
+/* ==================== APPLIED STATE ==================================
+   ROUTE, rewritten 2026-08-21 after the first route was proven dead.
+
+   FIRST ROUTE (dead): a tick wrote data/applied.json through the FILES form
+   of publish. That form is not served for this artifact. Probed directly in
+   the browser console: claude.use("artifact") returns a real namespace, so
+   the capability IS granted, but publish({path:...}) rejects with
+   capability_disabled, "publishing files is not available in this view".
+   The artifact is private, so public sharing is not the cause. That code is
+   permanent for the view and must never be retried.
+
+   CURRENT ROUTE: publish(html). The page rebuilds its own complete source
+   and republishes itself with the applied state baked in.
+
+   The old note said publish(html) was not worth it because the page would
+   have to carry a second copy of itself or become a template function of
+   state. Both were true and both are avoidable: a page can read its own
+   source with fetch("index.html"). What comes back is the SHELL'S copy, not
+   ours: it injects the frame runtime, drops our meta block, and dissolves
+   the head/body boundary, but it preserves our content contiguously and
+   keeps HTML comments. So we mark our own content with ACC-HEAD and
+   ACC-BODY, cut it back out, and re-wrap it. Verified byte-exact against
+   the authored file before this shipped.
+
+   Never serialize the live DOM instead. It carries the injected runtime and
+   this viewer's session state, and republishing it nests the shell inside
+   our own document.
+
+   THE COST: an html publish RELOADS this view on success. So the reading
+   position, tab, filter text, sort order and expanded notes are parked in
+   sessionStorage immediately before the call and restored on the way back
+   up. The header chip warns that a refresh is coming rather than letting it
+   surprise him. Saves are debounced so a run of ticks costs one reload.
+
+   Live doc was rejected before and is still rejected, for the same two
+   reasons: it is a property an artifact is CREATED with and a republish
+   cannot convert one, and every table here is built from JS arrays at render
+   time, which is explicitly not part of a live doc.
+
+   NOTE FOR A FUTURE SESSION: reading this state no longer needs the network
+   allowlist. The state is embedded in the page source between the ACC-STATE
+   markers, and the source can be pulled from the browser console with
+   fetch("index.html"). The db capability would suit this page far better
+   than self-publishing, and the frame runtime ships a module for it, but it
+   is not on the list this account may declare. Revisit if that changes.
+   ===================================================================== */
+const SLUG_AT={int:13,sch:12};      /* where the slug sits in each row shape */
+const LS="acc_applied_v3";          /* slug keyed */
+const LS_OLD="acc_applied_v2";      /* kind|company|role keyed, migrated once */
+const UI="acc_ui_v1";               /* sessionStorage, survives the publish reload */
+
+/* Marker text is assembled at runtime on purpose. If these literals appeared
+   whole in this script, indexOf would find THEM instead of the real markers
+   when we cut the document apart. */
+const MK=x=>"<!--"+x+"-->";
+const H_A=MK("ACC-HEAD"),H_B=MK("/ACC-HEAD"),B_A=MK("ACC-BODY"),B_B=MK("/ACC-BODY");
+const S_A="/*"+"ACC-STATE"+"*/",S_B="/*/"+"ACC-STATE"+"*/";
+
+/* The archive as of 2026-08-21: 13 internships. This is only the floor for a
+   browser that has never seen this page and has no state anywhere. The moment
+   any state exists the seed is ignored, otherwise unticking could never stick. */
+const SEED={
+  "int-medtronic-engineering-intern":"2026-08-17",
+  "int-wdc-hardware-intern":"2026-08-17",
+  "int-anduril-mech-intern":"2026-08-17",
+  "int-spacex-eng-intern":"2026-08-17",
+  "int-kairos-mech-mfg-intern":"2026-08-18",
+  "int-ge-mfg-intern":"2026-08-18",
+  "int-ge-systems-intern":"2026-08-18",
+  "int-greatplains-design-intern":"2026-08-18",
+  "int-boeing-facilities-intern":"2026-08-18",
+  "int-anduril-mfg-intern":"2026-08-18",
+  "int-vertiv-liquid-cooling-intern":"2026-08-18",
+  "int-bae-operations-coop":"2026-08-18",
+  "int-elliott-design-intern":"2026-08-18"
+};
+
+/* The published applied state, rewritten in place by flushSave on every save.
+   This IS the shared record: it travels with the document, so any browser that
+   opens the artifact sees it. applied:null means nothing has been published yet
+   and the SEED above is the floor. Do not hand edit; the markers are parsed. */
+/*ACC-STATE*/const PUB={"v":4,"updated":"2026-08-22","applied":null};/*/ACC-STATE*/
+
+let applied={},tab="int",q="",sort={k:"pri",d:-1};
+let ART=null;            /* artifact namespace once resolved, else null */
+let dirty=false;         /* local ticks not yet on the server */
+let saveState="local";   /* local | saving | synced | readonly | error */
+let saveTimer=null;
+
+const slugOf=(kind,r)=>r[SLUG_AT[kind]]||"";
+function lsRead(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null}catch(e){return null}}
+function lsWrite(){try{localStorage.setItem(LS,JSON.stringify({v:3,applied,dirty}))}catch(e){}}
+
+/* Carry the old kind|company|role ticks onto slugs, once. Rows whose title a
+   sweep has since reworded will not match and are simply left behind, which is
+   the same data loss as before; from here on the slug makes it impossible. */
+function migrateOld(){
+  const old=lsRead(LS_OLD);
+  if(!old||typeof old!=="object")return null;
+  const map={};
+  [["int",INT],["sch",SCH]].forEach(function(p){
+    p[1].forEach(function(r){map[p[0]+"|"+r[1]+"|"+r[2]]=slugOf(p[0],r)});});
+  const out={};let hit=0;
+  Object.keys(old).forEach(function(k){const sl=map[k];if(sl){out[sl]=old[k];hit++}});
+  return hit?out:null;
+}
+
+/* Key order must not affect equality, so compare canonical forms. */
+function canon(o){const t={};Object.keys(o||{}).sort().forEach(k=>{t[k]=o[k]});return JSON.stringify(t)}
+
+/* First paint is synchronous. Three sources, in priority order: ticks this
+   device made and has not managed to publish, then the state published into
+   the document, then whatever this device remembers, then the seed. */
+function initLocal(){
+  const local=lsRead(LS), pub=PUB&&PUB.applied;
+  if(local&&local.applied){
+    applied=local.applied;dirty=!!local.dirty;
+    if(pub&&canon(applied)===canon(pub))dirty=false;   /* our ticks already landed */
+    else if(pub&&!dirty)applied=pub;                   /* nothing pending, take the published truth */
+    lsWrite();return;
+  }
+  applied=pub||migrateOld()||Object.assign({},SEED);
+  dirty=false;lsWrite();
+}
+
+/* No network call any more. The published state arrived inside the document,
+   so there is nothing to fetch and nothing to 404 on. All this does is resolve
+   the capability and decide whether this device owes the artifact a push. */
+async function initRemote(){
+  try{ART=(window.claude&&window.claude.use)?await window.claude.use("artifact"):null}
+  catch(e){ART=null}
+  saveState=ART?(dirty?"local":"synced"):"local";
+  stamp();
+  if(ART&&dirty)scheduleSave();
+}
+function scheduleSave(){
+  if(!ART)return;
+  if(saveTimer)clearTimeout(saveTimer);
+  saveTimer=setTimeout(flushSave,3500);   /* one reload for a run of ticks */
+}
+
+/* Rebuild this page's complete source with the current state baked in. The
+   shell serves a transformed copy of what we published, so cut our own content
+   back out by its markers and re-wrap it. See the route note above. */
+async function buildDoc(){
+  const res=await fetch("index.html",{cache:"no-store"});
+  if(!res.ok)throw{code:"transform_error",message:"could not read own source, HTTP "+res.status};
+  const src=await res.text();
+  const h0=src.indexOf(H_A),h1=src.indexOf(H_B),b0=src.indexOf(B_A),b1=src.indexOf(B_B);
+  if(h0<0||h1<=h0||b0<0||b1<=b0)throw{code:"transform_error",message:"document markers missing"};
+  const head=src.slice(h0,h1+H_B.length);
+  let body=src.slice(b0,b1+B_B.length);
+  const a0=body.indexOf(S_A),a1=body.indexOf(S_B);
+  if(a0<0||a1<=a0)throw{code:"transform_error",message:"state markers missing"};
+  const payload={v:4,updated:ASOF,count:Object.keys(applied).length,applied:applied};
+  body=body.slice(0,a0)+S_A+"const PUB="+JSON.stringify(payload)+";"+S_B+body.slice(a1+S_B.length);
+  return '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+       +head+'\n</head>\n<body>\n'+body+'\n</body>\n</html>';
+}
+
+async function flushSave(){
+  if(!ART||saveState==="saving")return;
+  saveState="saving";stamp();
+  let doc;
+  try{doc=await buildDoc()}
+  catch(err){
+    /* Cannot reproduce our own source. Never publish a guess. */
+    saveState="error";stamp();
+    console.warn("Command center: source rebuild failed,",err&&err.message);
+    return;
+  }
+  const snap=canon(applied);
+  /* The publish reloads this view on success, so park the reading position. */
+  try{sessionStorage.setItem(UI,JSON.stringify(
+      {tab:tab,q:q,sort:sort,y:window.scrollY,note:Array.from(NOPEN),all:NALL}))}catch(e){}
+  try{
+    await ART.publish(doc);
+    if(canon(applied)===snap){dirty=false;saveState="synced";lsWrite();}
+    else{dirty=true;saveState="local";lsWrite();scheduleSave();}
+    /* The shell reloads us about now. Nothing below is guaranteed to run. */
+  }catch(err){
+    try{sessionStorage.removeItem(UI)}catch(e){}
+    const c=(err&&err.code)||"upstream_error";
+    if(c==="conflict"){
+      /* Routine. Another view published first and the shell is already
+         reloading every view to the winner, so there is nothing to do. */
+      saveState="synced";
+    }else if(c==="rate_limited"){
+      saveState="local";setTimeout(flushSave,15000);
+    }else if(c==="not_writer"||c==="not_granted"||c==="not_declared"||
+             c==="consent_required"||c==="capability_disabled"||
+             c==="capability_removed"||c==="read_only_path"){
+      /* Permanent for this view. Stop trying and say so; ticks keep working
+         locally. This is the branch the files form hit on every load. */
+      ART=null;saveState="readonly";
+    }else if(c==="too_large"||c==="invalid_content"||c==="transform_error"){
+      ART=null;saveState="error";
+      console.warn("Command center: publish rejected,",c,err&&err.message);
+    }else{
+      saveState="error";setTimeout(flushSave,8000);
+    }
+  }
+  stamp();
+}
+
+/* Put the reader back where the reload took them from. */
+function restoreUI(){
+  let u=null;
+  try{const v=sessionStorage.getItem(UI);if(v)u=JSON.parse(v);sessionStorage.removeItem(UI)}catch(e){}
+  if(!u)return null;
+  if(u.tab)tab=u.tab;
+  if(typeof u.q==="string")q=u.q;
+  if(u.sort&&u.sort.k)sort=u.sort;
+  if(Array.isArray(u.note))NOPEN=new Set(u.note);
+  NALL=!!u.all;
+  return u;
+}
+
+/* Guard against a sweep introducing a duplicate or blank slug, which would
+   silently make two rows share one tick. */
+(function(){const seen={},bad=[];
+  [["int",INT],["sch",SCH]].forEach(function(p){p[1].forEach(function(r){
+    const sl=slugOf(p[0],r);
+    if(!sl)bad.push("missing slug on "+r[1]);
+    else if(seen[sl])bad.push("duplicate slug "+sl);
+    else seen[sl]=1;});});
+  if(bad.length)console.warn("Command center: row slug problem, applied state will collide:",bad);
+})();
+/* Notes are collapsed to one line by default. NOPEN holds the rows the reader has
+   opened; NALL is the expand-everything switch. Neither is persisted, a fresh load
+   should always come back tidy. */
+let NOPEN=new Set(),NALL=false;
+
+const today=()=>new Date(ASOF+"T12:00:00");
+function daysLeft(d){if(!d||!/^\d{4}-\d{2}-\d{2}$/.test(d))return null;
+  return Math.round((new Date(d+"T12:00:00")-today())/864e5);}
+/* An unresolved fact the posting has not answered. Both markers are written by the
+   sweeps, so this reads real text and never guesses from location. */
+function unresolved(note){return /\[UNVERIFIED\]|STILL CONFIRM/i.test(note||"");}
+function score(cv,d,st,pk,wlo,whi,on,opens){
+  const dl=daysLeft(d);let v=CONV[cv]||0;
+  if(dl!==null&&dl>=0)v+=dl<=7?60:dl<=14?45:dl<=30?25:dl<=60?10:0;
+  if(!on&&(pk==="Ready"||pk==="Done"))v+=30;
+  if(wlo!==null&&wlo>=BASE_WAGE)v+=6;
+  if(whi!==null&&whi<BASE_WAGE)v-=6;
+  if(st==="NOTYET"){
+    /* A closed cycle cannot be acted on, so it sinks below everything open. Inside the
+       waiting group the deadline is months away and tells you nothing, so rank by how
+       soon the cycle OPENS instead. Without this every waiting row scored the same. */
+    v-=200;
+    const op=daysLeft(opens);
+    if(op!==null&&op>=0)v+=op<=45?30:op<=90?20:op<=150?10:0;
+  }
+  if(st==="UNCONFIRMED")v-=40;
+  if(st==="BLOCKED")v-=400;
+  if(st==="CLOSED")v-=800;
+  return v;
+}
+/* What to physically do with this row next. Order matters, first match wins. */
+function act(x){
+  if(x.on)return{k:"APPLIED",l:"APPLIED",w:"Marked applied "+(applied[x.key]||"")};
+  if(x.st==="CLOSED")return{k:"DEAD",l:"CLOSED",w:"Deadline passed or the posting is gone"};
+  if(x.st==="BLOCKED")return{k:"BLOCKED",l:"BLOCKED",w:"Something outside the application is in the way"};
+  if(x.st==="NOTYET")return{k:"WAIT",l:"WAIT",w:"Cycle has not opened yet"};
+  if(unresolved(x.r[9]))return{k:"VERIFY",l:"VERIFY",w:"Carries an unconfirmed fact. Resolve it before spending a letter on this."};
+  if(x.pk==="Ready"||x.pk==="Done")return{k:"SUBMIT",l:"SUBMIT",w:"Packet already exists. This one just needs sending."};
+  if(x.days!==null&&x.days>=0&&x.days<=14)return{k:"WRITENOW",l:"WRITE NOW",w:"Deadline inside two weeks and nothing written yet"};
+  if(x.cv==="MUST APPLY"||x.cv==="STRONG")return{k:"WRITE",l:"WRITE",w:"High conviction, no deadline pressure yet"};
+  return{k:"LATER",l:"LATER",w:"Worth doing, nothing forcing it this week"};
+}
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ORD={OPEN:0,UNCONFIRMED:1,NOTYET:2,BLOCKED:3,CLOSED:4};
+const LBL={OPEN:"OPEN",NOTYET:"NOT OPEN",CLOSED:"CLOSED",UNCONFIRMED:"UNCONFIRMED",BLOCKED:"BLOCKED"};
+
+function rows(kind){
+  const src=kind==="int"?INT:SCH;
+  return src.map((r,i)=>{
+    const key=slugOf(kind,r);
+    const dl=r[5],days=daysLeft(dl);
+    let st=r[10];
+    if(days!==null&&days<0)st="CLOSED";
+    /* Wage is an internship-only field. Guarding on kind matters now that the
+       slug occupies index 12 on a scholarship row, where wage used to be
+       undefined; without this a slug containing a digit would render as pay. */
+    const wp=kind==="int"?wageParse(r[12]):null;
+    const x={r,i,kind,key,cv:r[0],dl,days,on:!!applied[key],st,hint:r[11],pk:r[8]||"Not started",
+             wage:kind==="int"?(r[12]||""):"",wlo:wp?wp.lo:null,whi:wp?wp.hi:null,
+             /* Filter text stops before the slug, otherwise typing "int" or
+                "sch" matched every row on the tab. */
+             hay:r.slice(0,SLUG_AT[kind]).join(" ").toLowerCase()};
+    x.pri=score(x.cv,dl,st,x.pk,x.wlo,x.whi,x.on,kind==="sch"?r[4]:"");
+    x.act=act(x);
+    return x;
+  });
+}
+function filt(list,inArchive){
+  const f=list.filter(x=>x.on===inArchive);
+  if(!q)return f;const s=q.toLowerCase();
+  return f.filter(x=>x.hay.includes(s));
+}
+function sortRows(a){
+  const k=sort.k,d=sort.d;
+  return a.slice().sort((x,y)=>{
+    let A,B;
+    if(k==="pri"){A=x.pri;B=y.pri}
+    else if(k==="days"){A=x.days===null?9999:x.days;B=y.days===null?9999:y.days}
+    else if(k==="st"){A=ORD[x.st];B=ORD[y.st]}
+    else if(k==="wg"){A=x.wlo===null?-1:x.wlo;B=y.wlo===null?-1:y.wlo}
+    else{A=String(x.r[k]).toLowerCase();B=String(y.r[k]).toLowerCase()}
+    return A<B?-1*d:A>B?1*d:0;});
+}
+/* Instant in the UI. The save is debounced and never blocks the checkbox.
+   Ticking again during an in-flight publish is safe: flushSave compares the
+   state it sent against the state now and reschedules if they differ. */
+function toggle(k){
+  applied[k]?delete applied[k]:applied[k]=ASOF;
+  dirty=true;lsWrite();render();
+  if(ART){if(saveState!=="saving")saveState="local";scheduleSave()}
+  stamp();
+}
+function setSort(k){sort.k===k?sort.d*=-1:(sort={k,d:(k==="pri")?-1:1});render();}
+
+function wageParse(w){
+  if(!w)return null;
+  const head=String(w).split("/hr")[0];
+  const nums=(head.match(/\d+(?:\.\d+)?/g)||[]).map(Number);
+  if(!nums.length)return null;
+  return {lo:Math.min.apply(null,nums),hi:Math.max.apply(null,nums)};
+}
+function wageCell(w){
+  const p=wageParse(w);
+  if(!p)return '<span class="wg none">not listed</span>';
+  const c=p.lo>=BASE_WAGE?"up":(p.hi>=BASE_WAGE?"even":"down");
+  const t=c==="up"?"Floor is at or above your $26 Kelvin rate"
+    :c==="even"?"Range straddles your $26 Kelvin rate"
+    :"Tops out below your $26 Kelvin rate";
+  const est=/est\./i.test(w);
+  return '<span class="wg '+c+'" title="'+esc(t)+'">'+esc(String(w).replace(/ est\.( floor)?$/i,""))+'</span>'+
+    (est?'<span class="wgest">est.</span>':'');
+}
+/* One line by default. The whole cell is the toggle so opening a note costs no
+   extra row height, which was the entire point of the exercise. */
+function noteCell(key,txt,lab){
+  lab=' data-label="'+(lab||"Notes")+'"';
+  if(!txt)return '<td class="note"'+lab+'><span class="sub">none</span></td>';
+  const long=String(txt).length>90;
+  if(!long)return '<td class="note"'+lab+'><span class="txt">'+esc(txt)+'</span></td>';
+  const open=NALL||NOPEN.has(key);
+  return '<td class="note tog'+(open?" open":" clip")+'"'+lab+' role="button" tabindex="0"'+
+    ' aria-expanded="'+open+'" title="'+(open?"Collapse this note":"Open this note")+'"'+
+    ' onclick="noteTog(\''+key+'\')"'+
+    ' onkeydown="if(event.key===\'Enter\'||event.key===\' \'){event.preventDefault();noteTog(\''+key+'\')}">'+
+    '<span class="txt">'+esc(txt)+'</span><span class="chev">&#9656;</span></td>';
+}
+function noteTog(key){NOPEN.has(key)?NOPEN.delete(key):NOPEN.add(key);render();}
+function notesAll(){NALL=!NALL;NOPEN.clear();render();}
+
+function actCell(x){
+  const a=x.act;
+  return '<span class="act '+a.k+'" title="'+esc(a.w)+'">'+a.l+'</span>'+
+    (!x.on&&x.pri>0?'<span class="actsub">'+x.pri+'</span>':'');
+}
+function packetCell(x){
+  const done=x.pk==="Done",dead=x.st==="CLOSED"||x.st==="BLOCKED";
+  return '<td data-label="Packet"><span class="pk '+esc(x.pk).replace(/[^A-Za-z]/g,"")+'">'+esc(x.pk)+'</span>'+
+    '<button class="mini" onclick="cvBtn(\''+x.kind+'\','+x.i+',this)"'+(dead?' disabled':'')+
+    ' title="'+(done?'Copy the Opus prompt to rewrite this letter through a Sonnet subagent':'Copy the Opus prompt that hands this letter to a Sonnet subagent and files it in Packets')+'">'+
+    (done?'Rebuild':'Build letter')+'</button></td>';
+}
+function dayCell(d){
+  if(d===null)return '<span class="sub">none</span>';
+  const c=d<0?"":d<=7?"red":d<=21?"amber":"";
+  return '<span class="days '+c+'">'+(d<0?"passed":d+"d")+'</span>';
+}
+function stCell(x){
+  return '<span class="st '+x.st+'">'+LBL[x.st]+'</span>'+
+    (x.hint?'<span class="sthint">'+esc(x.hint)+'</span>':'');
+}
+function rowCls(x){if(x.st!=="OPEN")return"";if(x.days===null||x.days<0)return"";
+  return x.days<=7?"urgent":x.days<=21?"soon":"";}
+function th(label,k){const on=sort.k===k;return '<th onclick="setSort(\''+k+'\')">'+label+(on?(sort.d>0?" ▲":" ▼"):"")+'</th>';}
+
+function tblInt(list,arch){
+  if(!list.length)return '<div class="empty">'+(arch?"Nothing marked applied yet. Tick a box on the Internships tab.":"No rows match.")+'</div>';
+  return '<div class="tw"><table><thead><tr>'+
+  '<th class="noSort">'+(arch?"✓":"Applied")+'</th>'+
+  th("Do next","pri")+th("Status","st")+th("Conviction",0)+th("Company",1)+
+  '<th class="noSort">Role / Location</th>'+th("Wage","wg")+th("Deadline","dl")+th("Left","days")+
+  '<th class="noSort">Packet</th><th class="noSort">Source</th>'+
+  '<th class="noSort">Notes '+notesBtn()+'</th></tr></thead><tbody>'+
+  list.map(x=>{const r=x.r;return '<tr class="'+rowCls(x)+'">'+
+  '<td data-label="Applied"><input type="checkbox" '+(x.on?"checked":"")+
+    ' aria-label="Mark '+esc(r[1])+' applied" onchange="toggle(\''+x.key+'\')"></td>'+
+  '<td data-label="Do next">'+actCell(x)+'</td>'+
+  '<td data-label="Status">'+stCell(x)+'</td>'+
+  '<td data-label="Conviction"><span class="cv '+r[0].replace(/ /g,"")+'">'+esc(r[0])+'</span></td>'+
+  '<td class="nm" data-label="Company">'+esc(r[1])+'</td>'+
+  '<td data-label="Role"><div>'+esc(r[2])+'</div><div class="sub">'+esc(r[3])+'</div></td>'+
+  '<td data-label="Wage">'+wageCell(r[12])+'</td>'+
+  '<td class="dl" data-label="Deadline">'+(r[5]?esc(r[5]):'<span class="sub">none</span>')+'</td>'+
+  '<td data-label="Left">'+dayCell(x.days)+'</td>'+
+  packetCell(x)+
+  '<td class="sub" data-label="Source">'+esc(r[6])+'<br><a href="'+esc(r[7])+'" target="_blank" rel="noopener">apply</a></td>'+
+  noteCell(x.key,r[9])+'</tr>';}).join("")+'</tbody></table></div>';
+}
+function tblSch(list,arch){
+  if(!list.length)return '<div class="empty">'+(arch?"Nothing marked applied yet.":"No rows match.")+'</div>';
+  return '<div class="tw"><table><thead><tr>'+
+  '<th class="noSort">'+(arch?"✓":"Applied")+'</th>'+
+  th("Do next","pri")+th("Status","st")+th("Conviction",0)+th("Scholarship",1)+
+  '<th class="noSort">Award</th>'+th("Deadline","dl")+th("Left","days")+
+  '<th class="noSort">Packet</th>'+
+  '<th class="noSort">Notes '+notesBtn()+'</th></tr></thead><tbody>'+
+  list.map(x=>{const r=x.r;return '<tr class="'+rowCls(x)+'">'+
+  '<td data-label="Applied"><input type="checkbox" '+(x.on?"checked":"")+
+    ' aria-label="Mark '+esc(r[1])+' applied" onchange="toggle(\''+x.key+'\')"></td>'+
+  '<td data-label="Do next">'+actCell(x)+'</td>'+
+  '<td data-label="Status">'+stCell(x)+'</td>'+
+  '<td data-label="Conviction"><span class="cv '+r[0].replace(/ /g,"")+'">'+esc(r[0])+'</span></td>'+
+  '<td data-label="Scholarship"><div class="nm"><a href="'+esc(r[7])+'" target="_blank" rel="noopener">'+esc(r[1])+'</a></div>'+
+  '<div class="sub">'+esc(r[2])+'</div></td>'+
+  '<td class="sub" data-label="Award">'+esc(r[3])+'</td>'+
+  '<td class="dl" data-label="Deadline">'+(r[5]?esc(r[5]):'<span class="sub">none</span>')+'</td>'+
+  '<td data-label="Left">'+dayCell(x.days)+'</td>'+
+  packetCell(x)+
+  noteCell(x.key,r[9])+'</tr>';}).join("")+'</tbody></table></div>';
+}
+function simple(head,data,tag){
+  return '<div class="tw"><table><thead><tr>'+head.map((h,i)=>'<th class="noSort">'+h+
+    (i===head.length-1?' '+notesBtn():'')+'</th>').join("")+
+  '</tr></thead><tbody>'+data.map((r,ri)=>'<tr>'+r.map((c,i)=>
+    i===r.length-1?noteCell(tag+"|"+ri,c,head[i])
+    :'<td'+(i===1?' class="nm"':'')+' data-label="'+esc(head[i]||"")+'">'+esc(c)+'</td>').join("")+
+  '</tr>').join("")+'</tbody></table></div>';
+}
+function notesBtn(){
+  return '<button class="notetog" onclick="notesAll();event.stopPropagation()">'+
+    (NALL?"collapse all":"expand all")+'</button>';
+}
+
+function render(){
+  const iAll=rows("int"),sAll=rows("sch");
+  const iOpen=filt(iAll,false),sOpen=filt(sAll,false);
+  const appliedCt=iAll.filter(x=>x.on).length+sAll.filter(x=>x.on).length;
+  /* The stat pills describe the tab you are looking at. They used to mix both
+     lists, so the Internships tab reported "Open now 3" while showing two rows,
+     the third being an open scholarship. */
+  const cur=tab==="sch"?sOpen:iOpen;
+  const liveNow=cur.filter(x=>x.st==="OPEN").length;
+  const urgent=cur.filter(x=>x.st==="OPEN"&&x.days!==null&&x.days>=0&&x.days<=7).length;
+  const must=cur.filter(x=>x.cv==="MUST APPLY").length;
+  const paysUp=iOpen.filter(x=>x.st==="OPEN"&&x.wlo!==null&&x.wlo>=BASE_WAGE).length;
+
+  document.getElementById("nav").innerHTML=[
+    ["int","Internships",iOpen.length],["sch","Scholarships",sOpen.length],
+    ["app","Applied",appliedCt],["cal","Calendar",CAL.length],
+    ["out","Screened Out",OUT.length],["pro","Profile",""]
+  ].map(([k,l,c])=>'<button class="'+(tab===k?"on":"")+'" onclick="go(\''+k+'\')">'+l+
+    (c!==""?'<span class="count">'+c+'</span>':'')+'</button>').join("");
+
+  let h="";
+  if(tab==="int"||tab==="sch"){
+    h+='<div class="bar">'+
+      '<span class="pill">Open now <b>'+liveNow+'</b></span>'+
+      '<span class="pill">MUST APPLY <b>'+must+'</b></span>'+
+      (tab==="int"?'<span class="pill">Pays &ge; $26/hr <b>'+paysUp+'</b></span>':'')+
+      '<span class="pill">Closing in 7 days <b>'+urgent+'</b></span>'+
+      '<span class="pill">Applied <b>'+appliedCt+'</b></span>'+
+      '<input type="search" placeholder="Filter..." value="'+esc(q)+'" oninput="q=this.value;render()">'+
+      '</div>';
+    h+= tab==="int"?tblInt(sortRows(iOpen),false):tblSch(sortRows(sOpen),false);
+    h+='<p class="hint"><b>Do next</b> is the column to work top to bottom. '
+     +'<span class="act SUBMIT">SUBMIT</span> a letter already exists, just send it. '
+     +'<span class="act VERIFY">VERIFY</span> the row carries an unconfirmed fact, usually housing, resolve it first. '
+     +'<span class="act WRITENOW">WRITE NOW</span> deadline inside two weeks and nothing written. '
+     +'<span class="act WRITE">WRITE</span> high conviction, no clock yet. '
+     +'<span class="act LATER">LATER</span> real but not urgent. '
+     +'<span class="act WAIT">WAIT</span> cycle has not opened. '
+     +'The grey number is the raw score, shown on actionable rows so the ordering is checkable. '
+     +'Hover any chip for the reason.</p>'
+     +'<p class="hint"><b>Build letter</b> copies an orchestration prompt for that row. Paste it into a fresh '
+     +'<b>Opus</b> chat: Opus hands the drafting to a Sonnet subagent, which runs the packet skill and files the '
+     +'Google Doc in Packets, then Opus reads it back and fixes the voice before you get the link. '
+     +'Nothing is ever submitted for you. '
+     +'Wage chips compare against your $26.00/hr Kelvin Thermal rate: '
+     +'<span class="wg up">green</span> the floor already beats it, '
+     +'<span class="wg even">amber</span> the range straddles it, '
+     +'<span class="wg down">red</span> it tops out below. '
+     +'Rows marked <b>est.</b> are Indeed annualized estimates, not a rate the employer posted. '
+     +'Notes sit on one line; click a note to open it, or hit <b>expand all</b> in the header. '
+     +'Tick <b>Applied</b> to move a row into the archive.</p>';
+  }
+  else if(tab==="app"){
+    const ia=sortRows(filt(iAll,true)),sa=sortRows(filt(sAll,true));
+    h+='<div class="bar"><span class="pill">Applied <b>'+appliedCt+'</b></span>'+
+       '<input type="search" placeholder="Filter..." value="'+esc(q)+'" oninput="q=this.value;render()"></div>';
+    h+='<h3>Internships</h3>'+tblInt(ia,true);
+    h+='<h3 style="margin-top:18px">Scholarships</h3>'+tblSch(sa,true);
+    h+='<p class="hint">Untick to send a row back to the active list. Use <b>Export Applied</b> to save this record outside the browser.</p>';
+  }
+  else if(tab==="cal"){
+    h+=simple(["Type","Name","Tier","Typical Window","Check Starting","Status","Last Checked","Notes"],CAL,"cal");
+    h+='<p class="hint">Not yet open. A sweep promotes a row to the active list when its cycle opens.</p>';
+  }
+  else if(tab==="out"){
+    h+=simple(["Type","Name","Role / Award","Screened","Reason"],OUT,"out");
+    h+='<p class="hint">Sweeps read this first and will not resurface anything here.</p>';
+  }
+  else if(tab==="pro"){
+    h+='<div class="kv">'+PROF.map(p=>p[0]==="sec"
+      ?'<div class="sec">'+esc(p[1])+'</div>'
+      :'<div>'+esc(p[0])+'</div><div>'+esc(p[1])+'</div>').join("")+'</div>';
+    h+='<p class="hint">Single source of truth. If a fact is wrong here it is wrong in every application.</p>';
+  }
+  document.getElementById("main").innerHTML=h;
+}
+function go(k){tab=k;q="";render();}
+
+/* ---- clipboard ---------------------------------------------------------
+   This page cannot reach Drive or start a chat on its own, so every action
+   button hands you a ready prompt instead. Paste it into a new chat and the
+   chat does the writing and the filing. Nothing is ever submitted. */
+function copyText(t){
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    return navigator.clipboard.writeText(t).catch(()=>legacyCopy(t));
+  return Promise.resolve(legacyCopy(t));
+}
+function legacyCopy(t){
+  const ta=document.createElement("textarea");ta.value=t;
+  ta.style.cssText="position:fixed;top:0;left:0;opacity:0";
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand("copy")}catch(e){}
+  ta.remove();
+}
+function flash(btn,label,msg){
+  const m=document.getElementById("runmsg"),old=btn.textContent;
+  btn.textContent=label;btn.disabled=true;m.textContent=msg;
+  setTimeout(()=>{btn.textContent=old;btn.disabled=false},1800);
+}
+/* The button hands over an orchestration prompt, not the writing job itself.
+   Paste it into a fresh Opus chat: Opus passes the brief to a Sonnet subagent,
+   which runs the skill and files the doc, then Opus reads the result and fixes
+   the voice before it reaches you. Sonnet does the assembly, Opus keeps the
+   voice, and the long skill run never sits in the expensive thread. */
+const PACKETS_FOLDER="1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP";
+const LETTERS_FOLDER="1pPulXeoTIXN6sJXuAByc2sW37dThROoB";
+function cvBrief(kind,r){
+  if(kind==="int")return [
+    "Write one cover letter for "+r[1]+", "+r[2]+", and file it in the Packets folder.",
+    "Posting: "+r[7],
+    "Source: "+r[6]+". Location: "+r[3]+". Term: "+r[4]+".",
+    "Deadline: "+(r[5]||"rolling, no posted date"),
+    "Tracker notes: "+r[9]
+  ];
+  return [
+    "Write one application essay or letter for the "+r[1]+" scholarship, sponsored by "+r[2]+", and file it in the Packets folder.",
+    "Link: "+r[7],
+    "Award: "+r[3]+". Opens: "+r[4]+". Deadline: "+(r[5]||"not posted yet")+".",
+    "Eligibility gate: "+r[6],
+    "Tracker notes: "+r[9]
+  ];
+}
+function cvPrompt(kind,i){
+  const r=(kind==="int"?INT:SCH)[i],int=kind==="int";
+  const what=int?"cover letter":"essay";
+  /* The last thing the subagent reports differs by kind. An internship letter
+     lives or dies on the housing question; a scholarship essay lives or dies on
+     whether the bank already had an answer for the prompt. */
+  const ask=int
+    ?"Report back three things: the Drive link, the company-specific claims that still need verifying, and whether the posting states anything about housing or relocation. Silence on relocation is not a refusal, so say which of the two it is."
+    :"Adapt from my essay bank rather than writing cold, and say which bank entry each answer came from. Report back three things: the Drive link, any prompt with no match in the bank, and whether I clear the eligibility gate above.";
+  const back=int?"the housing line":"the bank coverage";
+  return [
+    "Do not write this one yourself. Hand the drafting to a Sonnet subagent and keep the voice pass for yourself.",
+    "",
+    "1. Spawn one subagent with the model set to Sonnet.",
+    "2. Give it the brief below verbatim. It starts cold, so it cannot see this chat, my dashboard, or anything I have told you; the brief is everything it gets.",
+    "3. Wait for it to return the Drive link, then read the "+what+" yourself before you show me anything.",
+    "",
+    "BRIEF FOR THE SONNET SUBAGENT, pass it through as written:",
+    "---8<---"
+  ].concat(cvBrief(kind,r)).concat([
+    "",
+    "Use the application-packet-builder skill and follow its format spec exactly. The deliverable is a native Google Doc in the Packets folder, Drive ID "+PACKETS_FOLDER+". Never chat text, never a .docx.",
+    "Read one of my past letters in Drive folder "+LETTERS_FOLDER+" before drafting so the voice is mine.",
+    "Hard rules: never submit or transmit anything, never read or write the frozen tracker spreadsheet, never use an em dash, never put a pay figure in the "+what+", and never claim FEA, CFD, NX, Teamcenter, ANSYS, AutoCAD, or Revit and BIM. SolidWorks is my CAD. Kelvin Thermal Technologies is past tense, that internship ended August 2026.",
+    "Open with evidence, not intent. Every body paragraph carries a real number from my resume.",
+    ask,
+    "---8<---",
+    "",
+    "When it comes back, before you hand it to me:",
+    "- Open the doc and read it for voice. Cut any sentence that would be equally true in a letter to a different employer.",
+    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin.",
+    "- Scan for em dashes and for hedges like eager to, confident that, hope to.",
+    "- Rewrite it in place if it reads generic. That pass is the reason this is your job and not the subagent's.",
+    "",
+    "Then give me the link, the verify list, and "+back+" in one short reply. Do not submit anything."
+  ]).join("\n");
+}
+function cvBtn(kind,i,btn){
+  const r=(kind==="int"?INT:SCH)[i];
+  copyText(cvPrompt(kind,i)).then(()=>
+    flash(btn,"Copied",'Opus prompt for '+r[1]+' copied. Paste it into a fresh Opus chat. It hands the draft to a Sonnet subagent, then checks the voice before the link comes back to you.'));
+}
+
+/* This is a copy-a-prompt button and always was. The old code first tried
+   window.cowork.runScheduledTask, which was tested on 2026-08-21 and does not
+   exist in this frame, so the copy path is the only one that ever ran. That
+   branch is gone now, and good riddance: it fired a Cowork scheduled task, and
+   a Cowork session cannot publish this page, so every press that took it ended
+   in a failed publish and an apologetic chat message.
+
+   What it copies now drives the pipeline in docs/sweep-pipeline.md: a Sonnet
+   agent finds and scores and emits JSON, ingest.py validates and merges it, the
+   harness checks it, and the orchestrating session publishes. Press, paste,
+   wait. Keep this text in step with that document. */
+function sweepPrompt(kind){
+  const what=kind==="int"
+    ? "Summer 2027 internship sweep"
+    : "2026-27 scholarship sweep";
+  const agent=kind==="int" ? "internship-sweep" : "scholarship-sweep";
+  return [
+    "Run the "+what+" for the empluzz project, in the Sweep repo.",
+    "",
+    "Follow docs/sweep-pipeline.md. The short version:",
+    "1. Spawn the "+agent+" agent on Sonnet. It searches, scores, and writes a",
+    "   JSON payload. It never publishes and never edits the dashboard.",
+    "2. Preview:  python3 dashboard/ingest.py <payload>",
+    "3. Apply:    python3 dashboard/ingest.py <payload> --apply",
+    "4. Verify:   dashboard/verify/run.sh     (all 41 assertions must pass)",
+    "5. Publish dashboard/application-command-center.html to the tracker,",
+    "   passing its URL and the favicon. Never force, never a capabilities object.",
+    "6. Commit the same file so the repo and the live page do not drift.",
+    "",
+    "Never touch my applied ticks, and refuse to publish if the tick count moved.",
+    "Show me the ingest preview before you apply it."
+  ].join("\n");
+}
+function runTask(kind,btn){
+  copyText(sweepPrompt(kind)).then(()=>flash(btn,"Copied",
+    "Sweep prompt copied. Paste it into a Claude Code session on the Sweep repo. "+
+    "It runs the sweep and updates this page; reload when it says it published."));
+}
+/* Two save paths. On claude.ai the viewer frame blocks a plain download link, so the
+   file goes through the downloads capability and the reader confirms it. Everywhere
+   else (desktop artifact, a local copy of this file) the blob link still works. */
+async function exportApplied(){
+  const m=document.getElementById("runmsg");
+  const lines=["type,name,detail,marked_applied"];
+  rows("int").filter(x=>x.on).forEach(x=>lines.push(['internship',x.r[1],x.r[2],applied[x.key]].map(s=>'"'+String(s).replace(/"/g,'""')+'"').join(",")));
+  rows("sch").filter(x=>x.on).forEach(x=>lines.push(['scholarship',x.r[1],x.r[2],applied[x.key]].map(s=>'"'+String(s).replace(/"/g,'""')+'"').join(",")));
+  const csv=lines.join("\n"),name="applied-archive-"+ASOF+".csv",n=lines.length-1;
+  let dl=null;
+  try{if(window.claude&&window.claude.use)dl=await window.claude.use("downloads")}catch(e){}
+  if(dl){
+    try{await dl.save({filename:name,data:csv});m.textContent="Saved "+n+" rows to "+name+".";}
+    catch(e){m.textContent=(e&&e.code==="declined")?"Save cancelled.":"Could not save: "+((e&&e.message)||e);}
+    return;
+  }
+  const b=new Blob([csv],{type:"text/csv"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(b);
+  a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  m.textContent="Exported "+n+" rows.";
+}
+/* Header stamps: the swept date and where applied state is currently living. */
+function stamp(){
+  const sd=document.getElementById("swept");
+  if(sd){
+    sd.textContent=SWEPT||"never";
+    sd.title=SWEPT?"Newest Last Checked date on the Calendar tab. Derived from the data, not hand written."
+                  :"No Last Checked date in the calendar data yet.";
+    const age=SWEPT?Math.round((new Date(ASOF+"T12:00:00")-new Date(SWEPT+"T12:00:00"))/864e5):9999;
+    sd.className=age>10?"stale":"";
+  }
+  const sy=document.getElementById("sync");
+  if(!sy)return;
+  const M={local:["ticks not yet saved","warn"],
+           saving:["saving ticks, the page will refresh",""],
+           synced:["ticks saved to this artifact","ok"],
+           readonly:["read only here, ticks stay on this device","warn"],
+           error:["save failed, ticks kept on this device","warn"]};
+  const m=M[saveState]||M.local;
+  sy.textContent=m[0];sy.className="sync "+m[1];
+}
+
+document.getElementById("asof").textContent=ASOF;
+initLocal();
+const _ui=restoreUI();
+render();
+stamp();
+if(_ui&&typeof _ui.y==="number")window.scrollTo(0,_ui.y);
+initRemote();
+</script>
+
+
+<!--/ACC-BODY-->
+</body>
+</html>

@@ -1,10 +1,25 @@
 # dashboard/
 
-## What is here
+## The current source
+
+`application-command-center-1787428545-41row.html`, 106139 bytes, md5 `c6923001f59e585f8547bc7c44d25974`.
+
+Taken from the live artifact on 2026-08-22, reconstructed with `verify/mkbase2.py --null-state`,
+then patched with `patches/apply-delegation.py` to give the Build letter button its
+Opus-to-Sonnet delegation prompt. 41 internship rows, 12 scholarship rows, `applied:null`
+because the ticks are Joaquin's and travel with the live page, never with a file here.
+All 48 assertions in `verify/` pass against it, and it is its own canonical reconstruction,
+so it is a fixed point and safe as an edit base.
+
+**It has not been published.** The live artifact still runs the old Build letter code
+until someone republishes, and a republish has to carry the 14 live ticks, so it must be
+built from a fresh read of the artifact rather than from this null-state file.
+
+## Also here, historical
 
 `application-command-center-1787336084-pre16row.html`, 78,656 bytes, md5 `9aac4a4f8233f1d15ec13549dc3706ec`.
 
-**This is NOT the current dashboard.** It is the authored build as it stood immediately before the sixteen-row verification change of 2026-08-21, and it is roughly three publishes behind the live artifact. Verified by inspection on 2026-08-21:
+**This is NOT the current dashboard and it is now two builds behind.** It is the authored build as it stood immediately before the sixteen-row verification change of 2026-08-21, and it is roughly three publishes behind the live artifact. Verified by inspection on 2026-08-21:
 
 - All four marker pairs present, `ACC-STATE` present, no injected frame runtime.
 - State block holds `applied:null`, so it is an authored build and not a served copy.
