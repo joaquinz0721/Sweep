@@ -468,3 +468,62 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - [ ] Rescope the nationwide `design Engineer Intern` LinkedIn alert to Denver if the California rows become noise, and strip the stray leading tab from two alert names.
 - [ ] **Confirm the favicon.** `🎯` was set 2026-08-21 because the publish requires the parameter and no prior value was on record. If the tab icon used to be something else, restore it and write it down in section 1.
 - [ ] Send the support request in `docs/support-request.md`. Background long shot, do not block on it.
+
+### 2026-08-22, recovery run: nine rows lost in a version switch
+
+Joaquin pasted nine internship rows from "an old version of the application command
+center before i switched to here" and asked why the sweeps were not picking them up.
+Two separate causes, and both are now fixed.
+
+**Cause 1: a hole in the record on 2026-08-20.** All nine rows carried `NEW 2026-08-20`
+in their notes. This file jumps straight from 2026-08-18 to 2026-08-21, so an entire
+sweep day was never written down. The rows were not on the current board, not in
+Screened Out, not in the `pre16row` snapshot, and not in the artifact list, which holds
+exactly one artifact. The board recovered from the live page on 2026-08-22 is simply not
+descended from the version that carried them. Nothing dropped them; they were never in
+this lineage.
+
+**Cause 2: the sweep agent was told to avoid the source that found them.**
+`.claude/agents/internship-sweep.md` said "Indeed found none of the fresh reqs in prior
+sweeps. Do not spend many calls there." All nine of those rows came from Indeed. That
+line steered the agent off the exact tool that produced them. Tested on 2026-08-22:
+Indeed returned TSMC and Steel Dynamics on the FIRST call each, with pay ranges matching
+the pasted notes to the cent. The line was wrong and has been rewritten.
+
+**What went back on the board (nine rows, 32 to 41).** Seven re-verified live on Indeed
+on 2026-08-22 with full descriptions read, plus two new finds:
+
+- TSMC AZ engineering umbrella, STRONG. Posting states "Relocation assistance available",
+  so CONFIRMED support, not silence. ME explicitly eligible. No wage, no GPA floor stated.
+- Steel Dynamics ME internship, STRONG. Housing CONFIRMED in the benefits list: furnished
+  housing free of cost above 50 miles. ME is the named required major, GPA 2.7 preferred.
+  Past intern projects include thermal expansion calcs and predictive maintenance.
+- WEC Energy gas storage, STRONG. Posted hourly rate, deadline 2026-11-15.
+- Avery Dennison operations, STRONG. Posted $25.50-29.00/hr, ME named, site set late Apr 2027.
+- Boeing Quality Engineering, STRETCH. Distinct req from the Facilities row, own slug.
+- Boeing Methods Process Analyst, STRETCH. NEW find. Good work match but it sits under the
+  Industrial Engineering job family and ME is NOT among the preferred majors.
+- Dexter Axle Quality Intern, STRETCH. NEW find, posted 2026-08-20, Elkhart only.
+- Dexter Axle Engineering Intern, STRETCH/UNCONFIRMED. Did NOT resurface on 2026-08-22.
+- Vertiv HVAC Design, STRETCH/UNCONFIRMED. Did NOT resurface; only Liquid Cooling came back.
+
+The last two keep their own rows and slugs per rule 8, carry an Indeed SEARCH url rather
+than a requisition url because the original links were not preserved, and say plainly in
+the note that they are unverified. Not surfacing is not proof of death, so they were not
+sent to `out`.
+
+**Two rows re-scored, and the reason matters.** WEC Energy and Avery Dennison were scored
+STRETCH on 2026-08-20 purely because they were out of state and silent on relocation.
+Rule 6 was replaced on 2026-08-21, the day AFTER, and now reads "Out of state is no longer
+capped at STRETCH." Both clear their gates, both post real hourly rates that meet or beat
+the $26 Kelvin baseline, and both name ME explicitly, so both are STRONG under the current
+rule. The note on each row records the re-score and why. **Any other row scored on or
+before 2026-08-20 may carry the same stale cap and is worth a re-read.**
+
+Ticks held at 13. All 41 assertions pass. Board is 41 int rows: 3 MUST APPLY, 20 STRONG,
+14 STRETCH, 4 WATCH.
+
+**Lesson worth keeping.** A source that produced nine rows in one day got written off as
+useless in an agent definition on the strength of one bad run. Before telling an agent to
+skip a tool, check whether the tool is actually failing or whether the last run just asked
+it the wrong question.

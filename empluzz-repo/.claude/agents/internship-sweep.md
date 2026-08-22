@@ -46,7 +46,19 @@ Verified in this environment on 2026-08-22. Believe this over your instincts.
 - **`WebSearch` WORKS and is your main instrument.** It returns titles, URLs, and a synthesized summary that often carries the real pay range, GPA minimum, and requirements. Search the company and role directly. Quote what the summary gives you and mark anything it does not give you as unstated.
 - **Gmail works, but the LinkedIn alerts sit in TRASH.** A default query misses all of them. You must search `from:jobalerts-noreply@linkedin.com in:anywhere` or pass `includeTrash: true`, or you will conclude there is no mail when there are dozens. Read a thread with `get_thread` and `messageFormat: PLAIN_TEXT`. Dedupe by the LinkedIn job id in the `jobs/view/{id}` URL. Alert-creation confirmations carry a first batch of real matches and are not just receipts.
 - **ZipRecruiter works.** Page size is 5, so paginate with `offset` or you will see a fraction of the results. Salary is **annual only**, so convert at 40 hours a week and mark the wage `est.`, with the annual figure in the note. There is **no deadline field**. There is no term scoping, so most results are the wrong year; filter hard on Summer 2027 and mark anything unstated UNCONFIRMED.
-- **Indeed found none of the fresh reqs** in prior sweeps. Do not spend many calls there.
+- **Indeed WORKS and is a primary source. Always sweep it.** An earlier version of this
+  file told you not to spend calls here. That was wrong and it cost nine real rows.
+  On 2026-08-22, `search_jobs` returned TSMC and Steel Dynamics on the FIRST call each,
+  with pay ranges matching what the board already had, to the cent. Use
+  `mcp__Indeed__search_jobs` with `job_type: "internship"`, then **always follow up with
+  `mcp__Indeed__get_job_details` on anything you intend to put on the board.** The
+  details call returns the FULL posting text, which is the only way in this environment
+  to read requirements, GPA floors, relocation and housing language, and deadlines
+  directly rather than inferring them from a search summary. A row verified this way is
+  not UNCONFIRMED; say you read the full description and give the posted date.
+- **Search each site separately.** Indeed's results are location scoped and it returns a
+  small set per call. One nationwide query will miss most of the board. Query the
+  specific city for a company you are checking, and run several calls.
 
 Because you cannot open a posting directly, **your confidence ceiling is lower than a session that can read the page.** Set `status` to `UNCONFIRMED` and say what is unverified rather than asserting a fact you got from a search summary alone. An honest UNCONFIRMED row is useful. A confident wrong row costs him an application.
 
