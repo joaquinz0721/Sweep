@@ -3,11 +3,17 @@
 #
 #   ./run.sh [path/to/authored-build.html]
 #
-# Defaults to the newest authored build committed in ../ .
+# Defaults to the current dashboard source in ../ .
+#
+# Chromium: set ACC_CHROMIUM to a browser binary if Playwright cannot find its
+# own. A cloud session has one pre-installed but at a different build number
+# than whatever `npm install playwright` pulls, and that session must not
+# download browsers, so the explicit path is the supported route there:
+#   ACC_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome ./run.sh
 set -euo pipefail
 cd "$(dirname "$0")"
 
-SRC="${1:-../application-command-center-1787336084-pre16row.html}"
+SRC="${1:-../application-command-center.html}"
 FIX="${ACC_FIX:-/tmp/acc-fixtures}"
 BASE="/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594/"
 

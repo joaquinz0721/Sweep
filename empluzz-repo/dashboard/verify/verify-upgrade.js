@@ -39,7 +39,7 @@ async function publishOnce(browser, url, slug) {
 
 (async () => {
   const R = new H.Report("verify-upgrade.js");
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(process.env.ACC_CHROMIUM?{executablePath:process.env.ACC_CHROMIUM}:{});
   const servers = [];
   try {
     const s1 = await H.serve(FIX); servers.push(s1.server);

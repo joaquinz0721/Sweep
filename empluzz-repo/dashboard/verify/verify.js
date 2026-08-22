@@ -37,7 +37,7 @@ const PHANTOM = "int-marotta-controls-me-intern";        // bug 15: never existe
     /<base href="[^"]+">/.test(served) && served.includes("frame.claudeusercontent.com"));
 
   const { server, url } = await H.serve(FIX);
-  const browser = await chromium.launch();
+  const browser = await chromium.launch(process.env.ACC_CHROMIUM?{executablePath:process.env.ACC_CHROMIUM}:{});
 
   try {
     /* ---- B. a plain browser tab, no capability at all ---- */
