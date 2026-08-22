@@ -15,6 +15,9 @@ docs/artifact-write-routes.md               which surfaces can write the tracker
 docs/verification-2026-08-21.md             posting evidence, direct quotes
 docs/source-expansion-scoping.md            LinkedIn and ZipRecruiter reasoning
 docs/support-request.md                     the gateway support request, unsent
+docs/post-application-followup-feasibility.md
+                                            can recruiter outreach be automated, and how much
+docs/plans/followup-plan.md                 the build plan for it, say "go on the followup plan"
 docs/history/code-tab-prompt-2026-08-21.md  shipped; the worked route-0 example
 docs/history/desk-checklist-2026-08-21.md   mostly spent; kept for reasoning
 docs/history/build-letter-delegation-2026-08-22.md
@@ -445,6 +448,8 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - [ ] AIAA. Weak fit, WATCH. Decide whether to bother.
 
 ### Dashboard, planned and not built
+
+- [ ] **Post-application followup, the Send email path.** Studied 2026-08-22, feasible in a two-stage form, not started. Plan in `docs/plans/followup-plan.md`, evidence in `docs/post-application-followup-feasibility.md`. Four phases, one publish each. Start it in a fresh session with "go on the followup plan".
 
 - [ ] **Bug 14, phone-to-laptop ticks do not travel.** Planned fix: flush on `visibilitychange` when hidden and dirty, plus a manual save control so a tick never depends on a timer surviving a phone lock. Not written.
 - [x] ~~Bug 15, harness flaw.~~ **FIXED 2026-08-22** in the rebuilt harness.
