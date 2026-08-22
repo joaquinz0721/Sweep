@@ -199,22 +199,28 @@ Two ways to remove the last manual step, both explicitly out of scope until phas
 
 ## 8. The message
 
-Two variants, both in his voice, both built from the row plus his resume facts.
+**Joaquin set this format on 2026-08-22 and it is fixed.** Every outreach message uses it exactly. Fill the three slots and change nothing else. This is his shape, not a draft to improve, and it overrides the letter voice rules in the packet skill for outreach only. A future session that "fixes" it is wrong.
 
-**Email**, 90 to 130 words. No letterhead, no `Dear Hiring Manager`. Subject names the role and the requisition if there is one.
+```
+I just applied to the [ROLE] role and wanted to reach out to express my sincerest
+enthusiasm. I'm very interested in the work y'all are doing in [FIELD] and I believe
+this role is an incredible fit for my experience in [X, Y, and Z]. Thank you in
+advance for your consideration.
 
-> Open with the application and the role, one sentence. Then one paragraph that earns the reader's time: the single most relevant thing he has done, carrying one real figure. Then one sentence on why this company specifically, which must not be true of any other company. Close with thanks and his name.
+Joaquin Zarazua
+```
 
-**LinkedIn or Handshake message**, under 300 characters if they are not connected. Same structure, compressed, and **one figure is allowed** per hard rule 7 as amended 2026-08-22.
+Slot rules:
 
-Non-negotiables, all from `CLAUDE.md`:
+- **[ROLE]** is a clean noun phrase that reads naturally before the word `role`. Trim the site and the term out of it if they make the sentence clumsy, and move them into [FIELD].
+- **[FIELD]** is what the company actually does, in his words, not the posting's marketing line. Name the site here when it matters to him, as in `medical device engineering at the Boulder site`.
+- **[X, Y, and Z]** is three experience areas drawn only from the resume, ordered so the one the posting cares about most comes first. Areas, not metrics: the format carries no figures, and adding them breaks the shape.
+- **One message per company.** Where he applied to two roles at one company, name the stronger role only.
+- Keep the curly apostrophes in `I'm` and `y'all`. That is how he writes.
 
-- No em dashes anywhere.
-- Kelvin Thermal Technologies is past tense.
-- Never claim FEA, CFD, NX, Teamcenter, ANSYS, AutoCAD, or Revit and BIM. SolidWorks is his CAD.
-- Cut every hedge. No "eager to", no "confident that", no "I am writing to express my interest".
+**Length.** The format runs 400 to 480 characters, which is over LinkedIn's 300 character connect-note cap. Do not compress the format to fit. On LinkedIn, connect with no note and send this as a message afterwards, or use another channel.
 
----
+**Do not add sentences.** No questions, no availability line, no postscript, unless he asks for one on a specific message. Anything he needs to ask a recruiter, such as an unconfirmed term, goes in a separate follow-up, not bolted onto this.
 
 ## 9. Publishing, every phase, no exceptions
 
