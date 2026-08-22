@@ -17,6 +17,38 @@ on Node 22, Python 3.11, Chromium via Playwright.
 `run.sh` builds the fixtures, runs the three suites, writes screenshots to `/tmp/acc-shots`,
 and tells you to go and look at them. Do look at them.
 
+### Setup, in a fresh container
+
+`node_modules` is not committed. Install Playwright first, from this directory:
+
+```bash
+npm i playwright --no-audit --no-fund
+```
+
+**On a Claude Code cloud session, do NOT run `npx playwright install`.** Chromium is already
+at `/opt/pw-browsers` and the environment points Playwright at it. The catch, hit on
+2026-08-22: the preinstalled build can be older than the one the freshly installed
+Playwright expects, and the launch fails with `Executable doesn't exist at
+.../chromium_headless_shell-<newer>/chrome-headless-shell-linux64/chrome-headless-shell`.
+The cheap fix is a shim directory that maps the expected name onto the build that is
+actually present, then point `PLAYWRIGHT_BROWSERS_PATH` at it:
+
+```bash
+PW=/tmp/pwb                      # anywhere writable
+HS=/opt/pw-browsers/chromium_headless_shell-<present>/chrome-linux
+mkdir -p $PW/chromium_headless_shell-<expected>/chrome-headless-shell-linux64
+ln -sf $HS/* $PW/chromium_headless_shell-<expected>/chrome-headless-shell-linux64/
+ln -sf $PW/chromium_headless_shell-<expected>/chrome-headless-shell-linux64/headless_shell \
+       $PW/chromium_headless_shell-<expected>/chrome-headless-shell-linux64/chrome-headless-shell
+cp /opt/pw-browsers/chromium_headless_shell-<present>/INSTALLATION_COMPLETE \
+   $PW/chromium_headless_shell-<expected>/
+NODE_PATH=$PWD/node_modules PLAYWRIGHT_BROWSERS_PATH=$PW ./run.sh
+```
+
+Both revision numbers are in the error message: the one it wants, and the one in
+`/opt/pw-browsers`. Installing a Playwright version matching the present build works too
+and is tidier if you know which version that is.
+
 ## Files
 
 | File | What it is |
