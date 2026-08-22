@@ -47,6 +47,12 @@ Then make it strong:
 - **Every body paragraph carries a number** from the resume: yield 20% to 85%, 45 minutes off a 280 minute build, plus or minus 0.1 mm, 6 build iterations, 2 SOPs, 20+ students mentored, 6-part wobbler engine.
 - **Past tense for Kelvin Thermal Technologies.** That internship ended August 2026.
 - **Cut hedges** ("eager to", "confident that") and any sentence that would be equally true of another company.
+- **The four moves that make writing read as machine-written.** Flagged by Joaquin 2026-08-22 after a draft came back factually right and obviously generated. Banned in letters, messages, and chat replies alike. Full treatment with quoted examples and rewrites is Rule 5 in `.claude/skills/application-packet-builder/SKILL.md`, and `scripts/voice_check.py` there greps for all four.
+  1. **The self-aphorism.** "I do my best work where the drawing and the shop floor meet." Report what he did instead.
+  2. **The antithesis.** "Composite layup would be new to me. Process variability would not be." Say the honest half once and stop.
+  3. **The summarizing tag.** "That is shop floor process work with data behind it, which is what the posting describes." Cut the tag; the reader wrote the posting.
+  4. **The closing flourish.** "and to leave behind documentation that outlasts the internship." End with the ask or with thanks.
+- **The test:** every sentence states a fact, asks a question, or makes a request. If a sentence's subject is another sentence, cut it.
 - If the application asks for a **message to the hiring team** rather than a cover letter, drop the letterhead, write 250 to 320 words, warmer, and allow one piece of light wit that is factually true.
 
 ## How work happens
