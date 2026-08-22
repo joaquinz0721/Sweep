@@ -36,13 +36,13 @@ Hard rule 6 already carried the corrected relocation policy and still does. Rule
 
 These are on device `jz`, in `Downloads`, and no cloud session can reach them.
 
-1. **`dashboard/application-command-center.html`** from `application-command-center-2026-08-21-v3.html`. Highest-value gap. Without it the repo cannot verify a dashboard change. Note its state block holds `applied:null` while the live page holds the real ticks, so it is a build, not the live document.
-2. **`dashboard/verify/`**: `verify.js`, `shell.py`, `verify-upgrade.js`, `verify-upgrade2.js`, `mkbase2.py`, `mklive3.py`. 41 assertions. Bug 15 is a known flaw in `verify.js` and should be fixed after committing, not before.
+1. ~~**`dashboard/application-command-center.html`**~~ **CLOSED 2026-08-22, and not from the device.** The current source was pulled straight from the live artifact by a cloud session and committed as `application-command-center-1787428545-41row.html`. The device build was three publishes behind and would have cost 12 rows. Nothing on `jz` is needed for this any more.
+2. ~~**`dashboard/verify/`**~~ **CLOSED 2026-08-22, rebuilt rather than recovered.** The originals were never on the device. 48 assertions now, and bug 15 is fixed in the rebuild.
 3. **`prompts/sweep-prompt-internship.txt` and `prompts/sweep-prompt-scholarship.txt`**. These are the source for the routine prompts when the sweeps move.
 
 ## Do not delete yet
 
-Keep the claude.ai `empluzz` project until a cloud session pinned to the `empluzz` environment has successfully read and published the artifact. That is `MEMORY.md` section 6 item 0. The project is the archive until then.
+That condition is met: a cloud session read and published the artifact on 2026-08-22, version `1787430085-95fa`. The claude.ai `empluzz` project can be retired whenever Joaquin wants, though there is no cost to leaving it as an archive. The two sweep prompts in item 3 below are the only thing still worth extracting from the old surfaces.
 
 Never touch the frozen Google Sheet at any point.
 

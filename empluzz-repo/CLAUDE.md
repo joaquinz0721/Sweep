@@ -9,7 +9,7 @@ Read `docs/MEMORY.md` before doing anything else. It is the running memory file:
 ## Where everything lives
 
 - **Tracker, source of truth:** the hosted artifact at `https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594`. Update rules are in `docs/MEMORY.md`. **Never publish to it without passing its URL**, or you create a duplicate and split the tracker in two. Never pass `force`. Never pass a `capabilities` object, since omitting it carries the stored declaration forward and a non-empty object revokes anything not restated. Pass the favicon `🎯` so the tab icon stays stable.
-- **Dashboard source:** `dashboard/application-command-center.html`. The verification harness is in `dashboard/verify/`.
+- **Dashboard source:** `dashboard/application-command-center-1787428545-41row.html`, taken from the live artifact on 2026-08-22. It carries `applied:null`, so **never publish it as-is**; a republish is always built from a fresh read of the live page so his ticks survive. The verification harness is in `dashboard/verify/`, 48 assertions, `./run.sh`. One-change edit scripts live in `dashboard/patches/`.
 - **Google Sheet `138-KAgu9j9qCFeAn_pTTRWVmhEhXOwIpCTb2K8eraRk`:** FROZEN ARCHIVE. Never read it, never write to it. History through 2026-08-17 only.
 - **Packets folder:** Drive ID `1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP`
 - **His past cover letters, voice reference:** Drive ID `1pPulXeoTIXN6sJXuAByc2sW37dThROoB`

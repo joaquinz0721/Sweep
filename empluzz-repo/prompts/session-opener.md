@@ -21,9 +21,9 @@ Then stop and ask me what to work on. Do not start work, do not open postings, d
 
 ## Context you need so you do not go the wrong way
 
-- **Dashboard writes for interactive work go through a local Code-tab session** in the Desktop app. The procedure is in `docs/MEMORY.md` section 3. A cloud session pinned to the `empluzz` environment should also work and has not been tested; that test is section 6 item 0 and it is the highest-value open plumbing item. A Cowork session cannot publish at all, and `docs/artifact-write-routes.md` explains why in detail so nobody re-litigates it.
+- **Dashboard writes for interactive work have two proven routes as of 2026-08-22.** A cloud Claude Code session can do it: the Artifact tool's own `read` action returns the document and sets the base version, then a normal publish carrying the URL and the favicon `🎯` goes through. `WebFetch` still cannot reach the frame host from a cloud session and is not needed. A local Code-tab session in the Desktop app also works and is the older route. Procedures in `docs/MEMORY.md` sections 1 and 3. A Cowork session cannot publish at all, and `docs/artifact-write-routes.md` explains why so nobody re-litigates it.
 - **The sweeps still cannot write the dashboard.** That is the only part of bug 12 still open and it needs GitHub connected to Claude plus routines pinned to `empluzz`.
-- **The repo has no dashboard source yet.** `dashboard/application-command-center.html` and `dashboard/verify/` are still only in `Downloads` on device `jz`. Until they are committed, no session here can verify a change.
+- **The repo has the dashboard source and the harness**, since 2026-08-22. `dashboard/application-command-center-1787428545-41row.html` and `dashboard/verify/`. Run `dashboard/verify/run.sh` before any dashboard change ships; 48 assertions.
 - **Never read or write the frozen Google Sheet.** Never submit or transmit anything on my behalf. Never use em dashes.
 - **Do not write a cover letter for any row carrying a VERIFY chip** until the actual posting has been read. Eight rows are in that state.
 

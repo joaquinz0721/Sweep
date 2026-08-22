@@ -189,4 +189,24 @@ Worth stating plainly, since you asked for it. Under the current arrangement the
 
 **What this does NOT fix: the sweeps.** A local session needs the laptop open and awake. Unattended dashboard writes still require a cloud routine pinned to `empluzz`, which still requires GitHub. As of 2026-08-21 Claude has never been connected to Joaquin's GitHub: his account shows three authorized OAuth apps (Git Credential Manager, GitHub CLI, Visual Studio Code) and one GitHub App (Copilot Chat), none of them Claude. That connection is the remaining prerequisite for the routines route, and it is no longer urgent.
 
+## RESULT, 2026-08-22: a second door, and it needs no laptop
+
+**A CLOUD Claude Code session reads and publishes the artifact**, through a route nobody had tried: the **Artifact tool's own `read` action**, not `WebFetch`.
+
+**Why it works.** The 2026-08-21 finding was that a cloud session sits behind the egress proxy and so cannot `WebFetch` the frame host, and that a successful read is what sets the tracked base version. Both halves are still true. What was missed is that `WebFetch` is not the only thing that can perform the read. The Artifact tool reads the artifact through Anthropic's own service rather than over the open network, returns the full document, and sets the base version exactly the same way. The publish that follows is ordinary: pass the URL and the favicon, no `force`, no `capabilities` object.
+
+**Smoke test result, the delegation change to the Build letter button:**
+
+- Tick count before 14, after 14, same slugs in the same order.
+- 41 internship rows and 12 scholarship rows in, 41 and 12 out, 41 unique slugs.
+- Stored capability declaration carried forward intact: `{artifact, downloads}`, contract 0.2.11. Omitting `capabilities` is confirmed correct a second time.
+- Version moved `1787428545-d4e8` to `1787430085-95fa`.
+- All 48 harness assertions passed against the payload before it was sent.
+
+**Caveat 2 from the 2026-08-21 result fires here too, and it does not compound.** The published document came back with **two** html and body wrappers as markup where the payload had one. Checked rather than assumed: reconstructing the published version on the marker pairs collapses it back to exactly one of each, that reconstruction is byte-identical to a reconstruction of the payload that was sent, and a third generation of the same operation changes nothing. So the extra wrapper is cosmetic, the page's own `buildDoc()` normalises it on the next tick, and the shape is a fixed point rather than a ratchet. **Keep checking it after every publish anyway**, with `markupCounts` from `dashboard/verify/accdoc.js`; one confirmed non-compounding case is not a proof.
+
+**Caveat 1 is unchanged.** The read returns the shell's transformed copy, so the reconstruction dance is still mandatory. Use `dashboard/verify/mkbase2.py`, plain for a publish payload and `--null-state` for the copy that gets committed.
+
+**What this does NOT fix: the sweeps, still.** This is an interactive session doing the work. A scheduled routine is a different surface and nobody has tested whether the Artifact tool behaves the same way there. That test is now the highest-value plumbing item, and it is cheap: one routine that reads the artifact and reports the byte count.
+
 **Note for whoever connects GitHub:** the documentation states a cloud session can reach any repository the connected GitHub account can see, not only the ones ticked during install. "Only select repositories" limits webhook delivery, not session read access. Decide that knowingly.

@@ -35,6 +35,13 @@ A diff base and a reference for structure, the harness, and the `buildDoc()` mar
 
 **Never publish from it.** It would silently revert the sixteen-row change and every fact verified on 2026-08-21. Per `docs/MEMORY.md` section 3, the canonical edit base is always the reconstruction taken from the live artifact, never the last file on disk. That rule is exactly why this file is labeled rather than named `application-command-center.html`.
 
-## Getting the current source
+## Getting the current source, and shipping a change
 
-Run a local Code-tab session, `WebFetch` the artifact, reconstruct on the marker pairs as `buildDoc()` does, and commit the result here as `application-command-center.html` with its version slug recorded in `docs/MEMORY.md` section 1.
+Proven from a cloud Claude Code session on 2026-08-22, no local machine involved:
+
+1. Read the artifact with the **Artifact tool's `read` action**. It returns the whole document and sets the tracked base version. `WebFetch` still cannot reach the frame host from a cloud session and is not needed.
+2. Reconstruct with `verify/mkbase2.py`. Plain for a publish payload, so the live ticks survive; `--null-state` for the copy that gets committed here.
+3. Make the change as an anchored find/replace, never byte offsets. `patches/` holds the scripts.
+4. Verify: `verify/run.sh path/to/build.html`, all 48 assertions, plus the tick count before and after.
+5. Publish passing the artifact URL and the favicon `🎯`. Never `force`, never a `capabilities` object, since omitting it carries the stored declaration forward.
+6. Read it back and confirm row counts, slugs and ticks before reporting it done. Record the new slug in `docs/MEMORY.md` section 1 and commit the null-state build here.

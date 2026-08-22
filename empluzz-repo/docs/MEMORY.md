@@ -17,9 +17,14 @@ docs/source-expansion-scoping.md            LinkedIn and ZipRecruiter reasoning
 docs/support-request.md                     the gateway support request, unsent
 docs/history/code-tab-prompt-2026-08-21.md  shipped; the worked route-0 example
 docs/history/desk-checklist-2026-08-21.md   mostly spent; kept for reasoning
+docs/history/build-letter-delegation-2026-08-22.md
+                                            the delegation change and the cloud publish route
+dashboard/application-command-center-1787428545-41row.html
+                                            CURRENT source, from the live artifact 2026-08-22, applied:null
 dashboard/application-command-center-1787336084-pre16row.html
-                                            historical build, 3 publishes behind, do NOT publish from it
-dashboard/verify/                           rebuilt harness, 41 assertions, run.sh
+                                            historical build, do NOT publish from it
+dashboard/patches/                          anchored one-change edit scripts, README explains each
+dashboard/verify/                           rebuilt harness, 48 assertions, run.sh
 prompts/                                    session-opener.md; the two sweep prompts are still missing
 .claude/skills/application-packet-builder/  packet spec, also on the account
 ```
@@ -37,7 +42,7 @@ https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594
 - **Favicon is `🎯`, set 2026-08-21.** The Artifact tool requires the parameter on every publish and no prior value had ever been recorded, so one was chosen. Keep it stable; a changed favicon reads as a different page. If the original was something else, restore it once and record it here.
 - Private to Joaquin, confirmed "only me" 2026-08-21. Opens on any browser including his phone.
 - Capabilities declared and granted: `{artifact:{}, downloads:true}`, contract 0.2.11, carried forward untouched through the 2026-08-21 publish.
-- Authored source of record: `Downloads\application-command-center-2026-08-21-v3.html` on device `jz`. Note this file has `applied:null` in its state block; the LIVE page has his real ticks there. See section 3. **This belongs in `dashboard/` in the repo and is not there yet.**
+- Authored source of record: **`dashboard/application-command-center-1787428545-41row.html` in this repo**, since 2026-08-22. `applied:null` in its state block while the LIVE page holds his real ticks, so it is a build and never a publish payload on its own. See section 3. The device-`Downloads` era is over; nothing on `jz` is current.
 
 ### THE CENTRAL CONSTRAINT: only the page itself can publish
 
@@ -228,7 +233,20 @@ Conviction weights: `MUST APPLY 100, STRONG 70, STRETCH 40, WATCH 15`. `BASE_WAG
 
 **`db` would suit this far better than self-publishing.** The frame runtime ships a module (`db.CRhVHzSt.js`; full set: artifact, assets, comments, db, downloads, embed, mcp, permissions, room, sample, self, user) but `db` is not on the list this account may declare. Revisit if that changes.
 
-### THE WORKING PROCEDURE: ship a change from a LOCAL Code-tab session
+### THE WORKING PROCEDURE, CHEAPEST FIRST: ship a change from a CLOUD Claude Code session
+
+Proven 2026-08-22 on the Build letter delegation change. No laptop, no console, nothing on his desk. Same shape as the local procedure below, with step 1 replaced:
+
+1. **Read the artifact with the Artifact tool's `read` action**, not `WebFetch`. It returns the whole document and sets the tracked baseVersion. `WebFetch` still cannot reach the frame host from behind the egress proxy and is not needed.
+2. Reconstruct with `dashboard/verify/mkbase2.py`. Plain for the publish payload so the live ticks survive; `--null-state` for the copy committed to `dashboard/`.
+3. Edit the reconstruction as an **anchored find/replace**. `dashboard/patches/` holds the scripts and each refuses to write if an anchor is missing or doubled.
+4. Verify before sending: `dashboard/verify/run.sh <build>` for all 48 assertions, plus the tick count and the marker counts on the payload itself.
+5. Publish passing the **url** and the favicon `🎯`. No `force`, no `capabilities` object.
+6. Read back and check row counts, unique slugs, tick count, markers, **and the html/body wrapper count**. See the nesting note below.
+
+**The wrapper nesting is real and self-healing.** A publish through this route came back with two html and body wrappers as markup where one went in. Reconstructing that published version collapses it to one, that reconstruction is byte-identical to a reconstruction of the payload, and a third generation does not drift. So the page normalises it on the next tick and nothing ratchets. Check it every time anyway with `markupCounts` from `dashboard/verify/accdoc.js`; one clean case is not a proof.
+
+### THE OLDER PROCEDURE: ship a change from a LOCAL Code-tab session
 
 Proven twice, most recently on a sixteen-row change 2026-08-21. Desktop app, Code tab, **Local** session. Then:
 
@@ -327,7 +345,7 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 6. **Finish the six rows that still need a fact:** Oxy wage, Zipline wage, Skydio term, MatX whether it is live at all, Kairos housing, Elliott relocation.
 7. **Re-score Elliott and Anduril** under the new relocation policy.
 8. **Fix Oxy's location field** (bug 17) on the next dashboard write.
-9. **Commit the dashboard build and the verification harness** from `Downloads` on device `jz` into `dashboard/`. Until that happens the repo cannot verify a change.
+9. ~~**Commit the dashboard build and the verification harness.**~~ **DONE 2026-08-22.** The harness was rebuilt from its description; the build came from the live artifact through route 0a, not from the device. The repo can verify a change.
 10. **Connect GitHub to Claude, then recreate the sweeps as cloud routines** pinned to `empluzz`. All that remains of bug 12.
 11. **Fix the phone-to-laptop save gap** (bug 14).
 12. **Fold ZipRecruiter into the internship sweep** (section 8). Needs a term filter; the salary conversion convention now exists.
@@ -430,17 +448,18 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 
 - [ ] **Bug 14, phone-to-laptop ticks do not travel.** Planned fix: flush on `visibilitychange` when hidden and dirty, plus a manual save control so a tick never depends on a timer surviving a phone lock. Not written.
 - [x] ~~Bug 15, harness flaw.~~ **FIXED 2026-08-22** in the rebuilt harness.
+- [x] ~~**Build letter delegates to a Sonnet subagent.**~~ **SHIPPED 2026-08-22**, live in `1787430085-95fa`. The button copies a prompt addressed to Opus that hands the drafting to a Sonnet subagent and keeps the voice pass with Opus. `docs/history/build-letter-delegation-2026-08-22.md`.
 - [ ] **Bug 17, Oxy's location field** still reads Platteville when the req does not list it.
-- [ ] **Bug 6**, toggling a note calls a full `render()` and can jump scroll on long tables. More visible now the board is 30 rows.
+- [ ] **Bug 6**, toggling a note calls a full `render()` and can jump scroll on long tables. More visible now the board is 41 internship rows.
 - [ ] **Sweep buttons will break when the sweeps move to routines.** They call `window.cowork.runScheduledTask`. Nothing has been designed to replace that.
 - [ ] Tailored-resume button. Back burner, never started.
 
 ### Plumbing
 
-- [ ] **Get the CURRENT dashboard source into `dashboard/`.** `application-command-center-2026-08-21-v3.html` **does not exist on device `jz`**; the newest authored build there is three publishes behind and is committed as `application-command-center-1787336084-pre16row.html`, clearly labeled. The current source exists only as the live artifact. Produce it from a local Code-tab session per section 3 and commit it as `application-command-center.html`.
-- [ ] **Commit the verification harness into `dashboard/verify/`:** `verify.js`, `shell.py`, `verify-upgrade.js`, `verify-upgrade2.js`, `mkbase2.py`, `mklive3.py`.
+- [x] ~~**Get the CURRENT dashboard source into `dashboard/`.**~~ **DONE 2026-08-22**, and not from the device, which never had it. Read the live artifact from a cloud session with the Artifact tool, reconstructed it with `mkbase2.py --null-state`, committed it as `application-command-center-1787428545-41row.html`. 41 internship rows against the 29 in the old committed build.
+- [x] ~~**Commit the verification harness into `dashboard/verify/`.**~~ **DONE 2026-08-22**, rebuilt rather than recovered. 48 assertions.
 - [ ] **Recover `sweep-prompt-internship.txt` and `sweep-prompt-scholarship.txt`.** Not on device `jz` either. The only surviving copies are inside the two desktop scheduled tasks; open each in the desktop app and copy the prompt out into `prompts/`.
-- [ ] **RETEST the artifact read from a cloud session pinned to `empluzz`**, now that the repo makes cloud sessions possible. See section 6 item 0.
+- [x] ~~**RETEST the artifact read from a cloud session.**~~ **DONE 2026-08-22, and the publish works too.** Route 0a in section 1. The open version of this question is now about routines, which are a different surface.
 - [x] ~~Confirm `window.cowork.runScheduledTask` exists in the artifact frame.~~ **ANSWERED 2026-08-21: it does not exist.** The run buttons are copy-a-prompt buttons. See section 1.
 - [ ] **Build the sweep-ingest path** if the retest fails: the Paste sweep results control on the dashboard, and both sweep prompts rewritten to emit a JSON payload rather than attempting to publish. Design is in section 1.
 - [ ] **Connect GitHub to Claude**, then rebuild `internship-sweep---summer-27` and `scholarship-sweeper---26-27` as cloud routines pinned to `empluzz`. All that remains of bug 12.
