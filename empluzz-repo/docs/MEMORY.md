@@ -118,6 +118,17 @@ Press, wait, copy, paste. Two deliverables when it is built: a route-0 Code-tab 
 
 **RESOLVED 2026-08-22: DO NOT BUILD THE PASTE DESIGN AT ALL.** The cloud route is open, route 5 above. What follows is kept only as reasoning. **SUPERSEDED 2026-08-22 by the agent pipeline in `docs/sweep-pipeline.md`, which is built and tested.** **BUT DO NOT BUILD THE PASTE DESIGN YET.** It is a workaround for the allowlist being closed to Cowork. Now that the repo exists, a cloud session or routine pinned to `empluzz` may make it unnecessary. Test that first, section 6 item 0.
 
+### Sweep run log
+
+**2026-08-22, first run of the agent pipeline.** 2 new rows (Northrop Grumman, Solid Power), 4 patched, 13 to Screened Out, 2 calendar stamps. Every one of the seven Colorado companies the calendar was watching came back empty for Summer 2027, most of them saying their window opens later in 2026, so the calendar rows are right and the recheck dates stand.
+
+Two things the orchestrator caught in review, both worth repeating:
+
+- **The agent proposed an RTX row sourced only from aggregator mirrors** (BeBee, Jobright, TealHQ), which contradicts the 2026-08-18 finding from a real browser session that `careers.rtx.com` returns zero results for the exact phrase. Its quoted pay was a 2.2x annualised spread, the signature of a scraped estimate rather than a posted rate. **Rejected to Screened Out and recorded on the RTX calendar row instead.** Aggregator evidence does not overturn a direct check. Expect this class of mistake again and check for it every run.
+- **A wage of `$20/hr+ (rises by undergrad class year)` would have blown out the wage badge**, which is `nowrap` in a narrow column. Shortened to `$20/hr+` with the detail in the note, per rule 9.
+
+**`get_thread` was denied by the permission system on that run**, so no LinkedIn alert body was read and the sweep ran on WebSearch and ZipRecruiter alone. Worth fixing before the next run, since the alerts were the source of fifteen rows in one sitting on 2026-08-21.
+
 ### Sweep tasks
 
 `internship-sweep---summer-27` and `scholarship-sweeper---26-27` are stored locally by the Cowork desktop app; `list_triggers` returns empty from a cloud session, so they cannot be seen or edited from there. Master prompts were delivered as `sweep-prompt-internship.txt` and `sweep-prompt-scholarship.txt`; rewrite in full rather than patching. **Neither prompt file is in the repo yet.** They refuse to publish when the artifact `WebFetch` is blocked and report in chat instead, which is currently every run. **Planned replacement: cloud routines pinned to `empluzz`.**
@@ -330,9 +341,9 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 3. **Join SHPE.** Real-world action only he can take, hard cliff February 2027, unblocks ScholarSHPE.
 4. **ACEC Colorado scholarship, Oct 1.** Second nearest date on the board. No packet started.
 5. **Look at HSF and GMiS.** Two scholarship rows carry VERIFY chips and nobody knows what they are. This file's claim that only AIAA is open is not trustworthy until that is checked.
-6. **Finish the six rows that still need a fact:** Oxy wage, Zipline wage, Skydio term, MatX whether it is live at all, Kairos housing, Elliott relocation.
-7. **Re-score Elliott and Anduril** under the new relocation policy.
-8. **Fix Oxy's location field** (bug 17) on the next dashboard write.
+6. **Three of the six fact rows are DONE 2026-08-22** (Oxy wage, Kairos housing, Elliott relocation, the last of which upgraded Elliott STRETCH to STRONG). **Three remain: Zipline wage, Skydio term, MatX whether it is live at all.** All three resisted a full sweep, so they may need Joaquin to open the posting himself. Skydio is the urgent one: if its term is 2026 the row is dead and everything else about it is moot.
+7. ~~Re-score Elliott~~ done 2026-08-22, now STRONG on confirmed employer-paid housing. **Re-score Anduril** under the new relocation policy.
+8. **Fix Oxy's location field** (bug 17). Still open after the 2026-08-22 sweep: a search found Platteville CO as a real Oxy site for that job title, which supports the field, but it came from a search summary rather than req JR110204 itself. Confirm on Workday and then either keep the field or correct it.
 9. ~~**Commit the dashboard build and the verification harness.**~~ **DONE 2026-08-22.** The harness was already in `dashboard/verify/`; the current source is now `dashboard/application-command-center.html`, taken from the live page rather than from `Downloads`, which is a better source anyway since it carries the real ticks.
 10. ~~**Recreate the sweeps as cloud routines.**~~ **DROPPED 2026-08-22 at Joaquin's direction.** He does not want a constant or unattended sweep. He wants to press the button himself and have the site end up updated, which is now how it works. Do not rebuild routines unless he asks.
 11. **Fix the phone-to-laptop save gap** (bug 14).
