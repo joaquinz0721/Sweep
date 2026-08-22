@@ -17,10 +17,11 @@ Read `docs/MEMORY.md` before doing anything else. It is the running memory file:
 
 ## Which surface can write the tracker
 
-Settled 2026-08-21, full evidence in `docs/artifact-write-routes.md`. Do not re-litigate any of it.
+Settled 2026-08-21, retested and widened 2026-08-22. Full evidence in `docs/artifact-write-routes.md`. Do not re-litigate any of it.
 
-- **Local Code-tab session in the Desktop app: WORKS.** This is route 0 and the only proven interactive route. A local session has no egress proxy in front of it, so `WebFetch` reaches the frame host, the tracked baseVersion gets set, and the Artifact tool publishes normally. Procedure in `docs/MEMORY.md` section 3.
-- **Cloud session pinned to the `empluzz` environment: should work, untested.** Needs `*.frame.claudeusercontent.com` on that environment's allowed-domains list, plus the **Also include default list of common package managers** checkbox or the verification harness loses npm and PyPI. A cloud session in `Default` cannot read the artifact. If a session finds it cannot read it, that is the environment, not a permissions problem. Report it and stop. Do not attempt a forced publish.
+- **Cloud Code-tab session on this repo: WORKS. Proven 2026-08-22.** Read the artifact first with the Artifact tool's own `action: "read"`, which sets the tracked baseVersion; publish then goes through normally. `WebFetch` is not needed. This is the route to prefer, since the read hands back a file on disk. A publish of unchanged content came back byte-identical with all 14 ticks intact.
+- **Local Code-tab session in the Desktop app: WORKS.** This is route 0, the first interactive route proven. A local session has no egress proxy in front of it, so `WebFetch` reaches the frame host, the tracked baseVersion gets set, and the Artifact tool publishes normally. Procedure in `docs/MEMORY.md` section 3.
+- **On environments:** the 2026-08-22 session needed no allowlist tuning, so treat `*.frame.claudeusercontent.com` as a fix for a problem that may no longer exist rather than a prerequisite. Keep the **Also include default list of common package managers** checkbox ticked or the verification harness loses npm and PyPI. If a session still finds it cannot read the artifact, that is the environment, not a permissions problem. Report it and stop. Do not attempt a forced publish.
 - **Cowork session: CANNOT, ever.** Cowork is not bound to cloud environments. Confirmed three ways.
 - **Driving a browser: CANNOT.** The artifact runtime sits one cross-origin hop past where browser tools execute.
 
@@ -51,9 +52,9 @@ Then make it strong:
 
 ## How work happens
 
-- **Sweeps** find and score opportunities. Under the current arrangement they cannot publish the tracker and their refusal to publish is correct behavior that must stay. They never build packets.
+- **Sweeps** find and score opportunities. They never build packets. Their standing refusal to publish was correct while Cowork was the only surface; now that a cloud session can publish, the fix is to move them to cloud routines rather than to loosen the guard. Until that happens the guard stays.
 - **Packets** are built on request: "build a packet for Kairos Power." The skill handles the rest and saves to the Packets folder. No spreadsheet writes, no status columns.
-- **Dashboard changes** ship as one publish for the whole change set, never per row, through route 0. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
+- **Dashboard changes** ship as one publish for the whole change set, never per row. Edit `dashboard/application-command-center.html`, publish it, then commit the same file so the repo and the live page never drift. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
 
 ## Cost discipline, learned the hard way
 
