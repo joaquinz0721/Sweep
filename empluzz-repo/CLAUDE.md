@@ -48,11 +48,13 @@ Then make it strong:
 - **Past tense for Kelvin Thermal Technologies.** That internship ended August 2026.
 - **Cut hedges** ("eager to", "confident that") and any sentence that would be equally true of another company.
 - If the application asks for a **message to the hiring team** rather than a cover letter, drop the letterhead, write 250 to 320 words, warmer, and allow one piece of light wit that is factually true.
+- A **post-application follow-up** is a different and much shorter thing: four sentences, roughly 80 words, sent to a recruiter or an engineer after he has already applied. The spec is in the skill under **POST-APPLICATION FOLLOW-UP**, and the background, including the two broken outputs it was written to prevent, is in `docs/followup.md`. Do not conflate it with the message to the hiring team above.
 
 ## How work happens
 
 - **Sweeps** find and score opportunities. Under the current arrangement they cannot publish the tracker and their refusal to publish is correct behavior that must stay. They never build packets.
 - **Packets** are built on request: "build a packet for Kairos Power." The skill handles the rest and saves to the Packets folder. No spreadsheet writes, no status columns.
+- **Follow-ups** are drafted on request after he has applied, delivered as plain chat text plus an optional Gmail draft, never sent, and never filed in the Packets folder. Format spec in the skill under **POST-APPLICATION FOLLOW-UP**.
 - **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to spawn a Sonnet subagent, pass it a self-contained brief, and then do the voice pass on what comes back. Drafting and filing run on Sonnet; the voice pass stays on Opus. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice.
 - **Dashboard changes** ship as one publish for the whole change set, never per row, through route 0. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
 

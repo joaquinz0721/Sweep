@@ -15,7 +15,7 @@ What this drop contains, what it changed, and what is still missing.
 | `docs/history/code-tab-prompt-2026-08-21.md` | New. Shipped and spent; kept as the worked route-0 example. |
 | `docs/history/desk-checklist-2026-08-21.md` | New. Mostly spent; kept for the reasoning and the LinkedIn alert table. |
 | `prompts/session-opener.md` | New. The Cowork "next session" prompt, ported to repo paths. |
-| `.claude/skills/application-packet-builder/` | Copied from the account-synced skill. Belt and braces; the account copy still loads too. |
+| `.claude/skills/application-packet-builder/` | **This row was false until 2026-08-24.** It said the skill was copied from the account-synced skill, belt and braces, and the directory existed in no commit in this repo's history. It was actually copied in on 2026-08-24, from `~/.claude/skills/synced/application-packet-builder/`, byte for byte, with the POST-APPLICATION FOLLOW-UP section appended to `SKILL.md`. The account copy still loads too, and **committing here does not update it.** |
 
 ## What changed in the regenerated files
 
@@ -83,7 +83,7 @@ Until then, keep building letters in Cowork where the skill works as written, an
 
 Searched the whole of `Downloads` at every depth, plus `Sweep`, `empluzz-repo-files` and `ClaudeProj`. The only loose scripts present are `upgrade-console.js` and `upgrade-rows.js`, which are the console-route helpers, not the harness. The only `.txt` is `Memory.txt`.
 
-This matches what `MEMORY.md` section 7 always said: the harness lived in a cloud session workspace, and **that container is gone.** The line "rebuild from this description if the container is gone" was not a hedge, it was a prediction. Section 7 carries all 41 assertions in prose, so a rebuild is a real option rather than a guess.
+This matches what `MEMORY.md` section 7 always said: the harness lived in a cloud session workspace, and **that container is gone.** The line "rebuild from this description if the container is gone" was not a hedge, it was a prediction. Section 7 carries all 41 assertions of the ORIGINAL harness in prose, so a rebuild is a real option rather than a guess. The rebuild came out at 48.
 
 The two sweep prompt files were delivered into a Cowork chat and were never saved to disk. The live copies are inside the two desktop scheduled tasks, which is the only place they still exist. Recovering them means opening each task in the desktop app and copying the prompt out.
 
@@ -97,7 +97,7 @@ The docs have not been changed to say otherwise, and should not be until that ch
 
 ## Harness: rebuilt, not recovered
 
-The six files were rebuilt from `docs/MEMORY.md` section 7 and committed to `dashboard/verify/`. **41 assertions, all passing** on Node 22, Python 3.11 and Chromium in this container. Run `dashboard/verify/run.sh`.
+The six files were rebuilt from `docs/MEMORY.md` section 7 and committed to `dashboard/verify/`. **48 assertions, all passing** on Node 22, Python 3.11 and Chromium in this container. Run `dashboard/verify/run.sh`. (This line read **41** until 2026-08-24, which was the original harness's count carried over by mistake; the rebuild has 48 and the run was re-measured to confirm it.)
 
 Three findings fell out of the rebuild that were previously only claims in prose:
 

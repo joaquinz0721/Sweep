@@ -2,7 +2,7 @@
 
 **This is the running memory file. Read it at the start of every session, before doing anything else. Update it at the end of any session that changes state.** Section 10 is the standing to-do inventory of everything never touched; section 6 is the priority ordering. `CLAUDE.md` at the repo root is loaded automatically; this file is not, so a session has to open it deliberately.
 
-Last updated: 2026-08-21 (seventh session: **repo migration.** All project docs rewritten for the repository, `claude/` paths rewritten to `docs/`, `CLAUDE.md` regenerated with the never-consolidate rule, the wage-preference rule, the AutoCAD and BIM exclusion, and the surface matrix folded in. Sixth session before that: route 0 carried its first real change, sixteen rows edited in one publish, version `1787353283-20cc`, 14 ticks intact, every gate green. Eleven postings verified against employer sources; VERIFY chips 18 to 8. **IMEG is now the nearest deadline on the whole board, 2026-09-19.**)
+Last updated: 2026-08-24 (ninth session: **the post-application follow-up spec, and a repo drift clearance.** The follow-up format is now written down for the first time, canonical in the skill under POST-APPLICATION FOLLOW-UP, background in `docs/followup.md`. **The skill itself is now actually committed to `.claude/skills/`**, which `CLAUDE.md` had claimed since the migration and which was false until today. `docs/sweep-pipeline.md` exists as an honest stub, `prompts/followup-button.md` is written and unshipped, and the harness assertion count was re-measured at **48**. Eighth session before that: the Build letter delegation change and the cloud publish route, version `1787430085-95fa`. Seventh session: **repo migration.** All project docs rewritten for the repository, `claude/` paths rewritten to `docs/`, `CLAUDE.md` regenerated with the never-consolidate rule, the wage-preference rule, the AutoCAD and BIM exclusion, and the surface matrix folded in. Sixth session before that: route 0 carried its first real change, sixteen rows edited in one publish, version `1787353283-20cc`, 14 ticks intact, every gate green. Eleven postings verified against employer sources; VERIFY chips 18 to 8. **IMEG is now the nearest deadline on the whole board, 2026-09-19.**)
 
 ---
 
@@ -15,6 +15,8 @@ docs/artifact-write-routes.md               which surfaces can write the tracker
 docs/verification-2026-08-21.md             posting evidence, direct quotes
 docs/source-expansion-scoping.md            LinkedIn and ZipRecruiter reasoning
 docs/support-request.md                     the gateway support request, unsent
+docs/followup.md                            post-application follow-up background, the two broken outputs
+docs/sweep-pipeline.md                      STUB. The pipeline is not built and ingest.py does not exist
 docs/history/code-tab-prompt-2026-08-21.md  shipped; the worked route-0 example
 docs/history/desk-checklist-2026-08-21.md   mostly spent; kept for reasoning
 docs/history/build-letter-delegation-2026-08-22.md
@@ -25,8 +27,10 @@ dashboard/application-command-center-1787336084-pre16row.html
                                             historical build, do NOT publish from it
 dashboard/patches/                          anchored one-change edit scripts, README explains each
 dashboard/verify/                           rebuilt harness, 48 assertions, run.sh
-prompts/                                    session-opener.md; the two sweep prompts are still missing
-.claude/skills/application-packet-builder/  packet spec, also on the account
+prompts/session-opener.md                   paste into a fresh session on this repo
+prompts/followup-button.md                  the prompt that ships the Follow-up button; NOT shipped
+prompts/                                    the two sweep prompts are still missing
+.claude/skills/application-packet-builder/  packet spec AND the follow-up spec. Committed 2026-08-24, real at last
 ```
 
 Everything that used to be cited as `claude/<name>.md` is now `docs/<name>.md`.
@@ -72,7 +76,9 @@ Interactive changes go through route 0. The console script (section 3) is the fa
 
 **The Artifact tool's own `action: "read"` is ALSO blocked from Cowork, tested 2026-08-21.** It fails with the same allowlist error naming `*.frame.claudeusercontent.com`, plus "artifact reads through the session gateway are not enabled for this session". So both read routes are closed from Cowork, not just `WebFetch`. Do not spend another session rediscovering this.
 
-**The allowlist entry is saved on the `empluzz` environment.** A mid-session retest failed for provisioning reasons only: the sandbox's egress rules are fixed when the container is provisioned and that container predated the change. **The real test is a brand new session in that environment**, which is now possible since the repo exists. See section 6 item 0.
+**RETESTED FROM COWORK 2026-08-24, AND THE PROVISIONING EXCUSE IS SPENT.** A **fresh** Cowork session called `Artifact action:"read"` on the tracker URL and got the identical allowlist error naming `*.frame.claudeusercontent.com`, plus "artifact reads through the session gateway are not enabled for this session". The allowlist entry had already been saved on `empluzz` and this was a brand new container, so the old "the container predated the change" explanation no longer covers it. **Cowork is not bound to the `empluzz` environment**, which is what route 2 in the section above says on documentary grounds and what this now confirms empirically. **Route 0, route 0a, and the paste design remain the routes. Stop retesting this from Cowork.**
+
+Historical, kept so nobody re-runs the reasoning: the allowlist entry is saved on the `empluzz` environment, and a mid-session retest on 2026-08-21 failed for what was then thought to be provisioning reasons only, the sandbox's egress rules being fixed when the container is provisioned. That hypothesis is now dead for Cowork. It was never tested for a cloud session pinned to `empluzz`, and it does not need to be: route 0a does not use the allowlist at all.
 
 **Console route, the fallback.** Relative URLs inside the artifact serve the version the view loaded:
 
@@ -336,7 +342,7 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 
 ## 6. Next up, in order
 
-0. ~~**RETEST THE ARTIFACT READ FROM A CLOUD SESSION.**~~ **DONE 2026-08-22, and it does more than read.** The Artifact tool's `read` action returned the whole document from a cloud session, and the publish that followed succeeded. Route 0a in section 1. `WebFetch` was never tried, so nothing here says the allowlist works; the tool route simply does not need it. **The open question is now narrower: can a scheduled routine do the same?** That is a different surface and it is what the sweeps actually need. Test it the same way, with the Artifact tool rather than `WebFetch`, before building anything on it.
+0. ~~**RETEST THE ARTIFACT READ FROM A CLOUD SESSION.**~~ **DONE 2026-08-22, and it does more than read.** The Artifact tool's `read` action returned the whole document from a cloud session, and the publish that followed succeeded. Route 0a in section 1. `WebFetch` was never tried, so nothing here says the allowlist works; the tool route simply does not need it. **The open question is now narrower: can a scheduled routine do the same?** That is a different surface and it is what the sweeps actually need. Test it the same way, with the Artifact tool rather than `WebFetch`, before building anything on it. **The Cowork half of this question is also answered, 2026-08-24:** a brand new Cowork session still cannot read the artifact, same allowlist error, so the provisioning excuse is spent and Cowork is confirmed not bound to `empluzz`. See section 1. Stop retesting that.
 1. **IMEG, deadline 2026-09-19.** Nearest date on the board and the next thing to do. **Unblocked:** the AutoCAD question is settled, he has SolidWorks only, so the letter works around it per section 5. Write it in a fresh chat on Opus with the packet builder skill.
 2. **Confirm his ITAR status.** Citizen, green card, asylum or refugee status all qualify. It gates Boom and Freeform and takes him ten seconds to answer.
 3. **Join SHPE.** Real-world action only he can take, hard cliff February 2027, unblocks ScholarSHPE.
@@ -357,7 +363,7 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 
 ## 7. How to verify a dashboard change
 
-**REBUILT AND COMMITTED 2026-08-22, `dashboard/verify/`.** The original six files were never on device `jz` and died with their container. They were rebuilt from this section's description, which turned out to carry enough detail to do it. **41 assertions, all passing** against `dashboard/application-command-center-1787336084-pre16row.html` on Node 22, Python 3.11 and Chromium. Run `dashboard/verify/run.sh`. The file set is `accdoc.py`, `accdoc.js`, `shell.py`, `mkbase2.py`, `mklive3.py`, `harness.js`, `verify.js`, `verify-upgrade.js`, `verify-upgrade2.js`, `shots.js`, `run.sh`; the per-file breakdown and the full assertion inventory are in `dashboard/verify/README.md`.
+**REBUILT AND COMMITTED 2026-08-22, `dashboard/verify/`.** The original six files were never on device `jz` and died with their container. They were rebuilt from this section's description, which turned out to carry enough detail to do it. **48 assertions, all passing**, re-measured 2026-08-24 on Node 22, Python 3.11 and Chromium: 33 in `verify.js`, 8 in `verify-upgrade.js`, 7 in `verify-upgrade2.js`. This paragraph said **41** until 2026-08-24; that was the count of the ORIGINAL harness described in prose here, carried over into the rebuild's write-up by mistake. The rebuild landed at 48 and `dashboard/verify/README.md` said so from the start. **48 is the number.** The two places that still say 41 are `sweepPrompt()` in the dashboard HTML and the header comment in `dashboard/verify/run.sh`; both are listed in section 10 as one-line fixes for the next dashboard change. Run `dashboard/verify/run.sh`. The file set is `accdoc.py`, `accdoc.js`, `shell.py`, `mkbase2.py`, `mklive3.py`, `harness.js`, `verify.js`, `verify-upgrade.js`, `verify-upgrade2.js`, `shots.js`, `run.sh`; the per-file breakdown and the full assertion inventory are in `dashboard/verify/README.md`.
 
 Three things the rebuild confirmed independently, worth recording because each was previously only an assertion in prose:
 
@@ -434,6 +440,9 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - [ ] **Six rows still need one fact each:** Oxy wage, Zipline wage, Skydio term, MatX whether it is live, Kairos housing, Elliott relocation.
 - [ ] **Re-score Elliott Machine Works and Anduril** under the relocation policy Joaquin changed on 2026-08-21. Elliott still says "capped at STRETCH per the relocation rule". Anduril still notes housing is not stated.
 - [ ] Decide whether Explico and MatX stay on the board at all. Both were kept for now, Explico as a deliberate last resort.
+- [x] ~~**Write down the post-application follow-up format.**~~ **DONE 2026-08-24.** Canonical in `.claude/skills/application-packet-builder/SKILL.md` under POST-APPLICATION FOLLOW-UP; background, the five defects, and both before-and-after pairs in `docs/followup.md`. Before that day the only spec anywhere was a single inline example sentence in a Google Doc, which is why the two generated follow-ups came out broken. `y'all` is banned permanently.
+- [ ] **There are zero Gmail drafts in the account**, checked 2026-08-24. The two broken follow-ups were generated in chat and never saved anywhere, which is why `docs/followup.md` quotes them rather than linking them. Nothing has ever been sent.
+- [ ] **No follow-up has been sent or drafted since the spec landed.** Kairos Power and Western Digital are the two that were attempted and both outputs were broken; they were never sent. Redraft them against the spec when he asks.
 
 ### Scholarships, all untouched
 
@@ -452,16 +461,21 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - [ ] **Bug 17, Oxy's location field** still reads Platteville when the req does not list it.
 - [ ] **Bug 6**, toggling a note calls a full `render()` and can jump scroll on long tables. More visible now the board is 41 internship rows.
 - [ ] **Sweep buttons will break when the sweeps move to routines.** They call `window.cowork.runScheduledTask`. Nothing has been designed to replace that.
+- [ ] **The Follow-up button is NOT built.** The prompt that ships it is written and unshipped at `prompts/followup-button.md`, dated 2026-08-24. It adds a per-row **Follow-up** button beside **Build letter** on both tables, copying a self-contained prompt for the post-application follow-up. It needs a route 0 or route 0a publish and it is its own job. The format spec it depends on is already in `.claude/skills/application-packet-builder/SKILL.md` under POST-APPLICATION FOLLOW-UP.
+- [ ] **Stale string, one line, fix on the next dashboard change.** `sweepPrompt()` in the dashboard HTML says **"all 41 assertions must pass"**. The harness has **48**, re-measured 2026-08-24 by running `dashboard/verify/run.sh`: 33 plus 8 plus 7. The string only matters once someone republishes, so it was deliberately not edited into a build nobody is publishing. `prompts/followup-button.md` also carries this as a sweep-up item so it ships with the button. The header comment in `dashboard/verify/run.sh` says 41 as well and is stale for the same reason.
+- [ ] **The sweep buttons point at two things that do not exist.** `sweepPrompt()` tells the receiving session to run `python3 dashboard/ingest.py` and to publish `dashboard/application-command-center.html`. **Neither file exists**, in the working tree or in any commit. `docs/sweep-pipeline.md`, which the same prompt names, was created 2026-08-24 as an honest stub saying exactly that. Anyone pressing a sweep button today is sent to nothing. Building the pipeline is a separate job; see the Plumbing group.
 - [ ] Tailored-resume button. Back burner, never started.
 
 ### Plumbing
 
 - [x] ~~**Get the CURRENT dashboard source into `dashboard/`.**~~ **DONE 2026-08-22**, and not from the device, which never had it. Read the live artifact from a cloud session with the Artifact tool, reconstructed it with `mkbase2.py --null-state`, committed it as `application-command-center-1787428545-41row.html`. 41 internship rows against the 29 in the old committed build.
 - [x] ~~**Commit the verification harness into `dashboard/verify/`.**~~ **DONE 2026-08-22**, rebuilt rather than recovered. 48 assertions.
+- [x] ~~**Actually commit the skill to `.claude/skills/`.**~~ **DONE 2026-08-24.** `CLAUDE.md` and `MIGRATION.md` had both claimed since the migration that `application-packet-builder` was committed here belt and braces. **It was not.** The directory existed in no commit in this repo's history. The account-synced copy was found at `~/.claude/skills/synced/application-packet-builder/` and copied in byte for byte, then the POST-APPLICATION FOLLOW-UP section was appended to `SKILL.md`. The claim is true now. **Committing it here does NOT update the copy on his claude.ai account, and the account copy is what Cowork loads.** He has to save the updated `SKILL.md` to his account himself.
 - [ ] **Recover `sweep-prompt-internship.txt` and `sweep-prompt-scholarship.txt`.** Not on device `jz` either. The only surviving copies are inside the two desktop scheduled tasks; open each in the desktop app and copy the prompt out into `prompts/`.
 - [x] ~~**RETEST the artifact read from a cloud session.**~~ **DONE 2026-08-22, and the publish works too.** Route 0a in section 1. The open version of this question is now about routines, which are a different surface.
 - [x] ~~Confirm `window.cowork.runScheduledTask` exists in the artifact frame.~~ **ANSWERED 2026-08-21: it does not exist.** The run buttons are copy-a-prompt buttons. See section 1.
 - [ ] **Build the sweep-ingest path** if the retest fails: the Paste sweep results control on the dashboard, and both sweep prompts rewritten to emit a JSON payload rather than attempting to publish. Design is in section 1.
+- [ ] **Write `dashboard/ingest.py` and turn `docs/sweep-pipeline.md` from a stub into a procedure.** Confirmed 2026-08-24: `ingest.py` exists nowhere, not in the working tree, not in any blob in any commit, not on any reachable disk. `docs/sweep-pipeline.md` did not exist either and is now a stub that says so and records the six intended steps. **Nobody should follow the sweep button prompt until this is real.** Deliberately not written in that session; inventing an ingest pipeline to satisfy a dangling reference is worse than the dangling reference.
 - [ ] **Connect GitHub to Claude**, then rebuild `internship-sweep---summer-27` and `scholarship-sweeper---26-27` as cloud routines pinned to `empluzz`. All that remains of bug 12.
 - [x] ~~Check the repo files survived the copy-paste round trip.~~ **RESOLVED 2026-08-21 by regenerating every doc from the claude.ai project source rather than trusting the pasted copies.** `CLAUDE.md` and every file under `docs/` in this repo are the canonical versions.
 - [x] ~~Update hard rule 6 in the claude.ai project settings.~~ **RESOLVED for the repo.** `CLAUDE.md` here carries the corrected relocation rule plus the never-consolidate rule, the wage-preference rule, and the AutoCAD and BIM exclusion. The claude.ai project settings are still stale and only matter for Cowork and chat sessions on that project; fix them there when convenient or retire the project once the repo is the working copy.
