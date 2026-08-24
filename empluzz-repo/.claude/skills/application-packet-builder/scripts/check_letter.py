@@ -134,13 +134,31 @@ def check_negative_parallelism(text, rep, banned):
                     f'{entry["label"]} -> {context(text, m, 80)}',
                     "delete everything before the positive claim and keep only what it IS")
 
+# A letter is allowed to NAME a tool he does not have, in order to say plainly
+# that he does not have it. references/profile.md calls that the gap play and
+# prefers it to a dodge when the posting makes the tool central. Blocking the
+# disclaimer along with the claim would have forced the letter to be evasive,
+# which is the opposite of the rule. A negated mention drops to a warning so a
+# human still reads the sentence; an unqualified one still blocks.
+NEGATORS = re.compile(
+    r"\b(neither|nor|not|never|no|none|without|lack(?:s|ing|ed)?|"
+    r"haven'?t|hasn'?t|don'?t|doesn'?t|didn'?t|instead of|rather than|"
+    r"unfamiliar|yet to)\b", re.I)
+
 def check_do_not_claim(text, rep, profile):
     for term in profile["do_not_claim"]:
-        m = find_phrase(text, term)
-        if m:
-            rep.add(BLOCK, "claims a tool or skill he does not have",
-                    f'"{term}" -> {context(text, m)}',
-                    profile["do_not_claim_note"])
+        for sent in sentences(text):
+            m = find_phrase(sent, term)
+            if not m:
+                continue
+            if NEGATORS.search(sent):
+                rep.add(WARN, "names a tool he does not have, and reads as a disclaimer",
+                        f'"{term}" -> "{sent[:100]}..."',
+                        "fine if the sentence really does deny it; block it yourself if it hedges toward having it")
+            else:
+                rep.add(BLOCK, "claims a tool or skill he does not have",
+                        f'"{term}" -> {context(text, m)}',
+                        profile["do_not_claim_note"])
 
 NUM = re.compile(r"(?<![\w.])(\d[\d,]*(?:\.\d+)?)\s*(%?)")
 
