@@ -1,0 +1,76 @@
+{
+  "_comment": "Single source of truth for the banned lists. references/voice-dna.md is the prose explanation of WHY these are banned; this file is what scripts/check_letter.py enforces. Ported from santifer/career-ops voice-dna.template.md sections 3 and 4, MIT licensed. Edit here, not in the prose.",
+
+  "dead_vocabulary": [
+    "delve", "realm", "harness", "unlock", "tapestry", "paradigm", "cutting-edge",
+    "revolutionize", "intricate", "intricacies", "showcasing", "showcase", "crucial",
+    "pivotal", "surpass", "meticulously", "meticulous", "vibrant", "unparalleled",
+    "leverage", "leveraged", "leveraging", "synergy", "synergies", "innovative",
+    "game-changer", "testament", "commendable", "groundbreaking", "foster", "fostering",
+    "holistic", "garner", "accentuate", "pioneering", "trailblazing", "unleash",
+    "versatile", "transformative", "redefine", "seamless", "seamlessly", "robust",
+    "breakthrough", "empower", "streamline", "frictionless", "elevate", "effortless",
+    "data-driven", "insightful", "proactive", "mission-critical", "visionary",
+    "disruptive", "reimagine", "unprecedented", "leading-edge", "synergize",
+    "democratize", "state-of-the-art", "immersive", "supercharge", "interplay",
+    "captivate", "spearheaded", "spearhead", "facilitated", "orchestrated",
+    "championed", "passionate", "results-oriented", "best-in-class",
+    "stakeholder alignment", "actionable insights", "move the needle", "north star",
+    "unique opportunity", "perfect fit", "strong track record", "proven track record",
+    "demonstrated ability", "best practices", "in today's"
+  ],
+
+  "dead_phrases": [
+    "it's important to note", "it is important to note", "it's worth noting",
+    "it is worth noting", "in order to", "at the end of the day", "moving forward",
+    "to put this in perspective", "what makes this particularly",
+    "the implications here", "in other words", "it goes without saying",
+    "let's dive in", "let's explore", "let's unpack", "dive into",
+    "i am pleased to", "i am writing to express", "i am excited to",
+    "i am writing to apply", "i would like to express", "i am reaching out to express my interest"
+  ],
+
+  "dead_transitions": [
+    "furthermore", "additionally", "moreover", "that said", "that being said",
+    "with that in mind", "it is also worth mentioning", "on top of that"
+  ],
+
+  "negative_parallelism": [
+    {"pattern": "(?i)\\bit'?s not (just )?(about )?[^.;]{2,60}?[,.] it'?s\\b", "label": "It's not X, it's Y"},
+    {"pattern": "(?i)\\bis not (just )?[^.;]{2,60}?[,.] (it|this|that) is\\b", "label": "is not X, it is Y"},
+    {"pattern": "(?i)\\b(this|that|it) isn'?t [^.;]{2,60}?[.;] (this|that|it) is\\b", "label": "This isn't X. This is Y"},
+    {"pattern": "(?i)\\bnot only [^.;]{2,60}? but also\\b", "label": "Not only X, but also Y"},
+    {"pattern": "(?i)\\bless [a-z]+, more [a-z]+\\b", "label": "Less X, more Y"},
+    {"pattern": "(?i)\\bthe question isn'?t\\b", "label": "The question isn't X"},
+    {"pattern": "(?i)\\byou don'?t need [^.;]{2,60}?[.;] you need\\b", "label": "You don't need X. You need Y"},
+    {"pattern": "(?i)\\bforget [^.;]{2,40}?[.;] (this|that|it|here)\\b", "label": "Forget X. This is Y"},
+    {"pattern": "(?i)\\bstop [a-z]+ing [^.;]{2,60}?[.;] start\\b", "label": "Stop X. Start Y"},
+    {"pattern": "(?i)\\bwhile [^.;]{2,60}? might seem [^.;]{0,40}?, [^.;]{2,40}? is actually\\b", "label": "While X might seem, Y is actually (disguised)"},
+    {"pattern": "(?i)\\bsure, [^.;]{2,60}?[.;] but [^.;]{2,40}? is where\\b", "label": "Sure X. But Y is where (disguised)"},
+    {"pattern": "(?i)\\bgets all the attention, but\\b", "label": "X gets the attention, but Y (disguised)"},
+    {"pattern": "(?i)\\brather than (just )?[^.;]{2,50}?, i (built|led|ran|cut|held|raised)\\b", "label": "Rather than X, I Y (reframe)"}
+  ],
+
+  "copulative_avoidance": [
+    "serves as", "stands as", "marks a", "represents a", "boasts a",
+    "holds the distinction of"
+  ],
+
+  "participle_padding": [
+    "highlighting", "underscoring", "emphasizing", "reflecting broader",
+    "contributing to the", "showcasing the", "demonstrating the importance"
+  ],
+
+  "hedges": [
+    "i am eager to", "i'm eager to", "eager to", "i am confident that",
+    "i am confident", "i hope to", "i believe i would", "i would love to",
+    "i feel that", "i think i could", "i am passionate about"
+  ],
+
+  "engagement_bait": [
+    "let that sink in", "read that again", "this changes everything",
+    "full stop", "here's the part nobody"
+  ],
+
+  "never_write": ["y'all", "yall", "ya'll"]
+}

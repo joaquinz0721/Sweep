@@ -39,23 +39,59 @@ Settled 2026-08-21, full evidence in `docs/artifact-write-routes.md`. Do not re-
 
 ## Writing in his voice
 
-Read one of his letters before drafting. His pattern: header block with name and contact, date, `[Company] Hiring Team`, `Dear Hiring Manager`, four paragraphs, `Thank you for considering my application`, `Sincerely`. Roughly 350 to 450 words. Earnest and plain, no swagger.
+**The writing system lives in the skill, not here.** As of 2026-08-24 it is a port
+of `santifer/career-ops`, adapted. Read these before drafting anything he sends:
 
-Then make it strong:
+- `.claude/skills/application-packet-builder/references/profile.md` is **his
+  layer**: framing, learned voice rules, housing policy. It outranks every
+  generic rule anywhere else.
+- `references/voice-dna.md` is the anti-slop rulebook and his register.
+- `references/writing.md` is the recruiter side: risk map, six-second gate,
+  keyword mirroring, ATS.
+- `references/followup.md` is the post-application follow-up, a different and much
+  shorter artifact. Background in `docs/followup.md`.
+- `config/banned.json` and `config/profile.json` are the enforceable data.
+  `scripts/check_letter.py` is the gate and it has no bypass.
 
-- **Lead with evidence, not intent.** Never open with "I am writing to express my interest."
-- **Every body paragraph carries a number** from the resume: yield 20% to 85%, 45 minutes off a 280 minute build, plus or minus 0.1 mm, 6 build iterations, 2 SOPs, 20+ students mentored, 6-part wobbler engine.
-- **Past tense for Kelvin Thermal Technologies.** That internship ended August 2026.
-- **Cut hedges** ("eager to", "confident that") and any sentence that would be equally true of another company.
-- If the application asks for a **message to the hiring team** rather than a cover letter, drop the letterhead, write 250 to 320 words, warmer, and allow one piece of light wit that is factually true.
-- A **post-application follow-up** is a different and much shorter thing: four sentences, roughly 80 words, sent to a recruiter or an engineer after he has already applied. The spec is in the skill under **POST-APPLICATION FOLLOW-UP**, and the background, including the two broken outputs it was written to prevent, is in `docs/followup.md`. Do not conflate it with the message to the hiring team above.
+The short version, and why it changed:
+
+- **Lead with evidence, not intent.** Never open with "I am writing to express my
+  interest."
+- **Never a negative parallelism.** No sentence that negates one framing and then
+  asserts a corrected one ("it is not X, it is Y", "not just X but Y", "less X,
+  more Y"), including the disguised forms that concede and pivot. This is the
+  single most obvious sign a letter was machine written and the old spec said
+  nothing about it.
+- **Vary the shape.** Four body paragraphs is his default, not a requirement, and
+  the checker permits four to six. **The old rule that every body paragraph
+  carries a number is gone.** Numbers on a fixed cadence, in paragraphs of equal
+  length, is the metronome rhythm that made the IMEG letter read as AI. Most
+  paragraphs carry a real figure; none of them carry one on a schedule.
+- **No dead AI vocabulary.** Roughly 90 words in `config/banned.json`, enforced by
+  the checker: leverage, robust, seamless, innovative, spearheaded, meticulous,
+  passionate, showcase, testament, best practices, and the rest.
+- **The four questions are a gate.** Nothing gets drafted until he has answered
+  why this company, what he would be good at, what he would want to be doing in
+  his first week, and what tone. The first-week answer is the only paragraph of a
+  letter that is genuinely his, and generating it is what makes a letter read as
+  invented.
+- **Past tense for Kelvin Thermal Technologies.** Ended August 2026. The checker
+  blocks a present-tense Kelvin sentence as a factual error.
+- **The 50+ precision measurements belong to the ratcheting screwdriver project**,
+  never to Kelvin. The checker blocks the misattribution.
+- If the application asks for a **message to the hiring team** rather than a cover
+  letter, drop the letterhead, write 250 to 320 words, warmer, and allow one piece
+  of light wit that is factually true.
+
+The teardown that produced this change, with the evidence, is in
+`docs/research/career-ops-teardown.md`.
 
 ## How work happens
 
 - **Sweeps** find and score opportunities. Under the current arrangement they cannot publish the tracker and their refusal to publish is correct behavior that must stay. They never build packets.
 - **Packets** are built on request: "build a packet for Kairos Power." The skill handles the rest and saves to the Packets folder. No spreadsheet writes, no status columns.
-- **Follow-ups** are drafted on request after he has applied, delivered as plain chat text plus an optional Gmail draft, never sent, and never filed in the Packets folder. Format spec in the skill under **POST-APPLICATION FOLLOW-UP**.
-- **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to spawn a Sonnet subagent, pass it a self-contained brief, and then do the voice pass on what comes back. Drafting and filing run on Sonnet; the voice pass stays on Opus. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice.
+- **Follow-ups** are drafted on request after he has applied, delivered as plain chat text plus an optional Gmail draft, never sent, and never filed in the Packets folder. Format spec in `.claude/skills/application-packet-builder/references/followup.md`.
+- **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to ask Joaquin the four questions first, then spawn a Sonnet subagent, pass it a self-contained brief carrying the answers, and do the voice pass on what comes back. Drafting and filing run on Sonnet; the questions and the voice pass stay on Opus, because a subagent cannot ask him anything. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice. **The button block in the repo now carries the writing system; the live board does not yet.** See `dashboard/patches/README.md`.
 - **Dashboard changes** ship as one publish for the whole change set, never per row, through route 0. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
 
 ## Cost discipline, learned the hard way

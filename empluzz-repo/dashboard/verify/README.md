@@ -4,7 +4,7 @@ Rebuilt 2026-08-22. The original six files lived in a cloud session workspace an
 container is gone; `docs/MEMORY.md` section 7 always said to rebuild from its description
 if that happened, and it carried enough detail to do it. This is that rebuild.
 
-**48 assertions, all passing** against `../application-command-center-1787428545-41row.html`
+**52 assertions, all passing** against `../application-command-center-1787428545-41row.html`
 on Node 22, Python 3.11, Chromium via Playwright.
 
 ## Run it
@@ -61,7 +61,7 @@ and is tidier if you know which version that is.
 | `mkbase2.py` | Derives the canonical reconstruction from a served copy. This is the edit base, not the file on disk. |
 | `mklive3.py` | Builds a served copy carrying a **realistic** state block, the 14 ticks from `MEMORY.md` section 2. It refuses to tick a slug that is not in `INT`. |
 | `harness.js` | Local server pinned under the injected base href, the five `window.claude.use` stubs, the report printer. |
-| `verify.js` | Core suite, 33 assertions. The last seven, I1 to I7, hold the shape of the Build letter prompt: that it still tells Opus to delegate to a Sonnet subagent, that the row facts a cold subagent cannot look up are inside the brief, and that no em dash ever reaches the clipboard. |
+| `verify.js` | Core suite, 37 assertions. The last eleven, I1 to I11, hold the shape of the Build letter prompt: that it still tells Opus to delegate to a Sonnet subagent, that the row facts a cold subagent cannot look up are inside the brief, that no em dash ever reaches the clipboard, that Opus asks the four questions before it spawns anything, that the brief makes the subagent run `check_letter.py` and refuse to build on a block, that it bans negative parallelism and dead AI vocabulary, and that it no longer demands a number in every paragraph. |
 | `verify-upgrade.js` | Round trip and fixed point, 8 assertions. |
 | `verify-upgrade2.js` | Layout and reading position, 7 assertions. |
 | `shots.js` | Screenshots at 390, 760, 1440. |

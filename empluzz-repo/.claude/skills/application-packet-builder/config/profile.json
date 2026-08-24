@@ -1,0 +1,74 @@
+{
+  "_comment": "Machine-readable facts for scripts/build_letter_html.py and scripts/check_letter.py. The prose layer that governs voice lives in references/profile.md. Keep the two in sync: a number added here must be real, and a number removed here will start failing the letter gate.",
+
+  "identity": {
+    "name": "Joaquin Zarazua",
+    "city": "Centennial, CO",
+    "phone": "720-435-0880",
+    "email": "joaquinz0721@gmail.com",
+    "linkedin_text": "linkedin.com/in/joaquinzarazua",
+    "linkedin_url": "http://linkedin.com/in/joaquinzarazua"
+  },
+
+  "house_format": {
+    "font": "'Times New Roman',serif",
+    "size": "11pt",
+    "space_after": "10pt",
+    "contact_space_after": "15pt",
+    "salutation": "Dear Hiring Manager,",
+    "signoff": "Sincerely,",
+    "body_words_min": 350,
+    "body_words_max": 450,
+    "paragraphs_min": 4,
+    "paragraphs_max": 6
+  },
+
+  "education": {
+    "school": "University of Colorado Boulder",
+    "degree": "Mechanical Engineering",
+    "graduation": "May 2028",
+    "targeting": "Summer 2027"
+  },
+
+  "employment": [
+    {
+      "employer": "Kelvin Thermal Technologies",
+      "tense": "past",
+      "ended": "August 2026",
+      "note": "Every mention must be past tense. A present-tense Kelvin sentence is a factual error, not a style slip."
+    }
+  ],
+
+  "resume_numbers": [
+    {"tokens": ["20%", "85%"], "claim": "yield raised from 20% to 85%", "owner": "Kelvin Thermal Technologies"},
+    {"tokens": ["6"], "claim": "across 6 build iterations", "owner": "Kelvin Thermal Technologies"},
+    {"tokens": ["45", "280", "16%"], "claim": "45 minutes cut from a 280 minute build, about 16%, via custom assembly fixturing", "owner": "Kelvin Thermal Technologies"},
+    {"tokens": ["0.1"], "claim": "plus or minus 0.1 mm tolerances held across builds", "owner": "Kelvin Thermal Technologies"},
+    {"tokens": ["2"], "claim": "2 SOPs authored", "owner": "Kelvin Thermal Technologies"},
+    {"tokens": ["50", "50+", "0.5"], "claim": "50+ precision measurements, modeled to under 0.5 mm", "owner": "ratcheting screwdriver project", "never_attribute_to": ["Kelvin"]},
+    {"tokens": ["6"], "claim": "6-part compressed-air wobbler engine, mill and lathe", "owner": "wobbler engine project"},
+    {"tokens": ["20", "20+"], "claim": "20+ first-year students mentored", "owner": "Peer Leader"},
+    {"tokens": ["2027"], "claim": "Summer 2027 target term", "owner": "availability"},
+    {"tokens": ["2028"], "claim": "May 2028 graduation", "owner": "education"},
+    {"tokens": ["2026"], "claim": "August 2026, when the Kelvin internship ended", "owner": "employment"}
+  ],
+
+  "do_not_claim": [
+    "FEA", "finite element", "CFD", "computational fluid",
+    "NX", "Teamcenter", "ANSYS", "AutoCAD", "Revit", "BIM", "Creo",
+    "welding", "welded", "weld"
+  ],
+  "do_not_claim_note": "SolidWorks is his CAD. He does machining, sheet metal, laser cutting, and 3D printing. MEP and building-services postings ask for AutoCAD or BIM constantly; write around it by leading with SolidWorks depth and the additive and thermal work.",
+
+  "awards": [
+    {"name": "Clinton J. Helton Manufacturing Scholarship", "body": "SME Education Foundation", "use_when": "manufacturing, production, or process engineering"},
+    {"name": "CU Esteemed Scholars Hale award", "body": "University of Colorado Boulder", "use_when": "academic merit is relevant"},
+    {"name": "Opportunity Next Colorado", "body": "Opportunity Next", "use_when": "rarely, only on a direct match"},
+    {"name": "Hispanic National Merit recognition", "body": "College Board", "use_when": "rarely, only on a direct match"}
+  ],
+
+  "drive": {
+    "packets_folder": "1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP",
+    "letters_folder": "1pPulXeoTIXN6sJXuAByc2sW37dThROoB"
+  }
+}

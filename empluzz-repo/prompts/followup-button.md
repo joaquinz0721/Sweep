@@ -6,7 +6,7 @@ Paste everything below the line into a fresh session that has this repo checked 
 
 ---
 
-You are shipping one change to the tracker dashboard: a per-row **Follow-up** button. Read `docs/MEMORY.md` sections 1 and 3, `dashboard/README.md`, and `.claude/skills/application-packet-builder/SKILL.md` section **POST-APPLICATION FOLLOW-UP** before you touch anything.
+You are shipping one change to the tracker dashboard: a per-row **Follow-up** button. Read `docs/MEMORY.md` sections 1 and 3, `dashboard/README.md`, and `.claude/skills/application-packet-builder/references/followup.md` before you touch anything.
 
 **Artifact:** https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594
 
@@ -44,7 +44,7 @@ The patch has four edits, matching the delegation patch's shape:
 So the follow-up rules travel **inside the copied text**. At minimum, the clipboard payload carries:
 
 - The four sentence template, with its slots.
-- The slot rules: FIELD is one noun phrase of six words or fewer with no internal "and" and no internal comma; the optional DETAIL attaches with one comma and the word "particularly" and is a single phrase; the three experience items are exactly three, same grammatical shape, none containing the word "and", serial comma before the final "and".
+- The slot rules: FIELD is one noun phrase of six words or fewer with no internal "and" and no internal comma; the optional DETAIL attaches with one comma and the word "particularly" and is a single phrase; **two or three experience items, preferring two**, same grammatical shape, none containing the word "and", serial comma before the final "and" when there are three. The old spec mandated exactly three, which made every message carry an identical list in an identical slot. That is the same mail-merge tic that got "y'all" removed, and it is a documented AI tell. See `references/voice-dna.md`.
 - The ban on `y'all`, `yall`, and `ya'll`. Permanent, not an option.
 - **No numbers of any kind.** No yield figures, no cycle times, no tolerances, no dates, no wage.
 - **No em dashes.**
@@ -54,7 +54,7 @@ So the follow-up rules travel **inside the copied text**. At minimum, the clipbo
 - Kelvin Thermal Technologies is past tense.
 - Keep the line "I believe this role is an incredible fit." It looks like a hedge; it is his line and it stays.
 
-**Point at the canonical source as well.** The prompt names `.claude/skills/application-packet-builder/SKILL.md`, section POST-APPLICATION FOLLOW-UP, and says that where the button text and the skill disagree, **the skill wins** and the button text gets regenerated from it. The inlined copy is for a cold session that cannot read the repo, not a second source of truth.
+**Point at the canonical source as well.** The prompt names `.claude/skills/application-packet-builder/references/followup.md` and says that where the button text and the skill disagree, **the skill wins** and the button text gets regenerated from it. The inlined copy is for a cold session that cannot read the repo, not a second source of truth.
 
 ## Row facts to inline, per row
 

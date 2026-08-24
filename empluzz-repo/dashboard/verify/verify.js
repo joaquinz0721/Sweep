@@ -37,7 +37,7 @@ const PHANTOM = "int-marotta-controls-me-intern";        // bug 15: never existe
     /<base href="[^"]+">/.test(served) && served.includes("frame.claudeusercontent.com"));
 
   const { server, url } = await H.serve(FIX);
-  const browser = await chromium.launch();
+  const browser = await H.launchChromium(chromium);
 
   try {
     /* ---- B. a plain browser tab, no capability at all ---- */
@@ -165,6 +165,22 @@ const PHANTOM = "int-marotta-controls-me-intern";        // bug 15: never existe
         !pInt.includes("\u2014") && !pSch.includes("\u2014"));
       R.ok("I7 the scholarship prompt asks for the essay bank, not for housing",
         /essay bank/.test(pSch) && !/housing/.test(pSch), pSch.slice(0, 80));
+      /* I8 to I11 hold the writing system that came over from career-ops on
+         2026-08-24. The four questions are asked by Opus and not by the
+         subagent, because a subagent cannot ask Joaquin anything and his answer
+         to C is the only paragraph of the letter that is genuinely his. */
+      R.ok("I8 Opus asks the four questions before it spawns anything",
+        /before you spawn anything/.test(pInt) && /first week/.test(pInt) &&
+        /D\. Tone/.test(pInt) && /wait for my answers/.test(pInt), pInt.slice(0, 80));
+      R.ok("I9 the brief tells the subagent to run the gate and not to build on a block",
+        /check_letter\.py/.test(pInt) && /Exit code 2 means do not build/.test(pInt) &&
+        /There is no bypass/.test(pInt));
+      R.ok("I10 the brief bans negative parallelism and dead AI vocabulary",
+        /negative parallelism/i.test(pInt) && /dead AI vocabulary/i.test(pInt) &&
+        /leverage/.test(pInt) && /seamless/.test(pInt));
+      R.ok("I11 the brief no longer demands a number in every paragraph",
+        !/[Ee]very body paragraph carries a/.test(pInt) &&
+        /not put one in every paragraph on a cadence/.test(pInt));
       await ctx.close();
     }
   } finally {

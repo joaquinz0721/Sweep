@@ -106,4 +106,13 @@ class Report {
   }
 }
 
-module.exports = { serve, stubScript, openPage, Report, DEBOUNCE_WAIT, UUID, BASE };
+/* A container that ships its own Chromium, as the cloud session image does, may
+   carry a build number that does not match the pinned Playwright, and the
+   environment forbids downloading another one. Point ACC_CHROMIUM at that binary
+   to run the suites against it. Unset, this is exactly chromium.launch(). */
+function launchChromium(chromium, opts) {
+  const exe = process.env.ACC_CHROMIUM;
+  return chromium.launch(exe ? Object.assign({}, opts, { executablePath: exe }) : opts);
+}
+
+module.exports = { serve, stubScript, openPage, Report, launchChromium, DEBOUNCE_WAIT, UUID, BASE };

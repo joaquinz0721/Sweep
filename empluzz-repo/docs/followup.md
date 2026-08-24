@@ -1,6 +1,6 @@
 # Post-application follow-up, the background
 
-**The canonical rules live in `.claude/skills/application-packet-builder/SKILL.md`, section POST-APPLICATION FOLLOW-UP.** If this file and the skill ever disagree, **the skill wins.** Anyone changing the format changes the skill first, then updates this file to match. This file is the record of why the format is what it is; it is deliberately not a second copy of the rules, because two copies drift.
+**The canonical rules live in `.claude/skills/application-packet-builder/references/followup.md`.** If this file and the skill ever disagree, **the skill wins.** Anyone changing the format changes the skill first, then updates this file to match. This file is the record of why the format is what it is; it is deliberately not a second copy of the rules, because two copies drift.
 
 A follow-up is a short message to a recruiter or an engineer at a company Joaquin has already applied to. Roughly 80 words, four sentences, sent by email, LinkedIn, or Handshake. It is not the "message to the hiring team" variant, which is 250 to 320 words and replaces a cover letter.
 
