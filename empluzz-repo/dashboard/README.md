@@ -2,18 +2,22 @@
 
 ## The current source
 
+`application-command-center-1787695423-56assert.html`, 110461 bytes, md5 `17f886ff05ed29d1fea048d97208bcfe`.
+
+Taken from the live artifact on 2026-08-25 after the coursework/assertion-count publish,
+reconstructed with `verify/mkbase2.py --null-state`. 41 internship rows, 12 scholarship
+rows, `applied:null` because the ticks are Joaquin's and travel with the live page, never
+with a file here. All 56 assertions in `verify/` pass against it, and it is its own
+canonical reconstruction, so it is a fixed point and safe as an edit base.
+
+**This one IS published.** It is the null-state copy of live version `1787695423-9d50`.
+A republish still has to carry the live ticks, so build it from a fresh read of the
+artifact rather than from this file.
+
+### Previous source
+
 `application-command-center-1787637025-41row.html`, 110115 bytes, md5 `7ea70b3fbe0d763231731c181ca863a3`.
-
-Taken from the live artifact on 2026-08-22, reconstructed with `verify/mkbase2.py --null-state`,
-then patched with `patches/apply-delegation.py` to give the Build letter button its
-Opus-to-Sonnet delegation prompt. 41 internship rows, 12 scholarship rows, `applied:null`
-because the ticks are Joaquin's and travel with the live page, never with a file here.
-All 48 assertions in `verify/` pass against it, and it is its own canonical reconstruction,
-so it is a fixed point and safe as an edit base.
-
-**It has not been published.** The live artifact still runs the old Build letter code
-until someone republishes, and a republish has to carry the 14 live ticks, so it must be
-built from a fresh read of the artifact rather than from this null-state file.
+The build that shipped the writing-system button. Superseded on 2026-08-25.
 
 ## Also here, historical
 
@@ -42,6 +46,6 @@ Proven from a cloud Claude Code session on 2026-08-22, no local machine involved
 1. Read the artifact with the **Artifact tool's `read` action**. It returns the whole document and sets the tracked base version. `WebFetch` still cannot reach the frame host from a cloud session and is not needed.
 2. Reconstruct with `verify/mkbase2.py`. Plain for a publish payload, so the live ticks survive; `--null-state` for the copy that gets committed here.
 3. Make the change as an anchored find/replace, never byte offsets. `patches/` holds the scripts.
-4. Verify: `verify/run.sh path/to/build.html`, all 48 assertions, plus the tick count before and after.
+4. Verify: `verify/run.sh path/to/build.html`, all 56 assertions, plus the tick count before and after.
 5. Publish passing the artifact URL and the favicon `🎯`. Never `force`, never a `capabilities` object, since omitting it carries the stored declaration forward.
 6. Read it back and confirm row counts, slugs and ticks before reporting it done. Record the new slug in `docs/MEMORY.md` section 1 and commit the null-state build here.
