@@ -8,6 +8,16 @@
    The four questions come first and are asked by Opus, not by the subagent. A
    subagent cannot ask you anything, and the answer to the first-week question is
    the one paragraph of a letter that cannot be written for you. */
+/* Pay never travels in the clipboard. The tracker note carries the posted wage
+   and sometimes his Kelvin rate, and neither belongs in a letter or in a payload
+   he may paste anywhere. Drop any sentence carrying a currency figure. The
+   follow-up button spec already bans inlining the wage; the letter brief was
+   leaking it through the note. */
+function noPay(note){
+  return String(note==null?"":note)
+    .replace(/[^.!?]*\$\s?\d[^.!?]*[.!?]?/g,"")
+    .replace(/\s{2,}/g," ").trim();
+}
 const PACKETS_FOLDER="1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP";
 const LETTERS_FOLDER="1pPulXeoTIXN6sJXuAByc2sW37dThROoB";
 function cvBrief(kind,r){
@@ -16,14 +26,14 @@ function cvBrief(kind,r){
     "Posting: "+r[7],
     "Source: "+r[6]+". Location: "+r[3]+". Term: "+r[4]+".",
     "Deadline: "+(r[5]||"rolling, no posted date"),
-    "Tracker notes: "+r[9]
+    "Tracker notes: "+noPay(r[9])
   ];
   return [
     "Write one application essay or letter for the "+r[1]+" scholarship, sponsored by "+r[2]+", and file it in the Packets folder.",
     "Link: "+r[7],
     "Award: "+r[3]+". Opens: "+r[4]+". Deadline: "+(r[5]||"not posted yet")+".",
     "Eligibility gate: "+r[6],
-    "Tracker notes: "+r[9]
+    "Tracker notes: "+noPay(r[9])
   ];
 }
 /* The writing rules travel inside the clipboard text because the session that
@@ -39,7 +49,7 @@ function cvRules(what){
     "No dead AI vocabulary: leverage, robust, seamless, innovative, spearheaded, facilitated, meticulous, passionate, showcase, foster, testament, cutting-edge, best practices, proven track record. Say the plain thing.",
     "Open with evidence, not intent. Most body paragraphs carry a real number from my resume, but do not put one in every paragraph on a cadence and do not make every paragraph the same length. Even pacing is what makes a letter read as machine written.",
     "The 50+ precision measurements belong to my ratcheting screwdriver project, never to Kelvin.",
-    "Before building the doc, run: python3 scripts/check_letter.py /tmp/spec.json . Exit code 2 means do not build. Fix the draft and run it again. There is no bypass. If a number in the letter came from the posting rather than my resume, pass it with --allow so it is a deliberate choice."
+    "Before building the doc you must pass the letter gate. The skill carries the tool inside it: run the setup block under its Path 1 heading once, which writes the gate to /tmp/apb/scripts/. Then run: python3 /tmp/apb/scripts/check_letter.py /tmp/spec.json . Exit code 2 means do not build. Fix the draft and run it again. There is no bypass. If a number in the letter came from the posting rather than my resume, pass it with --allow so it is a deliberate choice. If you have no shell at all, work the no-shell checklist in the skill by hand and say in your report that you did."
   ];
 }
 function cvPrompt(kind,i){

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the fixtures and run all three suites. 52 assertions.
+# Build the fixtures and run all three suites. 56 assertions.
 #
 #   ./run.sh [path/to/authored-build.html]
 #

@@ -40,8 +40,15 @@ What changes in the copied prompt:
   affects whether a letter reads as written or generated.
 - The brief carries the anti-slop rules: no negative parallelism, no dead AI
   vocabulary, and no number in every paragraph on a cadence.
-- The brief makes the subagent run `scripts/check_letter.py` and **refuse to build
-  the doc on exit code 2.**
+- The brief makes the subagent lay the gate down from the skill and run
+  `/tmp/apb/scripts/check_letter.py`, and **refuse to build the doc on exit code
+  2**, with the no-shell checklist named as the fallback. An earlier draft wrote
+  the command as a relative `scripts/` path, which resolves to nothing in the
+  cold session the brief is written for.
+- **Pay never reaches the clipboard.** `noPay()` drops any sentence in the
+  tracker note carrying a currency figure, because the note routinely carries
+  the posted wage and sometimes his Kelvin rate. A scholarship award figure is
+  kept: that is public information about the award, not his compensation.
 
 `build-letter-delegation.js` next to this file is the replacement block, and it
 is the same file `apply-delegation.py` reads. Run this against a build that

@@ -181,6 +181,37 @@ const PHANTOM = "int-marotta-controls-me-intern";        // bug 15: never existe
       R.ok("I11 the brief no longer demands a number in every paragraph",
         !/[Ee]very body paragraph carries a/.test(pInt) &&
         /not put one in every paragraph on a cadence/.test(pInt));
+      /* I12 to I15, 2026-08-25. The tracker note carries the posted wage and
+         sometimes his Kelvin rate, and cvBrief was inlining it wholesale, so the
+         letter brief leaked pay the follow-up brief is explicitly forbidden to
+         carry. The gate command was also a relative path, which resolves to
+         nothing in the cold session the brief is written for.
+
+         Row 0 has no wage in its NOTE (its wage lives in r[12], which was never
+         inlined), so the scrub is a no-op there and row 0 cannot prove it works.
+         IMEG is the row whose note actually carries "Posted $22-24/hr, under
+         your $26 Kelvin rate", so the scrub assertions run against that one. */
+      const iImeg = await page.evaluate(() => INT.findIndex(r => r[1] === "IMEG"));
+      const pImeg = await page.evaluate(i => window.cvPrompt("int", i), iImeg);
+      R.ok("I12 no pay figure reaches the clipboard on an internship row",
+        !/\$\s?\d/.test(pInt) && !/\$\s?\d/.test(pImeg),
+        (pImeg.match(/\$\s?\d\S*/g) || []).join(" ") || "clean");
+      R.ok("I13 the gate command is a path a cold session actually has",
+        /\/tmp\/apb\/scripts\/check_letter\.py/.test(pInt) &&
+        !/run: python3 scripts\//.test(pInt) &&
+        /no shell/.test(pInt));
+      R.ok("I14 scrubbing pay leaves the rest of the IMEG note intact",
+        /R-16570/.test(pImeg) && /AutoCAD/.test(pImeg) &&
+        /Housing SILENT/.test(pImeg) && /CU alumni/.test(pImeg),
+        pImeg.slice(0, 60));
+      /* A scholarship AWARD is public information about the scholarship, not his
+         compensation, and the brief needs it to judge whether the essay is worth
+         writing. The ban is on HIS pay. So the award field stays and the note is
+         still scrubbed. */
+      R.ok("I15 the scholarship award survives while its note is still scrubbed",
+        /Award: /.test(pSch) &&
+        !/Tracker notes: [^\n]*\$\s?\d/.test(pSch),
+        (pSch.match(/Award: [^.]*/) || ["none"])[0]);
       await ctx.close();
     }
   } finally {
