@@ -191,6 +191,25 @@ def check_attribution(text, rep, profile):
                             f'{entry["claim"]} belongs to {entry["owner"]}, not {bad} -> "{sent[:90]}..."',
                             f'move the figure onto {entry["owner"]} or drop it')
 
+CERT_CLAIM = re.compile(
+    r"\b(?:i am|i'?m|holds?|hold|earned|received)\s+(?:a\s+|an\s+|the\s+)?"
+    r"([A-Za-z][\w .+/-]{1,60}?)\s*(?:certified|certification|certificate)\b", re.I)
+
+def check_credentials(text, rep, profile):
+    """A certification is easy to assert and hard to walk back. Warn on any
+    'certified' claim that does not name something in the verified list."""
+    verified = profile.get("credentials", {}).get("verified", [])
+    aliases = {a.lower() for c in verified for a in c.get("aliases", [c["name"]])}
+    for sent in sentences(text):
+        for m in CERT_CLAIM.finditer(sent):
+            named = m.group(1).strip().lower()
+            if any(a in named or named in a for a in aliases):
+                continue
+            rep.add(WARN, "certification claim not in the verified list",
+                    f'"{m.group(0).strip()}" -> "{sent[:90]}..."',
+                    "add it to credentials.verified in config/profile.json if he really holds it, "
+                    "otherwise cut the sentence")
+
 def check_tense(text, rep, profile):
     for job in profile["employment"]:
         if job["tense"] != "past":
@@ -312,6 +331,7 @@ def main():
     check_negative_parallelism(text, rep, banned)
     check_do_not_claim(text, rep, profile)
     check_attribution(text, rep, profile)
+    check_credentials(text, rep, profile)
     check_tense(text, rep, profile)
     check_rule_of_three(text, rep)
     check_length(paragraphs, rep, profile, args.kind)

@@ -70,6 +70,13 @@ When a posting asks for a tool he lacks:
 - Ask Joaquin before writing any sentence that acknowledges a gap. It is his call
   whether to raise it at all.
 
+## Certifications
+
+**CSWA, Certified SolidWorks Associate.** In `config/profile.json` under
+`credentials.verified`, so the checker treats it as a real claim. Anything else
+asserted as a certification draws a warning, because a certification is easy to
+write and hard to walk back. Add it to that list before a letter claims it.
+
 ## Awards
 
 Name one only when it maps to the role. Listing awards that do not connect reads
