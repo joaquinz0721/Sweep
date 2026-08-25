@@ -4,7 +4,7 @@ Rebuilt 2026-08-22. The original six files lived in a cloud session workspace an
 container is gone; `docs/MEMORY.md` section 7 always said to rebuild from its description
 if that happened, and it carried enough detail to do it. This is that rebuild.
 
-**56 assertions, all passing** against `../application-command-center-1787637025-41row.html`
+**56 assertions, all passing** against `../application-command-center-1787695423-56assert.html`
 on Node 22, Python 3.11, Chromium via Playwright.
 
 ## Run it

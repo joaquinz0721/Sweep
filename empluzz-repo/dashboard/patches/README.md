@@ -16,9 +16,9 @@ python3 apply-delegation.py IN.html OUT.html new-block.js
 ```
 
 `new-block.js` is the replacement `cvPrompt`/`cvBtn` pair, which lives in
-`build-letter-delegation.js` next to this file. Already applied to
-`application-command-center-1787637025-41row.html`; keep the script for the next
-build that comes back from the live artifact still carrying the old shape.
+`build-letter-delegation.js` next to this file. Already applied to every build in
+`dashboard/`; keep the script for the next one that comes back from the live
+artifact still carrying the old shape.
 
 
 ## apply-writing-system.py
@@ -62,3 +62,11 @@ green. The wrapper nesting came back 2/2 as it did in August and self healed on
 reconstruction, byte identical to a reconstruction of the payload with no drift on
 a third generation. Keep this script for the next build that comes back from the
 live artifact still carrying the 2026-08-22 shape.
+
+**Amended 2026-08-25**, shipped as version `1787695423-9d50`.
+`build-letter-delegation.js` now also carries the coursework rule in two places:
+inside `cvRules`, so a cold Sonnet subagent cannot call the ratcheting screwdriver
+project or the wobbler engine personal or done on his own time, and appended to
+the Opus voice-pass checklist so the pass that reads the draft back catches it if
+the subagent slips. They were school coursework. `sweepPrompt()` step 4 was
+corrected from 41 assertions to 56 in the same publish.

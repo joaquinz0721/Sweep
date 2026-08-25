@@ -9,7 +9,7 @@ Read `docs/MEMORY.md` before doing anything else. It is the running memory file:
 ## Where everything lives
 
 - **Tracker, source of truth:** the hosted artifact at `https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594`. Update rules are in `docs/MEMORY.md`. **Never publish to it without passing its URL**, or you create a duplicate and split the tracker in two. Never pass `force`. Never pass a `capabilities` object, since omitting it carries the stored declaration forward and a non-empty object revokes anything not restated. Pass the favicon `🎯` so the tab icon stays stable.
-- **Dashboard source:** `dashboard/application-command-center-1787637025-41row.html`, taken from the live artifact on 2026-08-25. It carries `applied:null`, so **never publish it as-is**; a republish is always built from a fresh read of the live page so his ticks survive. The verification harness is in `dashboard/verify/`, 52 assertions, `./run.sh`. One-change edit scripts live in `dashboard/patches/`.
+- **Dashboard source:** `dashboard/application-command-center-1787695423-56assert.html`, the null-state copy of live version `1787695423-9d50`, taken from the live artifact on 2026-08-25. It carries `applied:null`, so **never publish it as-is**; a republish is always built from a fresh read of the live page so his ticks survive. The verification harness is in `dashboard/verify/`, 56 assertions, `./run.sh`. One-change edit scripts live in `dashboard/patches/`. **The whole publish procedure, including the read the publish gate demands and what to do when it refuses twice, is `docs/artifact-publish-runbook.md`. Read it before touching the artifact.**
 - **Google Sheet `138-KAgu9j9qCFeAn_pTTRWVmhEhXOwIpCTb2K8eraRk`:** FROZEN ARCHIVE. Never read it, never write to it. History through 2026-08-17 only.
 - **Packets folder:** Drive ID `1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP`
 - **His past cover letters, voice reference:** Drive ID `1pPulXeoTIXN6sJXuAByc2sW37dThROoB`
@@ -20,7 +20,7 @@ Read `docs/MEMORY.md` before doing anything else. It is the running memory file:
 Settled 2026-08-21, full evidence in `docs/artifact-write-routes.md`. Do not re-litigate any of it.
 
 - **Local Code-tab session in the Desktop app: WORKS.** This is route 0 and the only proven interactive route. A local session has no egress proxy in front of it, so `WebFetch` reaches the frame host, the tracked baseVersion gets set, and the Artifact tool publishes normally. Procedure in `docs/MEMORY.md` section 3.
-- **Cloud session pinned to the `empluzz` environment: should work, untested.** Needs `*.frame.claudeusercontent.com` on that environment's allowed-domains list, plus the **Also include default list of common package managers** checkbox or the verification harness loses npm and PyPI. A cloud session in `Default` cannot read the artifact. If a session finds it cannot read it, that is the environment, not a permissions problem. Report it and stop. Do not attempt a forced publish.
+- **Cloud session pinned to the `empluzz` environment: WORKS, route 0a, proven three times.** Versions `1787430085-95fa`, `1787637025-0b51` and `1787695423-9d50` all shipped this way. The gate is the read, not the environment: `docs/artifact-publish-runbook.md` section 0. Needs `*.frame.claudeusercontent.com` on that environment's allowed-domains list, plus the **Also include default list of common package managers** checkbox or the verification harness loses npm and PyPI. A cloud session in `Default` cannot read the artifact. If a session finds it cannot read it, that is the environment, not a permissions problem. Report it and stop. Do not attempt a forced publish.
 - **Cowork session: CANNOT, ever.** Cowork is not bound to cloud environments. Confirmed three ways.
 - **Driving a browser: CANNOT.** The artifact runtime sits one cross-origin hop past where browser tools execute.
 
@@ -79,6 +79,10 @@ The short version, and why it changed:
   blocks a present-tense Kelvin sentence as a factual error.
 - **The 50+ precision measurements belong to the ratcheting screwdriver project**,
   never to Kelvin. The checker blocks the misattribution.
+- **The ratcheting screwdriver project and the compressed-air wobbler engine were
+  school coursework.** Never call either one personal, independent, self-directed,
+  done on his own time, or ungraded. Corrected 2026-08-25 after two letters said
+  otherwise; the rule is in `references/profile.md` and in the Build letter button.
 - If the application asks for a **message to the hiring team** rather than a cover
   letter, drop the letterhead, write 250 to 320 words, warmer, and allow one piece
   of light wit that is factually true.
@@ -91,8 +95,8 @@ The teardown that produced this change, with the evidence, is in
 - **Sweeps** find and score opportunities. Under the current arrangement they cannot publish the tracker and their refusal to publish is correct behavior that must stay. They never build packets.
 - **Packets** are built on request: "build a packet for Kairos Power." The skill handles the rest and saves to the Packets folder. No spreadsheet writes, no status columns.
 - **Follow-ups** are drafted on request after he has applied, delivered as plain chat text plus an optional Gmail draft, never sent, and never filed in the Packets folder. Format spec in `.claude/skills/application-packet-builder/references/followup.md`.
-- **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to ask Joaquin the four questions first, then spawn a Sonnet subagent, pass it a self-contained brief carrying the answers, and do the voice pass on what comes back. Drafting and filing run on Sonnet; the questions and the voice pass stay on Opus, because a subagent cannot ask him anything. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice. **The button block in the repo now carries the writing system; the live board does not yet.** See `dashboard/patches/README.md`.
-- **Dashboard changes** ship as one publish for the whole change set, never per row, through route 0. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt; copy its shape and its gate list.
+- **The dashboard Build letter button delegates.** It copies a prompt addressed to Opus that tells Opus to ask Joaquin the four questions first, then spawn a Sonnet subagent, pass it a self-contained brief carrying the answers, and do the voice pass on what comes back. Drafting and filing run on Sonnet; the questions and the voice pass stay on Opus, because a subagent cannot ask him anything. Do not paste that prompt into a Sonnet chat, since there is nothing above the subagent to check the voice. **The live board carries the writing system, the four questions and the coursework rule as of version `1787695423-9d50`.** See `dashboard/patches/README.md`.
+- **Dashboard changes** ship as one publish for the whole change set, never per row. Route 0a, a cloud session, is the cheap default now; `docs/artifact-publish-runbook.md` is the procedure. `docs/history/code-tab-prompt-2026-08-21.md` is the worked example of a route-0 prompt for the local Code tab, which is still the fallback when the publish gate refuses twice.
 
 ## Cost discipline, learned the hard way
 

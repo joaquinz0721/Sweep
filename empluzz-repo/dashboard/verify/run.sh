@@ -7,7 +7,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-SRC="${1:-../application-command-center-1787637025-41row.html}"
+SRC="${1:-../application-command-center-1787695423-56assert.html}"
 FIX="${ACC_FIX:-/tmp/acc-fixtures}"
 BASE="/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594/"
 

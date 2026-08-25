@@ -109,7 +109,7 @@ From `dashboard/README.md` and `docs/MEMORY.md` section 3:
 
 ## Sweep this up while you are in there
 
-`sweepPrompt()` in the dashboard says **"all 41 assertions must pass"**. The harness has **48**, confirmed by running `dashboard/verify/run.sh` on 2026-08-24: 33 in `verify.js`, 8 in `verify-upgrade.js`, 7 in `verify-upgrade2.js`. Fix the string to whatever the harness reports at the time you publish, since your own new assertions will move the number again. The header comment in `dashboard/verify/run.sh` says 41 as well and is stale for the same reason.
+**Already fixed and shipped**, 2026-08-25, live version `1787695423-9d50`: `sweepPrompt()` and the header comment in `dashboard/verify/run.sh` both say **56** now, and the harness reports 56 (41 in `verify.js`, 8 in `verify-upgrade.js`, 7 in `verify-upgrade2.js`). Re-check the string against whatever the harness reports at the time you publish, since your own new assertions will move the number again.
 
 While you are in `sweepPrompt()`, note that it also points at `docs/sweep-pipeline.md`, at `dashboard/ingest.py`, and at `dashboard/application-command-center.html`. The first is now an honest stub saying the pipeline is not built; the other two do not exist. **Do not build them here.** That is a separate job.
 

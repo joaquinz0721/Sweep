@@ -452,7 +452,7 @@ const SEED={
    This IS the shared record: it travels with the document, so any browser that
    opens the artifact sees it. applied:null means nothing has been published yet
    and the SEED above is the floor. Do not hand edit; the markers are parsed. */
-/*ACC-STATE*/const PUB={"v":4,"updated":"2026-08-24","applied":null};/*/ACC-STATE*/
+/*ACC-STATE*/const PUB={"v":4,"updated":"2026-08-25","applied":null};/*/ACC-STATE*/
 
 let applied={},tab="int",q="",sort={k:"pri",d:-1};
 let ART=null;            /* artifact namespace once resolved, else null */
@@ -961,6 +961,7 @@ function cvRules(what){
     "No dead AI vocabulary: leverage, robust, seamless, innovative, spearheaded, facilitated, meticulous, passionate, showcase, foster, testament, cutting-edge, best practices, proven track record. Say the plain thing.",
     "Open with evidence, not intent. Most body paragraphs carry a real number from my resume, but do not put one in every paragraph on a cadence and do not make every paragraph the same length. Even pacing is what makes a letter read as machine written.",
     "The 50+ precision measurements belong to my ratcheting screwdriver project, never to Kelvin.",
+    "The ratcheting screwdriver reverse-engineering project and the compressed-air wobbler engine were school coursework. Never call either one personal, independent, self-directed, done on my own time, or ungraded.",
     "Before building the doc you must pass the letter gate. The skill carries the tool inside it: run the setup block under its Path 1 heading once, which writes the gate to /tmp/apb/scripts/. Then run: python3 /tmp/apb/scripts/check_letter.py /tmp/spec.json . Exit code 2 means do not build. Fix the draft and run it again. There is no bypass. If a number in the letter came from the posting rather than my resume, pass it with --allow so it is a deliberate choice. If you have no shell at all, work the no-shell checklist in the skill by hand and say in your report that you did."
   ];
 }
@@ -999,7 +1000,7 @@ function cvPrompt(kind,i){
     "",
     "When it comes back, before you hand it to me:",
     "- Open the doc and read it for voice. Cut any sentence that would be equally true in a letter to a different employer.",
-    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin.",
+    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin. The screwdriver and the wobbler engine are school coursework, so cut any sentence calling them personal or done on my own time.",
     "- Scan for em dashes, for negative parallelisms, and for hedges like eager to, confident that, hope to.",
     "- Read it once against the question: does this sound like something I would actually write, or like an AI trying hard to imitate me?",
     "- Rewrite it in place if it reads generic. That pass is the reason this is your job and not the subagent's.",
@@ -1037,7 +1038,7 @@ function sweepPrompt(kind){
     "   JSON payload. It never publishes and never edits the dashboard.",
     "2. Preview:  python3 dashboard/ingest.py <payload>",
     "3. Apply:    python3 dashboard/ingest.py <payload> --apply",
-    "4. Verify:   dashboard/verify/run.sh     (all 41 assertions must pass)",
+    "4. Verify:   dashboard/verify/run.sh     (all 56 assertions must pass)",
     "5. Publish dashboard/application-command-center.html to the tracker,",
     "   passing its URL and the favicon. Never force, never a capabilities object.",
     "6. Commit the same file so the repo and the live page do not drift.",

@@ -712,7 +712,7 @@ function packetCell(x){
   const done=x.pk==="Done",dead=x.st==="CLOSED"||x.st==="BLOCKED";
   return '<td data-label="Packet"><span class="pk '+esc(x.pk).replace(/[^A-Za-z]/g,"")+'">'+esc(x.pk)+'</span>'+
     '<button class="mini" onclick="cvBtn(\''+x.kind+'\','+x.i+',this)"'+(dead?' disabled':'')+
-    ' title="'+(done?'Copy the Opus prompt to rewrite this letter through a Sonnet subagent':'Copy the Opus prompt that hands this letter to a Sonnet subagent and files it in Packets')+'">'+
+    ' title="'+(done?'Rewrite the cover letter for this role':'Build the cover letter for this role and file it in Packets')+'">'+
     (done?'Rebuild':'Build letter')+'</button></td>';
 }
 function dayCell(d){
@@ -826,10 +826,8 @@ function render(){
      +'<span class="act WAIT">WAIT</span> cycle has not opened. '
      +'The grey number is the raw score, shown on actionable rows so the ordering is checkable. '
      +'Hover any chip for the reason.</p>'
-     +'<p class="hint"><b>Build letter</b> copies an orchestration prompt for that row. Paste it into a fresh '
-     +'<b>Opus</b> chat: Opus hands the drafting to a Sonnet subagent, which runs the packet skill and files the '
-     +'Google Doc in Packets, then Opus reads it back and fixes the voice before you get the link. '
-     +'Nothing is ever submitted for you. '
+     +'<p class="hint"><b>Build letter</b> copies a ready packet prompt for that row. Paste it into a fresh chat '
+     +'and the cover letter gets written and filed in Packets. Nothing is ever submitted for you. '
      +'Wage chips compare against your $26.00/hr Kelvin Thermal rate: '
      +'<span class="wg up">green</span> the floor already beats it, '
      +'<span class="wg even">amber</span> the range straddles it, '
@@ -867,7 +865,7 @@ function go(k){tab=k;q="";render();}
 /* ---- clipboard ---------------------------------------------------------
    This page cannot reach Drive or start a chat on its own, so every action
    button hands you a ready prompt instead. Paste it into a new chat and the
-   chat does the writing and the filing. Nothing is ever submitted. */
+   packet builder does the writing and the filing. Nothing is ever submitted. */
 function copyText(t){
   if(navigator.clipboard&&navigator.clipboard.writeText)
     return navigator.clipboard.writeText(t).catch(()=>legacyCopy(t));
@@ -885,70 +883,31 @@ function flash(btn,label,msg){
   btn.textContent=label;btn.disabled=true;m.textContent=msg;
   setTimeout(()=>{btn.textContent=old;btn.disabled=false},1800);
 }
-/* The button hands over an orchestration prompt, not the writing job itself.
-   Paste it into a fresh Opus chat: Opus passes the brief to a Sonnet subagent,
-   which runs the skill and files the doc, then Opus reads the result and fixes
-   the voice before it reaches you. Sonnet does the assembly, Opus keeps the
-   voice, and the long skill run never sits in the expensive thread. */
-const PACKETS_FOLDER="1m0ruwyAbO6SLFFQ7-ebVKhiCQTvQFtTP";
-const LETTERS_FOLDER="1pPulXeoTIXN6sJXuAByc2sW37dThROoB";
-function cvBrief(kind,r){
+function cvPrompt(kind,i){
+  const r=(kind==="int"?INT:SCH)[i];
   if(kind==="int")return [
-    "Write one cover letter for "+r[1]+", "+r[2]+", and file it in the Packets folder.",
+    "Build an application packet for "+r[1]+", "+r[2]+".",
     "Posting: "+r[7],
     "Source: "+r[6]+". Location: "+r[3]+". Term: "+r[4]+".",
     "Deadline: "+(r[5]||"rolling, no posted date"),
-    "Tracker notes: "+r[9]
-  ];
+    "Tracker notes: "+r[9],
+    "",
+    "Write the cover letter in my voice, then save it to the Packets folder in Drive. Do not submit anything."
+  ].join("\n");
   return [
-    "Write one application essay or letter for the "+r[1]+" scholarship, sponsored by "+r[2]+", and file it in the Packets folder.",
+    "Build an application packet for the "+r[1]+" scholarship, sponsored by "+r[2]+".",
     "Link: "+r[7],
     "Award: "+r[3]+". Opens: "+r[4]+". Deadline: "+(r[5]||"not posted yet")+".",
     "Eligibility gate: "+r[6],
-    "Tracker notes: "+r[9]
-  ];
-}
-function cvPrompt(kind,i){
-  const r=(kind==="int"?INT:SCH)[i],int=kind==="int";
-  const what=int?"cover letter":"essay";
-  /* The last thing the subagent reports differs by kind. An internship letter
-     lives or dies on the housing question; a scholarship essay lives or dies on
-     whether the bank already had an answer for the prompt. */
-  const ask=int
-    ?"Report back three things: the Drive link, the company-specific claims that still need verifying, and whether the posting states anything about housing or relocation. Silence on relocation is not a refusal, so say which of the two it is."
-    :"Adapt from my essay bank rather than writing cold, and say which bank entry each answer came from. Report back three things: the Drive link, any prompt with no match in the bank, and whether I clear the eligibility gate above.";
-  const back=int?"the housing line":"the bank coverage";
-  return [
-    "Do not write this one yourself. Hand the drafting to a Sonnet subagent and keep the voice pass for yourself.",
+    "Tracker notes: "+r[9],
     "",
-    "1. Spawn one subagent with the model set to Sonnet.",
-    "2. Give it the brief below verbatim. It starts cold, so it cannot see this chat, my dashboard, or anything I have told you; the brief is everything it gets.",
-    "3. Wait for it to return the Drive link, then read the "+what+" yourself before you show me anything.",
-    "",
-    "BRIEF FOR THE SONNET SUBAGENT, pass it through as written:",
-    "---8<---"
-  ].concat(cvBrief(kind,r)).concat([
-    "",
-    "Use the application-packet-builder skill and follow its format spec exactly. The deliverable is a native Google Doc in the Packets folder, Drive ID "+PACKETS_FOLDER+". Never chat text, never a .docx.",
-    "Read one of my past letters in Drive folder "+LETTERS_FOLDER+" before drafting so the voice is mine.",
-    "Hard rules: never submit or transmit anything, never read or write the frozen tracker spreadsheet, never use an em dash, never put a pay figure in the "+what+", and never claim FEA, CFD, NX, Teamcenter, ANSYS, AutoCAD, or Revit and BIM. SolidWorks is my CAD. Kelvin Thermal Technologies is past tense, that internship ended August 2026.",
-    "Open with evidence, not intent. Every body paragraph carries a real number from my resume.",
-    ask,
-    "---8<---",
-    "",
-    "When it comes back, before you hand it to me:",
-    "- Open the doc and read it for voice. Cut any sentence that would be equally true in a letter to a different employer.",
-    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin.",
-    "- Scan for em dashes and for hedges like eager to, confident that, hope to.",
-    "- Rewrite it in place if it reads generic. That pass is the reason this is your job and not the subagent's.",
-    "",
-    "Then give me the link, the verify list, and "+back+" in one short reply. Do not submit anything."
-  ]).join("\n");
+    "Write the essay or letter in my voice, then save it to the Packets folder in Drive. Do not submit anything."
+  ].join("\n");
 }
 function cvBtn(kind,i,btn){
   const r=(kind==="int"?INT:SCH)[i];
   copyText(cvPrompt(kind,i)).then(()=>
-    flash(btn,"Copied",'Opus prompt for '+r[1]+' copied. Paste it into a fresh Opus chat. It hands the draft to a Sonnet subagent, then checks the voice before the link comes back to you.'));
+    flash(btn,"Copied",'Packet prompt for '+r[1]+' copied. Paste it into a new chat and the letter gets written and filed in Packets.'));
 }
 
 async function runTask(taskId,btn){
