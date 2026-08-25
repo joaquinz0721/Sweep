@@ -17,7 +17,7 @@ python3 apply-delegation.py IN.html OUT.html new-block.js
 
 `new-block.js` is the replacement `cvPrompt`/`cvBtn` pair, which lives in
 `build-letter-delegation.js` next to this file. Already applied to
-`application-command-center-1787428545-41row.html`; keep the script for the next
+`application-command-center-1787637025-41row.html`; keep the script for the next
 build that comes back from the live artifact still carrying the old shape.
 
 
@@ -55,7 +55,10 @@ is the same file `apply-delegation.py` reads. Run this against a build that
 already carries the 2026-08-22 delegation block; for anything older run
 `apply-delegation.py` first.
 
-**NOT SHIPPED.** The live board still carries the 2026-08-22 button. This needs a
-route 0 publish built from a fresh read of the live artifact, never from the file
-committed in `dashboard/`. Assertions I8 to I11 in `dashboard/verify/verify.js`
-hold the new shape and pass against a patched build.
+**SHIPPED 2026-08-25**, version `1787637025-0b51`, through the cloud route 0a from
+a Claude Code session that could read the artifact. 16 applied ticks in and 16 out,
+state block byte identical, 41 INT and 12 SCH rows unchanged, all 56 assertions
+green. The wrapper nesting came back 2/2 as it did in August and self healed on
+reconstruction, byte identical to a reconstruction of the payload with no drift on
+a third generation. Keep this script for the next build that comes back from the
+live artifact still carrying the 2026-08-22 shape.
