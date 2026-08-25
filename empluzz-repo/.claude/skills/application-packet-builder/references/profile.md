@@ -32,21 +32,26 @@ first. Never a different set of facts.
 
 - **Kelvin Thermal Technologies**, summer 2026, past tense always. The yield
   number, the fixturing time saved, the tolerance, the SOPs.
-- **Ratcheting screwdriver teardown**, his own time. The measurement discipline
-  and the modeling. **The 50+ measurements belong to this project, never to
-  Kelvin.** Misattributing it is the single most common error in our letters and
-  the checker blocks on it.
-- **Compressed-air wobbler engine**, 6 parts, mill and lathe. Proof he can make
-  a thing, not only draw one.
+- **Ratcheting screwdriver reverse-engineering project**, **school coursework,
+  not his own time.** He calls it "my reverse-engineering project". The
+  measurement discipline and the modeling. **The 50+ measurements belong to this
+  project, never to Kelvin.** Misattributing it is the single most common error
+  in our letters and the checker blocks on it.
+- **Compressed-air wobbler engine**, 6 parts, mill and lathe. **Also school
+  coursework.** Proof he can make a thing, not only draw one.
+- **Never call either project personal, independent, self-directed, done on his
+  own time, or done with no deadline or grade attached.** Corrected 2026-08-25
+  after he struck those words out of the Freeform packet himself. They were
+  assigned work and he does not want them sold as hobby projects.
 - **Peer Leader**, 20+ first-year students. Explaining a decision to somebody who
   has not seen the constraint yet, which is most of engineering communication.
 
 ## The narrative underneath every letter
 
 He spent a summer closing the gap between a drawing and a part that goes
-together, and he wants another one. That is the through line. The independent
-projects are evidence he does this when nobody is paying him, which is the
-argument a student can make that a professional cannot.
+together, and he wants another one. That is the through line. The coursework
+projects are evidence that the loop is a habit rather than one lucky summer: he
+measured, modeled and machined before the internship and kept doing it after.
 
 ## The gap play
 
@@ -160,3 +165,75 @@ dashboard's `PROF` array (`Scholarship Q's`, `Scholarship Responses`) and
 **adapt, do not regenerate.** Flag any prompt with no match in the bank rather
 than writing cold. Essays follow the same delivery rule: a formatted Google Doc
 in the Packets folder, never chat text only.
+
+## Tone calibration from his own rewrites
+
+Added 2026-08-25 after he rewrote the Freeform cover letter and the Freeform
+application questions by hand. Both versions are in the Packets folder. Where a
+rule below and an older rule in this file disagree, this section is newer and it
+is drawn from his own typing, so it wins.
+
+**What he kept untouched.** Every evidence sentence. The Kelvin paragraph, the
+yield figures, the fixturing time, the tolerance, the SOP count, the screwdriver
+measurements, the CSWA line, all of it survived word for word. He does not
+rewrite facts. He rewrites the sentences between them. That is where the drafting
+effort belongs.
+
+**Contractions.** He writes I've, I'm, it's, can't. Drafts with zero contractions
+read stiff next to his own text. Use them.
+
+**Stated enthusiasm is his register, not a hedge.** He wrote "more than excited
+to apply at Freeform", "I can't express how excited I am", "truly excites me",
+and "I can't think of a more intriguing thing". Do not strip these as filler.
+They are the warmth he adds when he goes over a draft. The banned hedges are
+still banned: he never writes "eager to", "confident that", or "hope to".
+
+**Candid self-disclosure, then the pivot.** His opener for why engineering was
+"To be completely honest, I originally picked engineering because I was good at
+math and science and it offered a stable career ahead of me." He will admit an
+unflattering starting motive and then say what changed. Keep that move when the
+question invites it.
+
+**His sentences run long.** He expanded several short declaratives into clauses
+joined by and, while, and which. A three word sentence like "The reason changed."
+is my rhythm and not his. Let his sentences breathe.
+
+**He supplies the lived detail.** He added the metal grade laser cutter, the
+design freedom problem at Kelvin, the intern cohort, and the country club line.
+None of it was available to me. When a paragraph needs connective tissue, ask him
+for the anecdote instead of writing a claim that spans the gap.
+
+**What he cut, and why it matters.**
+
+- The Hispanic Scholarship Fund sentence. He asked for it, then struck it. Do not
+  volunteer background or identity items in application text.
+- "I have not printed metal." He struck the gap acknowledgment. The standing
+  ask-first rule holds and the default answer is no.
+- "Neither one had a deadline or a grade attached to it." Struck, because the
+  projects were coursework. See the correction above.
+- The Peer Leader item, in the teamwork answer. He replaced it with the Kelvin
+  intern cohort and years working the line at Columbine Country Club. For team
+  and pressure questions he prefers real work environments over the mentoring
+  role.
+
+**Banned vocabulary governs my drafting, not his.** He wrote "cutting edge
+technology" himself. Never edit his own sentence to satisfy the list.
+
+**Spelling.** He types "Solidworks". Finished documents use "SolidWorks".
+
+**Closings.** He ends warm and forward looking. "I am ready to start in May 2027,
+and I can't express how excited I am to get the opportunity to apply my
+experience and skills to the work at Freeform." A flat closing is one of the
+first things he rewrites.
+
+## Facts that came out of those rewrites
+
+- **Columbine Country Club**, back of house, several years on the line. High
+  pressure teamwork under a ticket clock. His preferred teamwork evidence.
+- **Kelvin intern cohort**, small, mixed expertise, and he moved between multiple
+  projects rather than owning one. His preferred adaptability evidence.
+- **The Freeform hook in his words**: at Kelvin, fabrication limited design
+  freedom. Sometimes they needed the strength of metal in a printed part, other
+  times the geometry a printer gives that the metal grade laser cutter cannot.
+  That is why AI controlled metal printing reads as the step up from his last
+  internship.
