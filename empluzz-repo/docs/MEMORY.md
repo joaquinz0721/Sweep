@@ -363,6 +363,15 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 
 ## 6b. Route 0a FAILED on 2026-08-25, and what it cost
 
+**Resolved the same day, from a different session.** A fresh cloud session
+fetched the artifact, read all 1107 lines, and published on the first attempt:
+live version `1787695423-9d50`, 17 ticks, 41 INT and 12 SCH rows unchanged, all
+56 assertions green. The difference was the session, not the procedure. The full
+method, the gate's two errors and the exits are now in
+`docs/artifact-publish-runbook.md`, which is the file to read before any future
+republish. What follows is the failure itself, kept because the diagnosis is what
+makes the runbook's rules make sense.
+
 The coursework rule for the Build letter button could not be published from a
 cloud Claude Code session. Route 0a worked twice before; it did not work this
 time and the reason is worth writing down.
