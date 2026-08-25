@@ -88,7 +88,7 @@ function cvPrompt(kind,i){
     "",
     "When it comes back, before you hand it to me:",
     "- Open the doc and read it for voice. Cut any sentence that would be equally true in a letter to a different employer.",
-    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin.",
+    "- Check every number is real and attributed right. The 50+ precision measurements belong to the ratcheting screwdriver project, not to Kelvin. The screwdriver and the wobbler engine are school coursework, so cut any sentence calling them personal or done on my own time.",
     "- Scan for em dashes, for negative parallelisms, and for hedges like eager to, confident that, hope to.",
     "- Read it once against the question: does this sound like something I would actually write, or like an AI trying hard to imitate me?",
     "- Rewrite it in place if it reads generic. That pass is the reason this is your job and not the subagent's.",

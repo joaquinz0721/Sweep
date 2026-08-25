@@ -361,6 +361,51 @@ Cost discipline: one publish per change, never per-cell editing. Start a fresh s
 
 ---
 
+## 6b. Route 0a FAILED on 2026-08-25, and what it cost
+
+The coursework rule for the Build letter button could not be published from a
+cloud Claude Code session. Route 0a worked twice before; it did not work this
+time and the reason is worth writing down.
+
+**The loop.** The Artifact tool's publish gate alternates between two refusals
+and there is no state in which both are satisfied:
+
+- Straight after `action:"read"`: *"You hadn't viewed the live version of this
+  artifact, so the publish was refused ... that version counts as viewed once you
+  have Read every line of that file."*
+- After Reading all 1107 lines of the saved file: *"this is the identical content
+  already refused against the newer version 1787690446-c1a6, resent unchanged."*
+
+Changing the content between attempts does not break the loop. Two genuine edits
+were added mid-cycle (the stale 41-assertion string, then the coursework rule in
+the voice-pass checklist) and the next attempt went back to "hadn't viewed". Five
+full reads of the 124.9KB file were performed across the attempts, all after a
+fresh fetch, and none of them registered.
+
+**Force is not the escape hatch here.** `force:true`, with Joaquin's explicit
+confirmation, returns a server error rather than a tool refusal:
+
+    deploy 400: this artifact self-publishes - provide the baseVersion you edited from
+
+The Artifact tool exposes no `baseVersion` parameter, so a forced publish cannot
+satisfy that check. This is specific to a self-publishing artifact: the page
+writes its own new versions when a tick is saved, and the last version, c1a6, was
+saved from inside the page on 2026-08-25.
+
+**What this costs.** Roughly 250K tokens of reads for nothing. Do not retry the
+cycle from a cloud session on the strength of "route 0a is proven": it is proven
+for a version the page did not write. **Before spending anything, publish a
+one-line probe change and see whether it lands.**
+
+**What still works.** The merged build itself was fine: fresh read, 17 ticks
+intact, 41 INT and 12 SCH rows byte-identical, markers once each, 56 assertions
+green. The blocker is the publish gate, not the payload. Route 0, the local
+Code-tab route, was not tried this session and remains the fallback; the merged
+file has to be carried there by hand because a state-carrying build is never
+committed.
+
+---
+
 ## 7. How to verify a dashboard change
 
 **REBUILT AND COMMITTED 2026-08-22, `dashboard/verify/`.** The original six files were never on device `jz` and died with their container. They were rebuilt from this section's description, which turned out to carry enough detail to do it. **48 assertions, all passing**, re-measured 2026-08-24 on Node 22, Python 3.11 and Chromium: 33 in `verify.js`, 8 in `verify-upgrade.js`, 7 in `verify-upgrade2.js`. This paragraph said **41** until 2026-08-24; that was the count of the ORIGINAL harness described in prose here, carried over into the rebuild's write-up by mistake. The rebuild landed at 48 and `dashboard/verify/README.md` said so from the start. **48 is the number.** The two places that still say 41 are `sweepPrompt()` in the dashboard HTML and the header comment in `dashboard/verify/run.sh`; both are listed in section 10 as one-line fixes for the next dashboard change. Run `dashboard/verify/run.sh`. The file set is `accdoc.py`, `accdoc.js`, `shell.py`, `mkbase2.py`, `mklive3.py`, `harness.js`, `verify.js`, `verify-upgrade.js`, `verify-upgrade2.js`, `shots.js`, `run.sh`; the per-file breakdown and the full assertion inventory are in `dashboard/verify/README.md`.
