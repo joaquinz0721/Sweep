@@ -49,6 +49,7 @@ function cvRules(what){
     "No dead AI vocabulary: leverage, robust, seamless, innovative, spearheaded, facilitated, meticulous, passionate, showcase, foster, testament, cutting-edge, best practices, proven track record. Say the plain thing.",
     "Open with evidence, not intent. Most body paragraphs carry a real number from my resume, but do not put one in every paragraph on a cadence and do not make every paragraph the same length. Even pacing is what makes a letter read as machine written.",
     "The 50+ precision measurements belong to my ratcheting screwdriver project, never to Kelvin.",
+    "The ratcheting screwdriver reverse-engineering project and the compressed-air wobbler engine were school coursework. Never call either one personal, independent, self-directed, done on my own time, or ungraded.",
     "Before building the doc you must pass the letter gate. The skill carries the tool inside it: run the setup block under its Path 1 heading once, which writes the gate to /tmp/apb/scripts/. Then run: python3 /tmp/apb/scripts/check_letter.py /tmp/spec.json . Exit code 2 means do not build. Fix the draft and run it again. There is no bypass. If a number in the letter came from the posting rather than my resume, pass it with --allow so it is a deliberate choice. If you have no shell at all, work the no-shell checklist in the skill by hand and say in your report that you did."
   ];
 }

@@ -2,7 +2,7 @@
 
 ## The current source
 
-`application-command-center-1787637025-41row.html`, 110115 bytes, md5 `7ea70b3fbe0d763231731c181ca863a3`.
+`application-command-center-1787637025-41row.html`, 110333 bytes, md5 `414cb2ab7b2529c02a641628ae8dfb08`.
 
 Taken from the live artifact on 2026-08-22, reconstructed with `verify/mkbase2.py --null-state`,
 then patched with `patches/apply-delegation.py` to give the Build letter button its
