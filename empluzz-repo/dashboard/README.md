@@ -7,6 +7,18 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1788869745-56row.html`, 133,237 bytes, md5
+`6f17866226a30477f119a9c9cb42661a`.
+
+The null-state copy of live version `1788869745-d88d`, published 2026-09-08.
+**56 internship rows**, 12 scholarship rows, 20 calendar rows. Carries the fifteen
+rows from the 2026-09-08 internship sweep, the CAL row that moved `SWEPT` to
+2026-09-08, and the corrected `sweepPrompt()` step 5, which no longer names a
+file that has never existed. Merged by `dashboard/ingest.py`, the first build to
+go through it. All 56 assertions pass; 28 applied ticks went in and 28 came out.
+
+## Previous source
+
 `application-command-center-1787695423-56assert.html`, 110,461 bytes, md5
 `17f886ff05ed29d1fea048d97208bcfe`.
 
@@ -23,7 +35,7 @@ reconstruction, so it is a fixed point and safe as an edit base.
 ticks, so it is built from a fresh read of the artifact. See
 `docs/artifact-publish-runbook.md`, which is the whole procedure.
 
-## Previous source
+## Also previous
 
 `application-command-center-1787637025-41row.html`, 110,115 bytes, md5
 `7ea70b3fbe0d763231731c181ca863a3`.

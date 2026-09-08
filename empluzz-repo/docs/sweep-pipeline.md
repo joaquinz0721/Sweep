@@ -1,26 +1,41 @@
 # Sweep pipeline
 
-## THE PIPELINE IS NOT BUILT. DO NOT FOLLOW THE BUTTON PROMPT.
+## Status: BUILT and RUN, 2026-09-08.
 
-The **Run Internship Sweep** and **Run Scholarship Sweep** buttons on the dashboard copy a prompt that tells the receiving session to "Follow docs/sweep-pipeline.md" and then to run `python3 dashboard/ingest.py`. As of 2026-08-24:
+`dashboard/ingest.py` exists, the internship sweep has been run through it end to
+end, and the result was published to the live tracker as version
+`1788869745-d88d`. The six steps below are a procedure now, not a design.
 
-- **`dashboard/ingest.py` does not exist.** Not in the working tree, not in any commit in this repo's history, not anywhere on any machine that has been searched.
-- **This file did not exist either** until it was created as this stub, so the button pointed at nothing at all.
-- **`dashboard/application-command-center.html`**, which step 5 of the button prompt names as the publish payload, does not exist under that name. The committed build is `dashboard/application-command-center-1787695423-56assert.html`, and it carries `applied:null`, so it is never a publish payload on its own. See `dashboard/README.md`.
+What changed on 2026-09-08:
 
-Anyone who presses one of those buttons today gets a prompt that sends them to three things that are not there. Nobody should follow it until the pipeline is real.
+- **`dashboard/ingest.py` was written.** Preview by default, `--apply` to write,
+  merges `INT_new` and `SCH_new` by slug, stamps a CAL row so `SWEPT` moves.
+  It refuses malformed JSON, a row without a slug, a wrong field count, a
+  duplicate slug, an em dash, and any change that would move the state block.
+  It never publishes and it never touches the applied ticks.
+- **The sweep agent still does not exist.** `internship-sweep` is not an agent in
+  a cloud Claude Code session; the two sweep prompts are still stored only in the
+  desktop app and are still missing from `prompts/`. The 2026-09-08 sweep was run
+  by hand by the orchestrating session. Step 1 below is still aspirational.
+- **Step 5 named a file that has never existed.** `sweepPrompt()` said to publish
+  `dashboard/application-command-center.html`. It was corrected in the same
+  publish to say the merged build, and to say the payload must come from a fresh
+  read or the ticks go to null.
 
-Building the pipeline is its own job. It was deliberately not done in the session that wrote this file, because writing an ingest path is a real piece of engineering and inventing one to satisfy a dangling reference would have been worse than the dangling reference.
+### The one thing that is easy to get wrong
 
-## The intended design, for whoever builds it
+`INT` rows carry 14 fields with the slug at index 13. `SCH` rows carry 13 fields
+with the slug at index 12. The dashboard source says so directly above `const
+SCH` and the first draft of `ingest.py` ignored it and used a literal 13 for
+both, which crashed on the SCH array. `SLUG_AT[kind]`, never a literal.
 
-These are the six steps the dashboard button already describes, recorded here as the design rather than as a procedure. They have never been run.
+## The six steps
 
 1. **Spawn the sweep agent on Sonnet.** `internship-sweep` or `scholarship-sweep`. It searches, scores, and writes a JSON payload of new and changed rows. It never publishes and it never edits the dashboard. That refusal is correct behavior and it is load bearing, per `docs/MEMORY.md` section 1.
 2. **Preview:** `python3 dashboard/ingest.py <payload>`. Prints what it would do, N new and M updated, and changes nothing.
 3. **Apply:** `python3 dashboard/ingest.py <payload> --apply`. Merges into the `INT` and `SCH` arrays and stamps the CAL Last Checked row so the header `SWEPT` date moves.
 4. **Verify:** `dashboard/verify/run.sh`. All 56 assertions must pass. See the note on the count below.
-5. **Publish** to the tracker artifact, passing its URL and the favicon `🎯`. Never `force`, never a `capabilities` object. The payload must be built from a **fresh read of the live artifact**, never from the null-state file committed here, or the applied ticks go to null.
+5. **Publish** to the tracker artifact, passing its URL and the favicon `🎯`. Never `force`, never a `capabilities` object. The payload must be built from a **fresh read of the live artifact**, never from the null-state file committed here, or the applied ticks go to null. Proven working from a cloud session on 2026-09-08, first try, 28 ticks in and 28 out.
 6. **Commit** the null-state build so the repo and the live page do not drift.
 
 Standing guard rails, agreed 2026-08-21 and unchanged: never touch the applied ticks, refuse to publish if the tick count moved, refuse rows without a slug, refuse malformed JSON, and always preview before committing.
