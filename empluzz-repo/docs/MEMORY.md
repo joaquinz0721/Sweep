@@ -42,6 +42,16 @@ Everything that used to be cited as `claude/<name>.md` is now `docs/<name>.md`.
 **Source of truth: the hosted artifact.**
 https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594
 
+> **READ THIS BEFORE ANY PUBLISH, recorded 2026-09-08 by a cloud Claude Code session.**
+> The live page has moved since the twelfth session and the figures below are stale.
+> Read back on 2026-09-08 through route 0a: live version **`1787885843-391a`**, state
+> block `updated` **2026-08-27**, `count` **28**, and **28 applied
+> ticks**, not the 17 this file records elsewhere. Row counts are unchanged at 41 INT
+> and 12 SCH. Joaquin kept ticking after 2026-08-25 and the page republished itself
+> each time, which is normal and is not drift. The number that matters: **any publish
+> must carry 28 ticks in and 28 out**, measured against a fresh read on the day, never
+> against this line. Nothing was published in the 2026-09-08 session.
+
 - Live version: **`1787430085-95fa`, published 2026-08-22 from a cloud Claude Code session.** Verified by reading it back: 41 internship rows, 12 scholarship rows, 41 unique slugs, 14 applied ticks unchanged, all four marker pairs once each. The capability declaration survived as `{artifact, downloads}`, contract 0.2.11, carried forward by omitting the parameter. Still read the live page before anything version-dependent, but this slug is trustworthy as written. Historical note, and the reason that warning existed: **UNKNOWN, do not trust a recorded slug.** The last slug this file recorded is `1787353283-20cc` (after `1787339155-f74b`, after `1787336084-e040`), but **Joaquin ran a further manual Code-tab edit after that on 2026-08-21 and the resulting version was never reported here.** Read the live page and take the slug from it before doing anything that depends on the version. Two things that edit could have changed without anyone noticing: the capability declaration (if it passed a non-empty `capabilities` object it would have revoked what was not restated, which silently breaks tick saving) and the favicon.
 - **Favicon is `🎯`, set 2026-08-21.** The Artifact tool requires the parameter on every publish and no prior value had ever been recorded, so one was chosen. Keep it stable; a changed favicon reads as a different page. If the original was something else, restore it once and record it here.
 - Private to Joaquin, confirmed "only me" 2026-08-21. Opens on any browser including his phone.
