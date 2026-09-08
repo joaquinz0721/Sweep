@@ -7,7 +7,11 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-SRC="${1:-../application-command-center-1787695423-56assert.html}"
+# Never hardcode a build name here. A build is named for the live version it came
+# from, so a literal becomes a lie the next time one ships. Pick the newest by the
+# version number in the filename.
+SRC="${1:-$(ls -1 ../application-command-center-*.html 2>/dev/null | sort -t- -k4,4n | tail -1)}"
+if [ -z "$SRC" ]; then echo "no authored build found in ../"; exit 1; fi
 FIX="${ACC_FIX:-/tmp/acc-fixtures}"
 BASE="/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594/"
 

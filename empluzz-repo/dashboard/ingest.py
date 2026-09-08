@@ -33,6 +33,7 @@ The guard rails are Joaquin's, agreed 2026-08-21, and none of them has a flag:
 Exit codes: 0 clean, 1 refused.
 """
 import argparse
+import glob
 import json
 import os
 import re
@@ -51,6 +52,22 @@ CONVICTIONS = {"MUST APPLY", "STRONG", "STRETCH", "WATCH"}
 STATUSES = {"OPEN", "NOTYET", "CLOSED", "UNCONFIRMED", "BLOCKED"}
 CAL_NAME_AT, CAL_TYPE_AT, CAL_CHECKED_AT = 1, 0, 6
 DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def newest_build():
+    """The newest authored build in dashboard/, by the version in its name.
+
+    Never hardcode one. A build is named for the live version it came from, so
+    naming it here means this default becomes a lie the next time one ships,
+    which is exactly what happened to run.sh and to the sweep button.
+    """
+    found = glob.glob(os.path.join(HERE, "application-command-center-*.html"))
+    if not found:
+        return os.path.join(HERE, "application-command-center-MISSING.html")
+    def ver(path):
+        m = re.search(r"application-command-center-(\d+)", os.path.basename(path))
+        return int(m.group(1)) if m else -1
+    return max(found, key=ver)
 
 
 class Refused(Exception):
@@ -206,9 +223,8 @@ def swept(src):
 def main():
     ap = argparse.ArgumentParser(description="Merge a sweep payload into a build.")
     ap.add_argument("payload")
-    ap.add_argument("--target", default=os.path.join(
-        HERE, "application-command-center-1787695423-56assert.html"),
-        help="build to merge into; default is the committed source")
+    ap.add_argument("--target", default=newest_build(),
+                    help="build to merge into; default is the newest committed build")
     ap.add_argument("--apply", action="store_true",
                     help="write the merge. Without this nothing is written.")
     ap.add_argument("--out", help="where to write; default is in place over --target")
