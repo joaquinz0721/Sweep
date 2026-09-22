@@ -539,3 +539,11 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - [ ] Rescope the nationwide `design Engineer Intern` LinkedIn alert to Denver if the California rows become noise, and strip the stray leading tab from two alert names.
 - [ ] **Confirm the favicon.** `🎯` was set 2026-08-21 because the publish requires the parameter and no prior value was on record. If the tab icon used to be something else, restore it and write it down in section 1.
 - [ ] Send the support request in `docs/support-request.md`. Background long shot, do not block on it.
+
+## 11. Session of 2026-09-22
+
+- **Live version `1790116637-4820`**, published from a cloud session through route 0a on the first attempt, 41 ticks in and out with the state block byte identical, 65 INT and 12 SCH rows, all 56 assertions green, read back byte identical to the payload. Committed null-state build: `dashboard/application-command-center-1790116637-wagesplit.html`.
+- **Wage split, Joaquin's instruction.** The Internships tab now renders rows whose wage range tops out under `BASE_WAGE` in a second table headed "Pays under $26/hr". Straddling ranges and unknown wages stay in the main table. Score unchanged. CLAUDE.md rule 9 updated.
+- **Row edits from Joaquin:** both Honeywell Aerospace rows flagged link dead; Solid Power wage set to $25/hr; Vertiv HVAC, Vertiv Lab Focus and True Anomaly set CLOSED (dead links, not on company site); AeroVironment rewritten from the pasted posting (req 8608, Workday link, 4 of 5, STRONG, housing stipend conditional); Vertiv Mechanical Design annotated from the pasted posting, very likely the Liquid Cooling req he already applied to.
+- **Coursework error caught.** The claude.ai account copy of the skill was stale and still called the screwdriver project his own time. Letters written from it on 2026-09-22 said "On my own time" for Advanced Space and Knight Piesold; corrected copies were filed in Packets and the originals renamed OLD DO NOT SEND. H3X form answers given in chat carried the same phrase. **He must re-upload `dist/SKILL.md` to his account.**
+- **Standing first-week answer** added to `references/profile.md` learned voice rules.
