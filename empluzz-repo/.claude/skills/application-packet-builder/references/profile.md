@@ -129,6 +129,13 @@ Each of these came from a specific output that was wrong.
   not mention it.
 - **Kelvin is past tense.** That internship ended August 2026. A present-tense
   Kelvin sentence is a factual error, not a style slip, and the checker blocks it.
+- **His standing first-week answer (question C).** Set 2026-09-22, in his words:
+  "I want to get accustomed with my tools, sit down with what problems I need to
+  have, align myself with my goals, and immediately get after it." Use this as
+  the base of the first-week paragraph in every letter, cleaned up for spelling
+  only, and add the one role-specific detail he gives, such as the project he
+  picked. Still ask C each time, offering this as the default, so he can name
+  the project or change it. Never mirror posting keywords into it.
 
 ## Voice calibration
 
