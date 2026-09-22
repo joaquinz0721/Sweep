@@ -97,9 +97,21 @@ as padding.
 
 ## Location and housing
 
-Standing policy as of 2026-08-21. He applies to out-of-state roles even when
-housing and relocation are not supported, and out-of-state is no longer capped
-at STRETCH.
+**Standing policy as of 2026-09-22. This replaces the 2026-08-21 policy, which
+applied to out-of-state roles regardless of housing.**
+
+**Out of state requires confirmed housing or relocation support.** Where a
+listing does not confirm it, the role is only worth pursuing on an exceptional
+fit, which is 4 of these 5: ME is a named or required major; the work is
+mechanical design, manufacturing process, thermal, fixturing or test; no
+do-not-claim tool is required; the pay floor is at or above $26; the employer is
+aerospace, defence or space, or a leader in advanced manufacturing or thermal
+systems. **Relocation offered "based on eligibility" or "may be available" is not
+confirmed support.**
+
+He has places he could stay in Salt Lake City and Cape Canaveral. **He would
+rather not use them, so never treat either as solving housing** and never write a
+sentence that offers to arrange his own accommodation.
 
 **In the letter:** keep the availability line neutral unless the posting states
 housing or relocation support. Never write a sentence committing him to relocate
