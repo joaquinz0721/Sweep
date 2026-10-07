@@ -70,3 +70,14 @@ project or the wobbler engine personal or done on his own time, and appended to
 the Opus voice-pass checklist so the pass that reads the draft back catches it if
 the subagent slips. They were school coursework. `sweepPrompt()` step 4 was
 corrected from 41 assertions to 56 in the same publish.
+
+## apply-sweep-pipeline.py
+
+Points the **Run Internship Sweep** and **Run Scholarship Sweep** buttons at the
+built pipeline in `docs/sweep-pipeline.md`. One edit: the comment above
+`sweepPrompt()` and the function itself. Shipped in live version `1791366720-cf74`
+on 2026-10-07; a second run refuses because the old start anchor is gone.
+
+```bash
+python3 apply-sweep-pipeline.py IN.html OUT.html
+```

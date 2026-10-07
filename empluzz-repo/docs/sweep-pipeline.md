@@ -1,48 +1,123 @@
 # Sweep pipeline
 
-## THE PIPELINE IS NOT BUILT. DO NOT FOLLOW THE BUTTON PROMPT.
+**Built 2026-10-07.** This is the procedure the dashboard's **Run Internship Sweep** and
+**Run Scholarship Sweep** buttons point at. It runs in a cloud Claude Code session on the
+`Sweep` repo (route 0a), because that is the surface that can read and publish the tracker.
+A Cowork session cannot publish it, ever; see `CLAUDE.md`.
 
-The **Run Internship Sweep** and **Run Scholarship Sweep** buttons on the dashboard copy a prompt that tells the receiving session to "Follow docs/sweep-pipeline.md" and then to run `python3 dashboard/ingest.py`. As of 2026-08-24:
+The pieces:
 
-- **`dashboard/ingest.py` does not exist.** Not in the working tree, not in any commit in this repo's history, not anywhere on any machine that has been searched.
-- **This file did not exist either** until it was created as this stub, so the button pointed at nothing at all.
-- **`dashboard/application-command-center.html`**, which step 5 of the button prompt names as the publish payload, does not exist under that name. The committed build is `dashboard/application-command-center-1787695423-56assert.html`, and it carries `applied:null`, so it is never a publish payload on its own. See `dashboard/README.md`.
+| Piece | Where | What it does |
+|---|---|---|
+| Sweep agents | `.claude/agents/internship-sweep.md`, `.claude/agents/scholarship-sweep.md` at the **repo root** | Sonnet. Search, score, write one JSON payload. Never publish, never edit HTML, never `--apply`. |
+| Ingest | `empluzz-repo/dashboard/ingest.py` | Validates the payload, previews the merge, and on `--apply` writes it into a build. Refuses the whole payload on any defect. |
+| Ingest tests | `empluzz-repo/dashboard/verify/test_ingest.py` | 38 assertions. Run after any change to `ingest.py`. |
+| Board harness | `empluzz-repo/dashboard/verify/run.sh` | The 56 assertions every publish already needs. |
 
-Anyone who presses one of those buttons today gets a prompt that sends them to three things that are not there. Nobody should follow it until the pipeline is real.
+Paths below are relative to `empluzz-repo/` unless they start with `.claude/`.
 
-Building the pipeline is its own job. It was deliberately not done in the session that wrote this file, because writing an ingest path is a real piece of engineering and inventing one to satisfy a dangling reference would have been worse than the dangling reference.
+## The procedure
 
-## The intended design, for whoever builds it
+```
+fetch -> sweep agent -> preview -> HIS GO -> fresh fetch + full Read -> apply -> verify -> publish -> read back -> commit
+```
 
-These are the six steps the dashboard button already describes, recorded here as the design rather than as a procedure. They have never been run.
+**1. Fetch for context.** `Artifact` `action:"read"` on the tracker URL, then rebuild:
 
-1. **Spawn the sweep agent on Sonnet.** `internship-sweep` or `scholarship-sweep`. It searches, scores, and writes a JSON payload of new and changed rows. It never publishes and it never edits the dashboard. That refusal is correct behavior and it is load bearing, per `docs/MEMORY.md` section 1.
-2. **Preview:** `python3 dashboard/ingest.py <payload>`. Prints what it would do, N new and M updated, and changes nothing.
-3. **Apply:** `python3 dashboard/ingest.py <payload> --apply`. Merges into the `INT` and `SCH` arrays and stamps the CAL Last Checked row so the header `SWEPT` date moves.
-4. **Verify:** `dashboard/verify/run.sh`. All 56 assertions must pass. See the note on the count below.
-5. **Publish** to the tracker artifact, passing its URL and the favicon `🎯`. Never `force`, never a `capabilities` object. The payload must be built from a **fresh read of the live artifact**, never from the null-state file committed here, or the applied ticks go to null.
-6. **Commit** the null-state build so the repo and the live page do not drift.
+    python3 dashboard/verify/mkbase2.py <saved file> /tmp/apb/work/sweep-base.html
 
-Standing guard rails, agreed 2026-08-21 and unchanged: never touch the applied ticks, refuse to publish if the tick count moved, refuse rows without a slug, refuse malformed JSON, and always preview before committing.
+This copy is only for the agent to read. It is not the publish base.
 
-## Open questions the builder has to settle first
+**2. Spawn the agent on Sonnet.** `internship-sweep` or `scholarship-sweep`, with two
+paths in the prompt: `BUILD=/tmp/apb/work/sweep-base.html` and
+`PAYLOAD=/tmp/apb/work/sweep-int.json` (or `sweep-sch.json`). If the agent type is not
+listed in the session, spawn a general-purpose agent with the model set to Sonnet and
+give it the whole of the matching `.claude/agents/*.md` file as its instructions. The agent
+runs the preview itself and fixes its own payload until ingest stops refusing.
 
-- **Which surface runs the sweep.** A Cowork session cannot publish the artifact at all. A cloud Claude Code session can, through route 0a. A scheduled routine is a third surface and has never been tested. `docs/MEMORY.md` section 1 has the whole matrix.
-- **Whether ingest merges in the repo or in the page.** The alternative design, the **Paste sweep results** control, has the sweep emit JSON and the live page merge and republish itself. That needs no publish rights in the sweep at all. It is described in `docs/MEMORY.md` section 1 and it is a genuinely different architecture from `ingest.py`.
-- **What the sweep agents actually are.** `internship-sweep---summer-27` and `scholarship-sweeper---26-27` are stored locally by the Cowork desktop app. Their prompts have never been recovered into `prompts/`.
+**3. Preview, and show him.**
 
-## The assertion count, resolved 2026-08-25
+    python3 dashboard/ingest.py /tmp/apb/work/sweep-int.json --build /tmp/apb/work/sweep-base.html
 
-**Resolved.** The harness has **56** assertions, measured by running `dashboard/verify/run.sh`
-on 2026-08-25: 41 in `verify.js`, 8 in `verify-upgrade.js`, 7 in `verify-upgrade2.js`. The
-earlier note here recorded 48 (33 + 8 + 7), measured on 2026-08-24 before I8 to I15 were
-added to `verify.js`.
+Paste the whole preview into the chat, every `+`, `~` and `WARN` line, plus the agent's
+best finds. **Wait for his go.** He can drop rows; edit the payload and preview again.
 
-The button text was the other half of the drift: `sweepPrompt()` on the live board said
-"all 41 assertions must pass", not the 56 this document previously claimed it said. Both
-halves are now correct and agree at 56, shipped in live version `1787695423-9d50`.
+**4. Fresh fetch and full Read, immediately before the publish.** This is the step the
+publish gate checks, so it comes after his go and not before. `Artifact` `action:"read"`
+again, then `Read` every line of the file it names, as `docs/artifact-publish-runbook.md`
+section 0 describes. Then:
 
-Note for a future session: the harness needs `npm install` in `dashboard/verify/`, and in a
-container whose Chromium build does not match the pinned Playwright, point `ACC_CHROMIUM` at
-the preinstalled binary (`/opt/pw-browsers/chromium-1194/chrome-linux/chrome`). `harness.js`
-documents that escape hatch.
+    python3 dashboard/verify/mkbase2.py <new saved file> /tmp/apb/work/live-base.html
+
+Ingest is repeatable on purpose: the same payload applies to this fresh base, so any tick
+he made while the sweep ran is carried, not lost.
+
+**5. Apply.**
+
+    python3 dashboard/ingest.py /tmp/apb/work/sweep-int.json --build /tmp/apb/work/live-base.html --apply
+
+If it refuses here but passed in step 3, the board changed underneath (usually a slug that
+now exists). Tell him; do not hand edit around it.
+
+**6. Verify.**
+
+    cd dashboard/verify && npm install
+    ACC_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome bash run.sh /tmp/apb/work/live-base.html
+
+All 56 must pass. Ingest already refuses to change the `ACC-STATE` block; check the tick
+count in the preview line matches the live read anyway.
+
+**7. Publish.** `Artifact` with `file_path` set to the merged build, the tracker `url`, and
+the favicon. No `force`, no `capabilities`. If the gate refuses as not viewed, go back to
+step 4, not to step 1.
+
+**8. Read back.** Fetch again, rebuild with `mkbase2.py`, and `cmp` against the payload:
+it should be byte identical.
+
+**9. Commit.** `mkbase2.py <payload> dashboard/application-command-center-<version>-<tag>.html --null-state`,
+point `CLAUDE.md` and `dashboard/README.md` at it, add a line to `docs/MEMORY.md`, push.
+
+## The payload
+
+Named fields, so an agent cannot put a wage in the notes column by miscounting.
+
+    {
+      "kind": "int" | "sch",
+      "swept": "YYYY-MM-DD",
+      "label": "short, goes in the Calendar row name",
+      "summary": "what was searched, what answered, what did not",
+      "new":    [ { every field for the tab } ],
+      "update": [ { "slug": "...", "set": { some fields }, "append_note": "..." } ],
+      "screen_out": [ { "name": "...", "role": "...", "reason": "..." } ]
+    }
+
+Internship fields: `conviction company role location term deadline source url packet notes status hint wage slug`.
+Scholarship fields: `conviction name sponsor award opens deadline gate url packet notes status hint slug`.
+
+Ingest also appends a Calendar row stamped with `swept`, which moves the header's
+"last swept" date, and adds Screened Out rows dated `swept`.
+
+**Refused outright:** unknown keys, a missing or empty required field, a conviction or
+status the board does not know, a slug that already exists or is malformed or on the wrong
+tab, an update to a slug that does not exist or that tries to change a slug, a deadline
+that is not `YYYY-MM-DD`, a wage that is not hourly, a non-http url, any em or en dash, a
+null-state build, and any merge that would change the `ACC-STATE` block, the tick count,
+or the count of any document marker.
+
+**Warned, not refused:** a new row that looks like an existing requisition or a Screened
+Out row (never consolidate, but confirm), and an out of state internship whose notes never
+state the housing position.
+
+## Guard rails, unchanged since 2026-08-21
+
+Never touch the applied ticks. Refuse to publish if the tick count moved. Refuse rows
+without a slug. Refuse malformed JSON. Always preview before committing.
+
+## Still open
+
+- **Routines.** A scheduled routine is a different surface from an interactive cloud
+  session and has never been tested against the artifact. Until it is, a sweep is
+  something he starts, not something that runs while the laptop is closed.
+- **The old Cowork scheduled tasks** `internship-sweep---summer-27` and
+  `scholarship-sweeper---26-27` still exist on his desktop and still cannot publish.
+  They are superseded by this; he can delete them.

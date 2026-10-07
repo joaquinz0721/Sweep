@@ -1051,38 +1051,42 @@ function cvBtn(kind,i,btn){
     flash(btn,"Copied",'Opus prompt for '+r[1]+' copied. Paste it into a fresh Opus chat. It asks you four questions first, then hands the draft to a Sonnet subagent and checks the voice before the link comes back to you.'));
 }
 
-/* This is a copy-a-prompt button and always was. The old code first tried
-   window.cowork.runScheduledTask, which was tested on 2026-08-21 and does not
-   exist in this frame, so the copy path is the only one that ever ran. That
-   branch is gone now, and good riddance: it fired a Cowork scheduled task, and
-   a Cowork session cannot publish this page, so every press that took it ended
-   in a failed publish and an apologetic chat message.
-
-   What it copies now drives the pipeline in docs/sweep-pipeline.md: a Sonnet
-   agent finds and scores and emits JSON, ingest.py validates and merges it, the
-   harness checks it, and the orchestrating session publishes. Press, paste,
-   wait. Keep this text in step with that document. */
+/* This is a copy-a-prompt button and always was; window.cowork.runScheduledTask
+   does not exist in this frame (tested 2026-08-21) and a Cowork session cannot
+   publish this page anyway. The pipeline it points at was BUILT on 2026-10-07:
+   a Sonnet sweep agent writes a JSON payload, dashboard/ingest.py validates and
+   previews it, he says go, and the session merges it into a FRESH read of this
+   page, runs the harness and publishes. Keep this text in step with
+   docs/sweep-pipeline.md, which is the full procedure. */
 function sweepPrompt(kind){
   const what=kind==="int"
     ? "Summer 2027 internship sweep"
     : "2026-27 scholarship sweep";
   const agent=kind==="int" ? "internship-sweep" : "scholarship-sweep";
+  const pay="/tmp/apb/work/sweep-"+kind+".json";
   return [
     "Run the "+what+" for the empluzz project, in the Sweep repo.",
     "",
-    "Follow docs/sweep-pipeline.md. The short version:",
-    "1. Spawn the "+agent+" agent on Sonnet. It searches, scores, and writes a",
-    "   JSON payload. It never publishes and never edits the dashboard.",
-    "2. Preview:  python3 dashboard/ingest.py <payload>",
-    "3. Apply:    python3 dashboard/ingest.py <payload> --apply",
-    "4. Verify:   dashboard/verify/run.sh     (all 56 assertions must pass)",
-    "5. Publish the merged build to the tracker, passing its URL and the",
-    "   favicon. Never force, never a capabilities object. Build the payload",
-    "   from a fresh read of the live page or the applied ticks go to null.",
-    "6. Commit the same file so the repo and the live page do not drift.",
+    "Read empluzz-repo/CLAUDE.md, then follow empluzz-repo/docs/sweep-pipeline.md",
+    "step by step. Commands run from empluzz-repo/. The short version:",
+    "1. Read the tracker with the Artifact tool, then rebuild it for the agent:",
+    "   python3 dashboard/verify/mkbase2.py <saved file> /tmp/apb/work/sweep-base.html",
+    "2. Spawn the "+agent+" agent on Sonnet with BUILD=/tmp/apb/work/sweep-base.html",
+    "   and PAYLOAD="+pay+". It searches, scores and writes the payload. It never",
+    "   publishes. If that agent type is not listed, spawn a general-purpose agent",
+    "   on Sonnet and give it .claude/agents/"+agent+".md as its instructions.",
+    "3. Preview:  python3 dashboard/ingest.py "+pay+" --build /tmp/apb/work/sweep-base.html",
+    "   Show me the whole preview and the best finds. Wait for my go.",
+    "4. After my go, read the tracker AGAIN and Read every line of the new file,",
+    "   then rebuild it: mkbase2.py <new saved file> /tmp/apb/work/live-base.html",
+    "5. Apply:    python3 dashboard/ingest.py "+pay+" --build /tmp/apb/work/live-base.html --apply",
+    "6. Verify:   dashboard/verify/run.sh /tmp/apb/work/live-base.html   (all 56 must pass)",
+    "7. Publish live-base.html to the tracker with its URL and the favicon. Never",
+    "   force, never a capabilities object. Read it back and confirm it matches.",
+    "8. Commit the null-state copy to main so the repo and the page do not drift.",
     "",
     "Never touch my applied ticks, and refuse to publish if the tick count moved.",
-    "Show me the ingest preview before you apply it."
+    "Never apply before I have seen the preview."
   ].join("\n");
 }
 function runTask(kind,btn){

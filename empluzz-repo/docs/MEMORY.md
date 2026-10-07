@@ -16,7 +16,7 @@ docs/verification-2026-08-21.md             posting evidence, direct quotes
 docs/source-expansion-scoping.md            LinkedIn and ZipRecruiter reasoning
 docs/support-request.md                     the gateway support request, unsent
 docs/followup.md                            post-application follow-up background, the two broken outputs
-docs/sweep-pipeline.md                      STUB. The pipeline is not built and ingest.py does not exist
+docs/sweep-pipeline.md                      the sweep procedure, built 2026-10-07 (ingest.py, agents at repo root .claude/agents/)
 docs/history/code-tab-prompt-2026-08-21.md  shipped; the worked route-0 example
 docs/history/desk-checklist-2026-08-21.md   mostly spent; kept for reasoning
 docs/history/build-letter-delegation-2026-08-22.md
@@ -547,3 +547,12 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - **Row edits from Joaquin:** both Honeywell Aerospace rows flagged link dead; Solid Power wage set to $25/hr; Vertiv HVAC, Vertiv Lab Focus and True Anomaly set CLOSED (dead links, not on company site); AeroVironment rewritten from the pasted posting (req 8608, Workday link, 4 of 5, STRONG, housing stipend conditional); Vertiv Mechanical Design annotated from the pasted posting, very likely the Liquid Cooling req he already applied to.
 - **Coursework error caught.** The claude.ai account copy of the skill was stale and still called the screwdriver project his own time. Letters written from it on 2026-09-22 said "On my own time" for Advanced Space and Knight Piesold; corrected copies were filed in Packets and the originals renamed OLD DO NOT SEND. H3X form answers given in chat carried the same phrase. **He must re-upload `dist/SKILL.md` to his account.**
 - **Standing first-week answer** added to `references/profile.md` learned voice rules.
+
+## 12. Session of 2026-10-07: the sweep pipeline is BUILT
+
+- **`dashboard/ingest.py`** validates a named-field JSON payload, previews the merge, and on `--apply` writes it into a reconstruction of a fresh live read. Refuses the whole payload on any defect, refuses a null-state build, and refuses any merge that moves the ACC-STATE block or a marker count. Stamps a CAL row so the header SWEPT date moves. **38 tests** in `dashboard/verify/test_ingest.py`, all passing.
+- **Sweep agents** `internship-sweep` and `scholarship-sweep` live at the REPO ROOT in `.claude/agents/`, model Sonnet, with no Artifact tool in their tool list, so they cannot publish. If a session does not list them, spawn a general-purpose Sonnet agent with the file as instructions.
+- **`docs/sweep-pipeline.md`** is now the procedure. Key design point: the sweep runs against one read, and the payload is re-applied to a FRESH read after his go, immediately before the publish. That satisfies the publish gate and carries any tick he made in between.
+- **Run Sweep buttons** now copy a prompt that follows that procedure. Shipped as live version `1791366720-cf74`, 41 ticks unchanged, 56 assertions green, read back byte identical. Patch: `dashboard/patches/apply-sweep-pipeline.py`. Committed build: `dashboard/application-command-center-1791366720-sweeppipeline.html`.
+- Rehearsed end to end on a ticked fixture before shipping: ingest apply, then the 56-assertion harness, green.
+- **Still open:** scheduled routines have never been tested against the artifact, so a sweep is still something he starts. The two old Cowork scheduled tasks are superseded and can be deleted.

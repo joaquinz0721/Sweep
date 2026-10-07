@@ -7,21 +7,17 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
-`application-command-center-1787695423-56assert.html`, 110,461 bytes, md5
-`17f886ff05ed29d1fea048d97208bcfe`.
+`application-command-center-1791366720-sweeppipeline.html`, 165,289 bytes, md5
+`b14b29804b9492c7b725f82679d57ff5`.
 
-The null-state copy of live version `1787695423-9d50`, published 2026-08-25.
-41 internship rows, 12 scholarship rows. It carries the coursework rule in both
-places, the Sonnet subagent brief and the Opus voice-pass checklist, and the
-corrected "all 56 assertions must pass" in `sweepPrompt()`.
+The null-state copy of live version `1791366720-cf74`, published 2026-10-07.
+65 internship rows, 12 scholarship rows. On top of the 2026-08-25 build it carries the
+wage-floor split (rows topping out under $26/hr in their own table, 2026-09-22) and the
+Run Sweep buttons pointing at the built pipeline in `docs/sweep-pipeline.md` (2026-10-07).
 
-Verified on this branch after the merge: all 56 assertions pass
-(41 + 8 + 7, zero failures), and it is byte-identical to its own canonical
-reconstruction, so it is a fixed point and safe as an edit base.
-
-**Still never publish from it directly.** A republish has to carry the live
-ticks, so it is built from a fresh read of the artifact. See
-`docs/artifact-publish-runbook.md`, which is the whole procedure.
+Verified before the publish: all 56 assertions pass (41 + 8 + 7), and the published
+version reconstructs byte-identical to the payload. The older
+`application-command-center-1787695423-56assert.html` is kept as history; do not edit from it.
 
 ## Previous source
 
