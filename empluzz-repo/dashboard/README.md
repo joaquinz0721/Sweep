@@ -7,19 +7,29 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1791367605-intsweep.html`, 172,102 bytes, md5
+`1a5690ae7bdbb90722898e629b0bdf96`.
+
+The null-state copy of live version `1791367605-4df8`, published 2026-10-07 by the
+first sweep through the built pipeline. 69 internship rows, 12 scholarship rows. On top of
+the `1791366720` build it carries four new UNCONFIRMED rows (CesiumAstro, USA Rare Earth,
+Salas O'Brien, Sierra Space), a recheck note on the Xcel Power Generation Analytics row,
+two Screened Out rows and a Calendar row stamped 2026-10-07. All written by `ingest.py`.
+
+Verified before the publish: all 56 assertions pass (41 + 8 + 7), 41 ticks in and out with
+the state block byte identical, and the published version reconstructs byte-identical to
+the payload.
+
+## Previous source
+
 `application-command-center-1791366720-sweeppipeline.html`, 165,289 bytes, md5
 `b14b29804b9492c7b725f82679d57ff5`.
 
-The null-state copy of live version `1791366720-cf74`, published 2026-10-07.
-65 internship rows, 12 scholarship rows. On top of the 2026-08-25 build it carries the
-wage-floor split (rows topping out under $26/hr in their own table, 2026-09-22) and the
-Run Sweep buttons pointing at the built pipeline in `docs/sweep-pipeline.md` (2026-10-07).
+The null-state copy of live version `1791366720-cf74`, which shipped the wage-floor split
+and the Run Sweep buttons pointing at the built pipeline. Superseded 2026-10-07 by the
+sweep above. Kept as history; do not edit from it.
 
-Verified before the publish: all 56 assertions pass (41 + 8 + 7), and the published
-version reconstructs byte-identical to the payload. The older
-`application-command-center-1787695423-56assert.html` is kept as history; do not edit from it.
-
-## Previous source
+## Older source
 
 `application-command-center-1787637025-41row.html`, 110,115 bytes, md5
 `7ea70b3fbe0d763231731c181ca863a3`.

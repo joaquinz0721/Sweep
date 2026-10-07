@@ -556,3 +556,11 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - **Run Sweep buttons** now copy a prompt that follows that procedure. Shipped as live version `1791366720-cf74`, 41 ticks unchanged, 56 assertions green, read back byte identical. Patch: `dashboard/patches/apply-sweep-pipeline.py`. Committed build: `dashboard/application-command-center-1791366720-sweeppipeline.html`.
 - Rehearsed end to end on a ticked fixture before shipping: ingest apply, then the 56-assertion harness, green.
 - **Still open:** scheduled routines have never been tested against the artifact, so a sweep is still something he starts. The two old Cowork scheduled tasks are superseded and can be deleted.
+
+## 13. Session of 2026-10-07, later: the first pipeline sweep SHIPPED
+
+- **Live version `1791367605-4df8`**, the first internship sweep run end to end through `docs/sweep-pipeline.md`. The `internship-sweep` agent was listed in the session and ran on Sonnet. Preview shown to him, go given, fresh fetch plus a full `Read` of all 1153 lines, then apply, harness, publish. The gate accepted it on the first try. 41 ticks in and out with the ACC-STATE block md5 identical, 56 of 56 assertions green, and the read back reconstructs byte-identical to the payload. Committed build: `dashboard/application-command-center-1791367605-intsweep.html`.
+- **Added, all UNCONFIRMED** because the proxy blocked Built In, Rippling and Dice: CesiumAstro ME intern (STRONG, Westminster CO vs Austin TX unresolved, Dice link), USA Rare Earth R&D process (STRETCH, Wheat Ridge, under floor, link is the Rippling board), Salas O'Brien ME intern (WATCH, MEP and Revit risk), Sierra Space 2027 Systems Engineer intern (WATCH, term unconfirmed). Xcel Power Generation Analytics got a note that Indeed lists it as part-time. Screened out: Lunar Outpost BD intern, BSA (Revit).
+- One agent error fixed before apply, with his go: the USA Rare Earth note measured distance from Centennial; changed to Boulder.
+- Indeed returned only rows already on the board. Built In, Rippling and Dice block from the cloud proxy, so sweeps from this surface still cannot read most Colorado aerospace postings directly.
+
