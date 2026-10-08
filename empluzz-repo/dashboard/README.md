@@ -7,10 +7,26 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1791489687-drop3dead.html`, 168,279 bytes, md5
+`dfc7f77df715158e8f88ad93de90cb50`.
+
+The null-state copy of live version `1791489687-0496`, published 2026-10-08. Built from a
+fresh read of `1791489367-c0d7` (48 ticks). One change: three internship rows removed on
+Joaquin's instruction because their links were dead and he confirmed the requisitions closed
+(Sierra Space 2027 Systems Engineer Intern, Vertiv Lab Focus, True Anomaly GSE). None carried
+a tick. Each now has a Screened Out row dated 2026-10-08 so no sweep resurfaces it. 66
+internship rows, 12 scholarship rows, 31 Screened Out rows.
+
+Verified before the publish: all 56 assertions pass (41 + 8 + 7), 48 ticks in and out with
+the state block byte identical, and the published version reconstructs byte-identical to
+the payload.
+
+## Previous source
+
 `application-command-center-1791367605-intsweep.html`, 172,102 bytes, md5
 `1a5690ae7bdbb90722898e629b0bdf96`.
 
-The null-state copy of live version `1791367605-4df8`, published 2026-10-07 by the
+Superseded 2026-10-08 by the dead-row removal above. The null-state copy of live version `1791367605-4df8`, published 2026-10-07 by the
 first sweep through the built pipeline. 69 internship rows, 12 scholarship rows. On top of
 the `1791366720` build it carries four new UNCONFIRMED rows (CesiumAstro, USA Rare Earth,
 Salas O'Brien, Sierra Space), a recheck note on the Xcel Power Generation Analytics row,
@@ -20,7 +36,7 @@ Verified before the publish: all 56 assertions pass (41 + 8 + 7), 41 ticks in an
 the state block byte identical, and the published version reconstructs byte-identical to
 the payload.
 
-## Previous source
+## Older source, 1791366720
 
 `application-command-center-1791366720-sweeppipeline.html`, 165,289 bytes, md5
 `b14b29804b9492c7b725f82679d57ff5`.

@@ -564,3 +564,7 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - One agent error fixed before apply, with his go: the USA Rare Earth note measured distance from Centennial; changed to Boulder.
 - Indeed returned only rows already on the board. Built In, Rippling and Dice block from the cloud proxy, so sweeps from this surface still cannot read most Colorado aerospace postings directly.
 
+## 14. Session of 2026-10-08: three dead rows removed
+
+- **Live version `1791489687-0496`**, built from a fresh read of `1791489367-c0d7` (48 ticks, unchanged through the publish). Removed from the Internships tab on his instruction: Sierra Space 2027 Systems Engineer Intern, Vertiv Engineering Internship Lab Focus, True Anomaly GSE Engineering Intern. Links dead and he confirmed on his own search that all three are closed. None was ticked.
+- Each got a Screened Out row dated 2026-10-08 instead of simply vanishing, so a sweep reading OUT will not resurface it as new. 66 INT, 12 SCH, 31 OUT. 56 assertions green, read back reconstructs byte identical. Committed build: `dashboard/application-command-center-1791489687-drop3dead.html`.
