@@ -7,11 +7,27 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1792440719-micronsweep.html`, 192,233 bytes, md5
+`a064282841acfdcc6d867dc8eeb5b70e`.
+
+The null-state copy of live version `1792440719-861c`, published 2026-10-19 by the
+second pipeline sweep. 78 internship rows, 12 scholarship rows. On top of the
+`1791367605` build it carries 12 new rows (five Ursa Major in Berthoud CO, seven
+Micron, all Micron rows UNCONFIRMED), 21 Screened Out rows, one per requisition, and a
+Calendar row stamped 2026-10-19. All written by `ingest.py`.
+
+Verified before the publish: all 56 assertions pass (41 + 8 + 7), 48 ticks in and out with
+the state block byte identical, and the published version reconstructs byte-identical to
+the payload.
+
+## Previous source
+
 `application-command-center-1791367605-intsweep.html`, 172,102 bytes, md5
 `1a5690ae7bdbb90722898e629b0bdf96`.
 
 The null-state copy of live version `1791367605-4df8`, published 2026-10-07 by the
-first sweep through the built pipeline. 69 internship rows, 12 scholarship rows. On top of
+first sweep through the built pipeline. Superseded 2026-10-19. Kept as history; do not
+edit from it. 69 internship rows, 12 scholarship rows. On top of
 the `1791366720` build it carries four new UNCONFIRMED rows (CesiumAstro, USA Rare Earth,
 Salas O'Brien, Sierra Space), a recheck note on the Xcel Power Generation Analytics row,
 two Screened Out rows and a Calendar row stamped 2026-10-07. All written by `ingest.py`.

@@ -564,3 +564,9 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - One agent error fixed before apply, with his go: the USA Rare Earth note measured distance from Centennial; changed to Boulder.
 - Indeed returned only rows already on the board. Built In, Rippling and Dice block from the cloud proxy, so sweeps from this surface still cannot read most Colorado aerospace postings directly.
 
+## 14. Session of 2026-10-19: the Micron and Ursa Major sweep SHIPPED
+
+- **Live version `1792440719-861c`**, the second internship sweep through `docs/sweep-pipeline.md`. Joaquin asked for open Micron internships specifically. `internship-sweep` ran on Sonnet. Preview shown, go given, fresh fetch plus a full `Read` of all 1166 lines, apply, harness, publish; the gate accepted it first try. 48 ticks in and out with the ACC-STATE block md5 identical, 56 of 56 green, read back byte-identical to the payload. Committed build: `dashboard/application-command-center-1792440719-micronsweep.html`.
+- **Added:** Ursa Major, Berthoud CO, $30/hr posted, five rows: Manufacturing, In-Space Propulsion and Test (STRONG), Design (STRETCH, wants senior standing by May 2027 and lists FEA) and Materials & Processes (STRETCH). Micron, seven rows, all UNCONFIRMED because careers.micron.com is blocked by the proxy and no posting names Summer 2027: ID1 Equipment, Probe Equipment, TSE KEG (Boise) and Equipment (Manassas VA) at STRONG; ID1 Manufacturing, ID1 Process and RDA/Metrology Shift (Boise) at STRETCH. The Manassas wage sources conflict, Indeed est. $45-60/hr against a ZipRecruiter annual figure near $16-21/hr.
+- **New standing rule from Joaquin:** one Screened Out entry per requisition, never bundled. Written into `CLAUDE.md` rule 8, both sweep agents and `docs/sweep-pipeline.md`. This sweep's 13 entries were split to 21 before apply.
+
