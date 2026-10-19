@@ -112,6 +112,10 @@ nothing else may. `deadline` is `YYYY-MM-DD` or empty. `conviction` is one of MU
 STRONG, STRETCH, WATCH, CLOSED. `status` is one of OPEN, NOTYET, UNCONFIRMED, BLOCKED,
 CLOSED. `packet` is `Not started` for anything new. Updates never change a slug.
 
+**One `screen_out` entry per requisition, always.** Never bundle several titles into one
+entry, even when they fail for the same reason or sit at the same company. Each gets its
+own `role` and its own one-sentence `reason`. Standing instruction from Joaquin, 2026-10-19.
+
 ## 6. Check your own work, then report
 
 Run the preview, which validates and changes nothing:

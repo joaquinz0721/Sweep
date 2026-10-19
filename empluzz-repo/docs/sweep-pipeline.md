@@ -108,6 +108,10 @@ or the count of any document marker.
 Out row (never consolidate, but confirm), and an out of state internship whose notes never
 state the housing position.
 
+**One screen_out entry per requisition or award.** Never bundle several titles into one
+entry. Standing instruction from Joaquin, 2026-10-19; it extends the never-consolidate rule
+in `CLAUDE.md` rule 8 to the Screened Out tab.
+
 ## Guard rails, unchanged since 2026-08-21
 
 Never touch the applied ticks. Refuse to publish if the tick count moved. Refuse rows

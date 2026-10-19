@@ -81,6 +81,10 @@ Write exactly this shape to `PAYLOAD`:
 Every new row carries all 13 keys. `opens`, `deadline` and `hint` may be empty strings;
 nothing else may. Updates never change a slug.
 
+**One `screen_out` entry per award, always.** Never bundle several awards into one
+entry, even when they fail for the same reason or share a sponsor. Each gets its own
+`role` and its own one-sentence `reason`. Standing instruction from Joaquin, 2026-10-19.
+
 ## 6. Check your own work, then report
 
     python3 dashboard/ingest.py PAYLOAD --build BUILD
