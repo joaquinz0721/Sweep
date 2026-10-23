@@ -7,6 +7,21 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1792756513-oct23sweep.html`, 246,165 bytes, md5
+`d69e182d0212d5bc9e719a96569afc95`.
+
+The null-state copy of live version `1792756513-d03b`, published 2026-10-23 by the first
+sweep under the all-sources rule (email inbox and spam, ZipRecruiter, Indeed, other
+boards, employer sites). 113 internship rows, 12 scholarship rows. On top of the
+`1792752085` build: 38 new rows, 3 updated (Sierra Nevada ME and ULA 2139 confirmed
+open, Ursa Major Manufacturing rechecked), 22 Screened Out rows one per requisition, and
+a Calendar row stamped 2026-10-23. All written by `ingest.py`.
+
+Verified before the publish: all 56 assertions pass, 57 ticks in and out with the state
+block byte identical, and the published version reconstructs byte-identical to the payload.
+
+## Previous source
+
 `application-command-center-1792752085-micronapplied.html`, 189,356 bytes, md5
 `5ba89ea5d05b1d0ddd691785aa7f8fd5`.
 
