@@ -46,10 +46,28 @@ aerospace, defence, space, energy or advanced manufacturing. **Colorado first**:
 metro, Boulder, Louisville, Broomfield, Westminster, Centennial, Lone Tree, Fort Collins,
 Colorado Springs. Then the rest of the US.
 
-Sources, in this order: web search, the Indeed connector (`mcp__Indeed__search_jobs`),
-the ZipRecruiter connector (`mcp__ZipRecruiter__search_jobs`, page size is 5, so use
-`offset`). Load connector tools with ToolSearch if they are deferred. Open the employer's
-own posting whenever you can and read it.
+Sources. **Every one of these is required on every sweep, not just Indeed**, standing
+instruction from Joaquin 2026-10-23:
+
+1. **The email leads file** the orchestrating session hands you (`EMAIL_LEADS`). It holds
+   the LinkedIn job alert digests and other job emails from his Gmail, inbox AND spam,
+   because his LinkedIn alerts land in spam. Every lead in it must end up as a new row,
+   an update, or a screen_out entry. You cannot read Gmail yourself; the session does.
+2. The ZipRecruiter connector (`mcp__ZipRecruiter__search_jobs`). Page size is 5, so page
+   with `offset` through at least 4 pages per query, and run several queries (mechanical
+   engineering intern, manufacturing engineering intern, process engineering intern,
+   thermal engineering intern, test engineering intern) for Colorado and nationwide.
+3. The Indeed connector (`mcp__Indeed__search_jobs`, `mcp__Indeed__get_job_details`).
+4. Web search across the other boards: Handshake, Simplify, Built In Colorado,
+   Wellfound, Glassdoor, LinkedIn (search results only, pages do not render), and the
+   GitHub Summer 2027 internship lists (search "Summer 2027 internships github").
+5. Employer career boards directly: Greenhouse, Lever, Ashby and Rippling boards read
+   cleanly; try the Colorado aerospace and energy employers on the Calendar tab.
+
+Load connector tools with ToolSearch if they are deferred. Open the employer's own
+posting whenever you can and read it. **In your report and in the payload `summary`,
+give a per-source tally: queries run and rows found for each of the five, and which
+were blocked.** A sweep that only used one source is incomplete.
 
 Skip anything whose slug, or whose company and role, is already on `INT`. A genuinely
 different requisition at the same company is a NEW row with its own slug; never fold two

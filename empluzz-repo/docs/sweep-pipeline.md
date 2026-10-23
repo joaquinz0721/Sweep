@@ -28,9 +28,20 @@ fetch -> sweep agent -> preview -> HIS GO -> fresh fetch + full Read -> apply ->
 
 This copy is only for the agent to read. It is not the publish base.
 
+**1b. Check his email, inbox AND spam.** Standing instruction from Joaquin, 2026-10-23:
+his LinkedIn job alert digests land in Gmail spam. The sweep agent has no Gmail access,
+so the orchestrating session does this. Search Gmail with `in:spam` and with the inbox
+for job alert senders (`jobalerts-noreply@linkedin.com`, `linkedin.com`, `indeed.com`,
+`ziprecruiter.com`, `joinhandshake.com`, `glassdoor.com`, `builtin.com`, `simplify.jobs`)
+since the last sweep date, open each digest with `get_thread`, and write every job in it
+(company, title, location, link) to `/tmp/apb/work/email-leads.md`. Pass that path to the
+agent as `EMAIL_LEADS`. If spam turns up job alerts, tell him so he can mark them Not
+spam. For scholarships the same step applies with scholarship senders.
+
 **2. Spawn the agent on Sonnet.** `internship-sweep` or `scholarship-sweep`, with two
 paths in the prompt: `BUILD=/tmp/apb/work/sweep-base.html` and
-`PAYLOAD=/tmp/apb/work/sweep-int.json` (or `sweep-sch.json`). If the agent type is not
+`PAYLOAD=/tmp/apb/work/sweep-int.json` (or `sweep-sch.json`), plus
+`EMAIL_LEADS=/tmp/apb/work/email-leads.md` from step 1b. If the agent type is not
 listed in the session, spawn a general-purpose agent with the model set to Sonnet and
 give it the whole of the matching `.claude/agents/*.md` file as its instructions. The agent
 runs the preview itself and fixes its own payload until ingest stops refusing.
