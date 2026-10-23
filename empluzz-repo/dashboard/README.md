@@ -7,6 +7,20 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1792752085-micronapplied.html`, 189,356 bytes, md5
+`5ba89ea5d05b1d0ddd691785aa7f8fd5`.
+
+The null-state copy of live version `1792752085-17ef`, published 2026-10-23. 75 internship
+rows, 12 scholarship rows. On top of the `1792440719` build it moves three Micron rows
+(ID1 Manufacturing, ID1 Process, RDA/Metrology) to the Screened Out tab on his
+instruction, since he applied to the other four Micron roles through Dennis Pretti's
+referral. A hand edit, not ingest, because ingest has no remove operation.
+
+Verified before the publish: all 56 assertions pass, 53 ticks in and out with the state
+block byte identical, and the published version reconstructs byte-identical to the payload.
+
+## Previous source
+
 `application-command-center-1792440719-micronsweep.html`, 192,233 bytes, md5
 `a064282841acfdcc6d867dc8eeb5b70e`.
 
@@ -18,7 +32,7 @@ Calendar row stamped 2026-10-19. All written by `ingest.py`.
 
 Verified before the publish: all 56 assertions pass (41 + 8 + 7), 48 ticks in and out with
 the state block byte identical, and the published version reconstructs byte-identical to
-the payload.
+the payload. Superseded 2026-10-23.
 
 ## Previous source
 
