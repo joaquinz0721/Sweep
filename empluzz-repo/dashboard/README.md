@@ -7,6 +7,23 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1792927685-oct25sweep.html`, 264,554 bytes, md5
+`56a597f547c644fc92e6fb01f42ddfcc`.
+
+The null-state copy of live version `1792927685-9b92`, published 2026-10-25 by the Oct 25
+sweep. 119 internship rows, 12 scholarship rows. On top of the `1792756513` build:
+10 new rows, 10 updated (wages and full posting text he pasted for Quantinuum 1086 and 1087,
+BAE Structural and Industrial, ULA 2127 and 2142, Allegion and CRB; Accelevation rejected;
+Sierra Nevada LinkedIn match), 9 Screened Out rows and a Calendar row, all written by
+`ingest.py`. Then four rows were removed from INT by an anchored hand edit on his
+instruction (Blue Canyon Manufacturing, BAE Space Quality, Zebra, Tesla thermal), each
+with its own Screened Out entry; none carried a tick.
+
+Verified before the publish: all 56 assertions pass, 57 ticks in and out with the state
+block byte identical, and the published version reconstructs byte-identical to the payload.
+
+## Previous source
+
 `application-command-center-1792756513-oct23sweep.html`, 246,165 bytes, md5
 `d69e182d0212d5bc9e719a96569afc95`.
 
@@ -20,7 +37,7 @@ a Calendar row stamped 2026-10-23. All written by `ingest.py`.
 Verified before the publish: all 56 assertions pass, 57 ticks in and out with the state
 block byte identical, and the published version reconstructs byte-identical to the payload.
 
-## Previous source
+## Older source
 
 `application-command-center-1792752085-micronapplied.html`, 189,356 bytes, md5
 `5ba89ea5d05b1d0ddd691785aa7f8fd5`.
