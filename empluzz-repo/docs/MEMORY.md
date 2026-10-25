@@ -585,3 +585,60 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - Blue Canyon, Sierra Space, BAE, Lockheed and ULA all have Summer 2027 reqs now, so their 2026-08-22 Screened Out reasons are spent; best local finds are Blue Canyon ME and Mfg (Lafayette), Lockheed propulsion hardware (Englewood), Sierra Space Mfg, Ursa Major Combustion Devices, ULA Req 2127. 22 new rows are UNCONFIRMED.
 - Ticks as of this publish: 57, including all four Micron roles (Dennis Pretti referral) and all five Ursa Major roles he applied to.
 
+## 17. Handoff, 2026-10-25: open threads for the next session
+
+**Where he is.** Studying abroad in Madrid this semester (UC3M, Leganes and Getafe
+campuses), so he is on Madrid time, 8 hours ahead of Mountain time from Nov 1 onward
+(7 hours before that). His Madrid availability is 9am to 2am daily. Midterms: Fluids on
+2026-11-03, Thermodynamics on 2026-11-13. Treat Nov 2, the morning of Nov 3, and Nov 11
+to 12 as off-limits for calls.
+
+**SpaceX (int-spacex-eng-intern), most advanced application.** Round 2 phone screen with
+Brooke Erickson (Starlink Engineer II) was 2026-09-21 and went well, ran long, and they
+connected on LinkedIn. SpaceX quoted "up to 4 weeks" for feedback, so the window closed
+about 2026-10-19 with no reply as of 2026-10-25. Plan agreed with him: he sends a short
+check-in to the recruiting coordinator **Elyse Martin** on Monday 2026-10-26 (draft given
+in chat: subject "Summer 2027 Satellite/SpaceXAI Internship, checking in", asks for an
+update on next steps, names Brooke, says "her team", never says Starlink). If still
+silent around 2026-11-06, one more short note, then stop unless a competing offer with a
+real deadline appears; that deadline is the one lever and must never be invented. The
+tracker row note still describes the round 2 call; refresh it on the next publish.
+
+**Micron referral (Dennis Pretti).** He replied with the four applied roles and Job IDs
+and these Mountain time windows for a call: Nov 3 11:00 AM to 6:00 PM, Nov 4 9:30 AM to
+6:00 PM, Nov 5 10:45 AM to 6:00 PM, Nov 6 8:00 AM to 6:00 PM, Nov 9 8:00 AM to 6:00 PM,
+Nov 10 11:00 AM to 6:00 PM, Nov 13 8:00 AM to 6:00 PM. When Dennis picks a time: convert
+to Madrid time for him, offer a reminder, and prep him (two minute Kelvin story: leaks
+from contamination at joining surfaces, cleaning and handling changes plus the assembly
+fixture, yield 20% to 85%; ask which team fits him best and who else to talk to; send a
+same-day thank-you). On the Micron form Dennis went in the "friends/relatives employed by
+Micron" field, since there was no referral field. No housing or relocation is mentioned
+on any Micron posting (all SILENT); ask Dennis on the call.
+
+**Applications he submitted 2026-10-23** (all ticked on the board, 57 ticks total):
+Micron Manassas Equipment JR114818, ID1 Equipment JR111232, TSE KEG JR112283, Probe
+Equipment JR111234; Ursa Major Manufacturing, In-Space Propulsion, Design, Materials &
+Processes (Test was ticked 2026-10-19). Each Ursa Major "Why Ursa Major" answer was
+written differently per role; salary answer "$30/hour, as listed in the posting".
+
+**Keysight R&D Mechanical Engineering Intern, Colorado Springs** (oscilloscope and probe
+hardware, $29.65 to $38.66/hr posted, about 12 weeks, housing SILENT). He was given
+answers to its four application questions (design project = wobbler engine; test
+equipment = honest, he has NO VNA, signal generator, oscilloscope design use or
+simulation experience; cross-discipline = Chem-E-Car with chemical engineers; challenge =
+Kelvin leaks traced to contamination). **Not on the tracker yet**; add it on the next
+sweep or publish, and ask whether he applied so it can be ticked.
+
+**Facts he confirmed this session, use them in future writing:** the Kelvin yield problem
+was leaks caused by contamination; he has never used VNAs, signal generators or
+simulation tools; Chem-E-Car was with chemical engineers. Things still unconfirmed: his
+exact Chem-E-Car role, whether the Kelvin fixture was part of the leak fix, any DOE or
+SPC experience, and any real "why space" reason (do not invent one).
+
+**Sweep tooling notes.** `ingest.py` has no remove operation; the 2026-10-23 removal of
+three Micron rows to Screened Out was an anchored hand edit. Employer career sites
+(Greenhouse, Lever, Ashby, Rippling, Workday, iCIMS) are blocked by this cloud
+environment's egress proxy, which is why so many rows are UNCONFIRMED; adding those
+hosts to the environment allowlist would let sweeps read postings directly. He was told
+to add a Gmail filter so `jobalerts-noreply@linkedin.com` never goes to spam.
+
