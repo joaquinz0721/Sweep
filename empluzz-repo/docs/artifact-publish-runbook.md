@@ -5,8 +5,8 @@ roughly 60K tokens shipping a change. Skip it and you spend 250K discovering the
 same three facts again, which is exactly what happened on 2026-08-25.
 
 The artifact is `https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594`.
-Live version at last write: `1792927685-9b92`, published 2026-10-25 from a cloud
-Claude Code session, 57 applied ticks, 119 internship rows, 12 scholarship rows.
+Live version at last write: `1793012158-3f12`, published 2026-10-26 from a cloud
+Claude Code session, 61 applied ticks, 120 internship rows, 12 scholarship rows.
 
 ---
 

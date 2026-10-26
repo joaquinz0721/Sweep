@@ -651,3 +651,5 @@ to add a Gmail filter so `jobalerts-noreply@linkedin.com` never goes to spam.
 - New rows: Keysight R&D ME (Colorado Springs, $29.65-38.66/hr, ask if applied), P&G, CRB Process Engineer, Sargent & Lundy I&C Nuclear, Jacobs Denver Energy/Power, GlobalFoundries, Shape Corp, Garver Buildings ME (closes 2026-10-31), Xcimer, Amrize Florence. BSA was dropped on his call (it stays on Screened Out from 2026-10-07).
 - **Harness Chromium path moved:** this container has `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`, not `chromium-1194/chrome-linux/chrome`. Point `ACC_CHROMIUM` at whatever `ls /opt/pw-browsers` shows.
 - `ingest.py` still has no remove operation; this is the second sweep that needed one.
+
+- **2026-10-26, live version `1793012158-3f12`:** one row added on his request, Redwire Space Engineering Intern (RF Systems, Longmont, req 3250, $27-34/hr, STRONG), from Kat McConnell's CU ME mailing list email. Between sessions he ticked Peak Energy, Keysight, Quantinuum 1087 and Aerotech, so the board carries 61 ticks; all kept. He has not ticked Redwire yet. Committed build: `dashboard/application-command-center-1793012158-redwire.html`.

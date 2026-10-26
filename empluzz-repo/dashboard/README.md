@@ -7,10 +7,16 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
-`application-command-center-1792927685-oct25sweep.html`, 264,554 bytes, md5
-`56a597f547c644fc92e6fb01f42ddfcc`.
+`application-command-center-1793012158-redwire.html`, 266,952 bytes, md5
+`f2ec76ce48f61ebddcf4e1cac56f2b84`.
 
-The null-state copy of live version `1792927685-9b92`, published 2026-10-25 by the Oct 25
+The null-state copy of live version `1793012158-3f12`, published 2026-10-26: the Oct 25 sweep build
+below plus one Redwire Engineering Intern row (Longmont, req 3250) added through `ingest.py`, 120
+internship rows, 61 ticks in and out, 56 of 56 green, read back byte identical. The previous build,
+`application-command-center-1792927685-oct25sweep.html` (264,554 bytes, md5
+`56a597f547c644fc92e6fb01f42ddfcc`), is still here; its description follows.
+
+That version, `1792927685-9b92`, published 2026-10-25 by the Oct 25
 sweep. 119 internship rows, 12 scholarship rows. On top of the `1792756513` build:
 10 new rows, 10 updated (wages and full posting text he pasted for Quantinuum 1086 and 1087,
 BAE Structural and Industrial, ULA 2127 and 2142, Allegion and CRB; Accelevation rejected;
