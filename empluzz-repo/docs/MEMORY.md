@@ -599,7 +599,8 @@ connected on LinkedIn. SpaceX quoted "up to 4 weeks" for feedback, so the window
 about 2026-10-19 with no reply as of 2026-10-25. Plan agreed with him: he sends a short
 check-in to the recruiting coordinator **Elyse Martin** on Monday 2026-10-26 (draft given
 in chat: subject "Summer 2027 Satellite/SpaceXAI Internship, checking in", asks for an
-update on next steps, names Brooke, says "her team", never says Starlink). If still
+update on next steps, names Brooke, says "her team", never says Starlink). UPDATE: he sent that check-in on 2026-10-29
+(Thursday, not Monday). If still
 silent around 2026-11-06, one more short note, then stop unless a competing offer with a
 real deadline appears; that deadline is the one lever and must never be invented. The
 tracker row note still describes the round 2 call; refresh it on the next publish.
