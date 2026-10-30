@@ -643,3 +643,11 @@ environment's egress proxy, which is why so many rows are UNCONFIRMED; adding th
 hosts to the environment allowlist would let sweeps read postings directly. He was told
 to add a Gmail filter so `jobalerts-noreply@linkedin.com` never goes to spam.
 
+
+**Quantinuum interview, 2026-10-29.** Amanda Stein (Quantinuum Staffing Team) invited him to
+a 30 minute Teams interview for Mechanical/Process Engineering Intern - 1087 (Broomfield CO,
+row int-quantinuum-mech-process-eng-intern-1087, a lead from his LinkedIn alert email).
+Slots offered Nov 2 to 4 in Mountain time. Recommended picks after his Madrid classes and
+the Nov 3 Fluids midterm: Wed Nov 4 10:00 AM MT (6 PM Madrid), Wed Nov 4 11:00 AM MT,
+Tue Nov 3 11:00 AM MT (7 PM Madrid, after Thermal Eng). His second interview-stage company
+after SpaceX. Tick the row and refresh its note (now known to be live) on the next publish.
