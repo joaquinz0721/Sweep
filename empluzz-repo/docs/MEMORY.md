@@ -651,3 +651,9 @@ Slots offered Nov 2 to 4 in Mountain time. Recommended picks after his Madrid cl
 the Nov 3 Fluids midterm: Wed Nov 4 10:00 AM MT (6 PM Madrid), Wed Nov 4 11:00 AM MT,
 Tue Nov 3 11:00 AM MT (7 PM Madrid, after Thermal Eng). His second interview-stage company
 after SpaceX. Tick the row and refresh its note (now known to be live) on the next publish.
+
+**Update 2026-11-04.** SpaceX (Elyse Martin) replied to the 10-29 check-in: the team is
+finishing interviews and deliberating, will be in touch soon, asked again about any
+deadlines. Quantinuum interview confirmed for Wed 2026-11-04, 10:00 to 10:30 AM MT (6:00 PM
+Madrid), Teams video, interviewer Andy Miller (R&D Manager), recruiter Clint Munoz
+(Clint.Munoz@quantinuum.com); thank-you notes go to Clint, who forwards them.
