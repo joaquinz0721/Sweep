@@ -657,3 +657,11 @@ finishing interviews and deliberating, will be in touch soon, asked again about 
 deadlines. Quantinuum interview confirmed for Wed 2026-11-04, 10:00 to 10:30 AM MT (6:00 PM
 Madrid), Teams video, interviewer Andy Miller (R&D Manager), recruiter Clint Munoz
 (Clint.Munoz@quantinuum.com); thank-you notes go to Clint, who forwards them.
+
+**SpaceX update, 2026-11-21.** A new recruiting coordinator, Sophia Castellanos (Intern
+Programs, Hawthorne), asked for two weeks of Mon to Fri availability to schedule the next
+interview "with the Starlink Production team in Woodinville, WA", for the same Summer 2027
+Internship/Co-op application. Read as the same application advancing to a team interview
+after the two phone screens, not a separate application. He still applied to the general
+role; the board note's rule stands (never say he applied for Starlink), but the team now
+interviewing him is Starlink Production. Madrid is 9 hours ahead of Pacific in late Nov.
