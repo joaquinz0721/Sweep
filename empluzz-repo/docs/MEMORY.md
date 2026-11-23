@@ -665,3 +665,13 @@ Internship/Co-op application. Read as the same application advancing to a team i
 after the two phone screens, not a separate application. He still applied to the general
 role; the board note's rule stands (never say he applied for Starlink), but the team now
 interviewing him is Starlink Production. Madrid is 9 hours ahead of Pacific in late Nov.
+
+**SpaceX team interview confirmed, 2026-11-23.** Sophia Castellanos scheduled it, email
+titled "1st Interview Confirmation": Tue Dec 1 2026, 12:00 to 12:30 AM CET (Mon Nov 30,
+3:00 to 3:30 PM Pacific), Microsoft Teams (gov.teams.microsoft.us link, phone fallback to
+his number), interviewer **Calvin Huynh, Manager, Integration & Test Engineering**, for the
+Starlink Production team in Woodinville WA. Read as a new team's own interview loop opened
+after the two Satellite/SpaceXAI phone screens, not a restart; no rejection received. He is
+on Madrid/Prague time (CET); it falls after his Monday Fluids Lab (ends about 8:30 PM CET).
+Prep focus: integration and test (fixtures, test stands, root cause, data, LabVIEW), plus
+production scaling.
