@@ -73,7 +73,7 @@ now exists). Tell him; do not hand edit around it.
 **6. Verify.**
 
     cd dashboard/verify && npm install
-    ACC_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome bash run.sh /tmp/apb/work/live-base.html
+    ACC_CHROMIUM=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome bash run.sh /tmp/apb/work/live-base.html
 
 All 56 must pass. Ingest already refuses to change the `ACC-STATE` block; check the tick
 count in the preview line matches the live read anyway.

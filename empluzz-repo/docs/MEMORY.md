@@ -585,6 +585,14 @@ Items never started, or planned and not built. Section 6 is the priority orderin
 - Blue Canyon, Sierra Space, BAE, Lockheed and ULA all have Summer 2027 reqs now, so their 2026-08-22 Screened Out reasons are spent; best local finds are Blue Canyon ME and Mfg (Lafayette), Lockheed propulsion hardware (Englewood), Sierra Space Mfg, Ursa Major Combustion Devices, ULA Req 2127. 22 new rows are UNCONFIRMED.
 - Ticks as of this publish: 57, including all four Micron roles (Dennis Pretti referral) and all five Ursa Major roles he applied to.
 
+## 16b. Session of 2026-11-23: the Nov 23 internship sweep SHIPPED
+
+- **Live version `1795461344-feb0`**, through `docs/sweep-pipeline.md`, gate accepted first try. The live board had moved to `1793012348-8ecd` (62 ticks) since the last recorded version; the sweep was built on it. 16 new, 10 updated, 9 screened out, 136 INT rows, 62 ticks in and out with the ACC-STATE md5 identical, 56 of 56 green, read back byte identical. Committed build: `dashboard/application-command-center-1795461344-nov23sweep.html`.
+- **Email:** no job alert digests since 2026-10-25, inbox or spam (spam empty). Outcome emails closed 7 rows as rejected: Micron ID1 Equipment (10-27), Probe Equipment (10-30), TSE KEG (11-18), Aerotech (11-01), Freeform (11-05, position filled), Knight Piesold (11-10), Ursa Major Test (11-21). Micron Manassas and the other four Ursa Major applications have no outcome yet. Medtronic rejected "R&D Engineering Intern R73633" on 11-22; the board row is the Handshake "Engineering Intern", so only a note was added and he was asked whether they are the same application. HPE invited him to a Thermal/Mechanical Engineering Intern screening due 11-14; that posting was not found and the row carries the email facts only.
+- **Best finds:** Lockheed Martin Chief Engineer Intern, Highlands Ranch (read in full, Orion); HPE HPC Mechanical Engineer Intern, Chippewa Falls WI (thermal and liquid cooling, $35-41/hr, term not named); Agile Space Industries, Durango, three reqs; SNC Test Engineering Intern, Lone Tree; Commonwealth Fusion Systems ME Intern, Milpitas. 14 of 16 new rows are UNCONFIRMED because employer boards are still blocked by the egress proxy.
+- **Harness Chromium path changed:** `chromium-1194` is gone from the image; use `ACC_CHROMIUM=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Docs updated.
+- Open questions for him: Medtronic R73633 vs this row; did he finish the HPE screening; Agile Space distance is written from Centennial, not Boulder.
+
 ## 17. Handoff, 2026-10-25: open threads for the next session
 
 **Where he is.** Studying abroad in Madrid this semester (UC3M, Leganes and Getafe

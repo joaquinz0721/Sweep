@@ -7,6 +7,21 @@ bytes. Do not patch a build in place unless you are about to rename it.
 
 ## The current source
 
+`application-command-center-1795461344-nov23sweep.html`, 287,385 bytes, md5
+`610361801ec4396dcf50d5a2b92993cb`.
+
+The null-state copy of live version `1795461344-feb0`, published 2026-11-23 by the Nov 23
+internship sweep. 136 internship rows, 12 scholarship rows. On top of the `1793012348`
+live version: 16 new rows, 10 updated (7 rejections closed: Micron ID1 Equipment, Probe
+Equipment and TSE KEG, Aerotech, Freeform, Knight Piesold, Ursa Major Test; a note on the
+ambiguous Medtronic R73633 rejection; SpaceX and Quantinuum status), 9 Screened Out rows
+one per requisition, and a Calendar row stamped 2026-11-23. All written by `ingest.py`.
+
+Verified before the publish: all 56 assertions pass, 62 ticks in and out with the state
+block byte identical, and the published version reconstructs byte-identical to the payload.
+
+## Previous source
+
 `application-command-center-1792756513-oct23sweep.html`, 246,165 bytes, md5
 `d69e182d0212d5bc9e719a96569afc95`.
 
@@ -141,7 +156,7 @@ exists so a session spends one full read instead of five. The short form:
 4. Change it with an anchored find and replace, never byte offsets. `patches/`
    holds the scripts.
 5. Verify: `npm install` in `verify/`, then
-   `ACC_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome bash verify/run.sh <build>`.
+   `ACC_CHROMIUM=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome bash verify/run.sh <build>`.
    All 56 assertions, plus the tick count before and after.
 6. Publish with the artifact `url` and favicon `🎯`. Never `force`, never a
    `capabilities` object.

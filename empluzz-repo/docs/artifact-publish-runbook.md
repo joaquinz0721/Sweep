@@ -5,8 +5,8 @@ roughly 60K tokens shipping a change. Skip it and you spend 250K discovering the
 same three facts again, which is exactly what happened on 2026-08-25.
 
 The artifact is `https://claude.ai/code/artifact/da80ff29-3a14-48a4-9d69-762e79ff2594`.
-Live version at last write: `1792756513-d03b`, published 2026-10-23 from a cloud
-Claude Code session, 57 applied ticks, 113 internship rows, 12 scholarship rows.
+Live version at last write: `1795461344-feb0`, published 2026-11-23 from a cloud
+Claude Code session, 62 applied ticks, 136 internship rows, 12 scholarship rows.
 
 ---
 
@@ -61,7 +61,7 @@ hand. Reusable edits live in `dashboard/patches/`.
 
 ```bash
 cd dashboard/verify && npm install          # node_modules does not survive a fresh container
-ACC_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome bash run.sh /tmp/apb/work/live-base.html
+ACC_CHROMIUM=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome bash run.sh /tmp/apb/work/live-base.html
 ```
 
 All 56 assertions, 41 plus 8 plus 7. The pinned Playwright does not match the
